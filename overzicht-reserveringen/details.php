@@ -1,0 +1,276 @@
+<?php
+session_start();
+
+if (isset($_SESSION['reservation'])) {
+    unset($_SESSION['reservation']);
+}
+
+if (isset($_SESSION['canChangeReservation'])) {
+    unset($_SESSION['canChangeReservation']);
+}
+
+//May I even visit this page?
+if (!isset($_SESSION['loggedInUser'])) {
+    header("Location: ../inloggen/");
+    exit;
+}
+
+// redirect when uri does not contain a id
+if (!isset($_GET['id']) || $_GET['id'] == '') {
+    // redirect to index.php
+    header('Location: ./');
+    exit;
+}
+
+if ($_SESSION['loggedInUser']['can_visit_reservations'] !== "true") {
+    header("Location: ../medewerkers/");
+}
+
+
+//Require database in this file
+require_once '../includes/database.php';
+/** @var mysqli $db */
+require_once "../includes/footer.php";
+require_once "../includes/head.php";
+oneDotOrMoreHead('..');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
+
+//Retrieve the GET parameter from the 'Super global'
+$reservationID = mysqli_escape_string($db, $_GET['id']);
+
+//Get the record from the database result
+$query = "SELECT * FROM reserveringen WHERE reservering_id = '$reservationID'";
+$result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query)
+
+if (mysqli_num_rows($result) !== 1) {
+    // redirect when db returns no result
+    header('Location: ./');
+    exit;
+}
+
+$reservation = mysqli_fetch_assoc($result);
+
+
+$emailGuestInfo = mysqli_escape_string($db, $reservation['emailadres']);
+$queryGuestInfo = "SELECT COUNT(emailadres) FROM reserveringen WHERE emailadres = '$emailGuestInfo' AND `deleted_by_user` IS NULL";
+$resultGuestInfo = mysqli_query($db, $queryGuestInfo); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+
+//Loop through the result to create a custom array
+$reservationsGuestInfo = mysqli_fetch_assoc($resultGuestInfo);
+
+$amountReservationsGuestInfo = $reservationsGuestInfo['COUNT(emailadres)'];
+
+if ($amountReservationsGuestInfo == 1) {
+    $guestInfoMessage = "(Nieuwe Gast: 1 reservering)";
+} elseif ($amountReservationsGuestInfo > 1 && $amountReservationsGuestInfo <= 10) {
+    $guestInfoMessage = "(Terugkerende Gast: " . $amountReservationsGuestInfo . " reserveringen)";
+} else {
+    $guestInfoMessage = "(Trouwe Gast: " . $amountReservationsGuestInfo . " reserveringen)";
+}
+
+
+if (isset($_POST['change'])) {
+    $_SESSION['canChangeReservation'] = [
+        'reservering_id' => $reservationID,
+    ];
+    $reservering_id = mysqli_escape_string($db, $_SESSION['canChangeReservation']['reservering_id']);
+    $query = "SELECT * FROM reserveringen WHERE reservering_id = '$reservering_id'";
+    $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+
+    $reservation = mysqli_fetch_assoc($result);
+
+    $_SESSION['canChangeReservation']['date'] = test_input($reservation['date']);
+    $_SESSION['canChangeReservation']['start_time'] = test_input(date("H:i", strtotime($reservation['start_time'])));
+    $_SESSION['canChangeReservation']['amount_people'] = test_input($reservation['amount_people']);
+    $_SESSION['canChangeReservation']['full_name'] = test_input($reservation['full_name']);
+    $_SESSION['canChangeReservation']['emailadres'] = test_input($reservation['emailadres']);
+    $_SESSION['canChangeReservation']['phonenumber'] = test_input($reservation['phonenumber']);
+    $_SESSION['canChangeReservation']['comments'] = test_input($reservation['comments']);
+
+    $_SESSION['canChangeReservation']['all_egg'] = $reservation['all_egg'];
+    $_SESSION['canChangeReservation']['all_gluten'] = $reservation['all_gluten'];
+    $_SESSION['canChangeReservation']['all_lupine'] = $reservation['all_lupine'];
+    $_SESSION['canChangeReservation']['all_milk'] = $reservation['all_milk'];
+    $_SESSION['canChangeReservation']['all_mustard'] = $reservation['all_mustard'];
+    $_SESSION['canChangeReservation']['all_nuts'] = $reservation['all_nuts'];
+    $_SESSION['canChangeReservation']['all_peanut'] = $reservation['all_peanut'];
+    $_SESSION['canChangeReservation']['all_shell'] = $reservation['all_shell'];
+    $_SESSION['canChangeReservation']['all_celery'] = $reservation['all_celery'];
+    $_SESSION['canChangeReservation']['all_sesame'] = $reservation['all_sesame'];
+    $_SESSION['canChangeReservation']['all_soja'] = $reservation['all_soja'];
+    $_SESSION['canChangeReservation']['all_fish'] = $reservation['all_fish'];
+    $_SESSION['canChangeReservation']['all_mollusks'] = $reservation['all_mollusks'];
+    $_SESSION['canChangeReservation']['all_sulfur'] = $reservation['all_sulfur'];
+
+    $date = $_SESSION['canChangeReservation']['date'];
+    $time = $_SESSION['canChangeReservation']['start_time'];
+    $people = $_SESSION['canChangeReservation']['amount_people'];
+    $name = $_SESSION['canChangeReservation']['full_name'];
+    $emailadres = $_SESSION['canChangeReservation']['emailadres'];
+    $phonenumber = $_SESSION['canChangeReservation']['phonenumber'];
+    $comments = $_SESSION['canChangeReservation']['comments'];
+    $allergie_string = $reservation['str_all'];
+
+    $_SESSION['canChangeReservation']['time'] = $time;
+    $_SESSION['canChangeReservation']['people'] = $people;
+    $_SESSION['canChangeReservation']['name'] = $name;
+    header('Location: ../index.php?edit=1');
+    exit;
+}
+
+
+if (isset($_POST['submitDelete'])) {
+    if (isset($_POST['reason']) && $_POST['reason'] !== '') {
+        $reservationIdQuery = mysqli_escape_string($db, $reservation['reservering_id']);
+        $reason = mysqli_escape_string($db, $_POST['reason']);
+        $currentTime = date("Y-m-d H:i:s");
+        $userDelete = "employee";
+        $deleteMail = "false";
+        $deleteQuery = "UPDATE reserveringen SET  date_updated_reservation = '$currentTime', deleted_by_user = '$userDelete', reason_of_deletion = '$reason', delete_mail_sent = '$deleteMail' WHERE reservering_id = '$reservationIdQuery'";
+        $resultDelete = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
+        if ($resultDelete) {
+            mysqli_close($db);
+            header('Location: ./');
+            exit;
+        } else {
+            $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
+            mysqli_close($db);
+        }
+    } else {
+        $errors['general'] = 'Het veld: Reden is verplicht.';
+    }
+}
+
+
+?>
+<!doctype html>
+<html lang="nl">
+<head>
+    <title><?= ' Reservering ' . htmlentities($reservation['reservering_id']) ?> bij Rasa Senang</title>
+</head>
+<body>
+<header>
+    <button class="ham">
+        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
+    </button>
+    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
+    <a href="./">
+        <button class="back">
+            <img src="../data/icon-general/back.png" alt="Terug naar Reserveringen">
+        </button>
+    </a>
+</header>
+
+<div class="overlay"></div>
+<div class="overlaymodal"></div>
+
+<div class="page-container">
+    <main>
+        <div class="content-wrap">
+            <div>
+                <h1>Details</h1>
+                <h3><?= ' Reserveringsnummer ' . htmlentities($reservation['reservering_id']) ?></h3>
+            </div>
+
+            <div class="details">
+                <div class="flexDetails">
+                    <div class="labelDetails">Reservering geplaatst op:</div>
+                    <div><?= date("d/m/Y - H:i", strtotime($reservation['date_placed_reservation'])) ?></div>
+                </div>
+                <?php if ($reservation['date_placed_reservation'] !== $reservation['date_updated_reservation']) { ?>
+                    <div class="flexDetails">
+                        <div class="labelDetails"> Reservering laatst gewijzigd op:</div>
+                        <div><?= date("d/m/Y - H:i", strtotime($reservation['date_updated_reservation'])); ?></div>
+                    </div> <?php } ?>
+                <div class="flexDetails">
+                    <div class="labelDetails">Datum:</div>
+                    <div> <?= date("d/m/Y", strtotime($reservation['date'])) ?></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Aanvangstijd:</div>
+                    <div> <?= htmlentities(date("H:i", strtotime($reservation['start_time']))) ?></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Aantal gasten:</div>
+                    <div> <?= htmlentities($reservation['amount_people']) ?></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Naam:</div>
+                    <div> <?= htmlentities($reservation['full_name']) ?></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">E-mailadres:</div>
+                    <div class="flexDetailsEmail">
+                        <div> <?= htmlentities($reservation['emailadres']) ?></div>
+                        <div class="guestLoyaltyIndicator"> <?= $guestInfoMessage ?></div>
+                    </div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Telefoonnummer:</div>
+                    <div> <?= htmlentities($reservation['phonenumber']) ?></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Allergieën:</div>
+                    <div><?= htmlentities($reservation['str_all']) ?></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Opmerkingen:</div>
+                    <div><?php if ($reservation['comments'] == '') {
+                            echo "Niet van toepassing.";
+                        } else {
+                            echo htmlentities(htmlspecialchars_decode($reservation['comments']));
+                        } ?></div>
+                </div>
+            </div>
+            <div class="detailsPageButtons">
+                <div class="flexButtons">
+                    <form action="" method="post">
+                        <input class="date-submit" type="submit" name="change" value="Wijzigen"/>
+                    </form>
+                    <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
+                </div>
+            </div>
+            <div class="modal" id="modal">
+                <div class="modal-header">
+                    <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
+                    <button data-close-button class="close-button">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modalAlignCenter">
+                        <img src="../data/icon-general/bin-red.png">
+                    </div>
+                    <div class="modalAlignCenter">
+                        <p class="errors"> <?php if (isset($errors['general']) && $errors['general'] !== '') {
+                                echo $errors['general'];
+                            } else {
+                                echo "Let op: deze actie is permanent!";
+                            } ?></p>
+                    </div>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $reservationID; ?>"
+                          method="post">
+                        <div class="modalAlignCenter">
+                            <div class="modalAlignCenterDeletionReason">
+                                <div class="flexLabel">
+                                    <label for="reason">Reden:</label>
+                                    <div class="errors">
+                                        *
+                                    </div>
+                                </div>
+                                <input class="delete-reason" type="text" name="reason" value=""/>
+                            </div> </div>
+                            <div class="modalAlignCenter">
+                            <div class="date-submit-div">
+                                <input class="date-submit" type="submit" name="submitDelete" value="Verwijderen"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <section> <?= $footer ?>  </section>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,772 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    color: #666666;
+    background-color: rgb(245, 245, 245);
+    margin: 0;
+}
+
+main {
+    padding: 5px;
+    margin: 10px;
+}
+
+.errors {
+    color: #bf383a;
+}
+
+label {
+    display: inline-block;
+    font-weight: bold;
+}
+
+label .tooltiptext{
+    font-weight: normal;
+}
+
+input, select{
+    min-width: 200px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: black;
+    max-height: 18.5px;
+}
+
+textarea {
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: black;
+    max-width: 60vw;
+    max-height: 200px;
+    min-height: 100px;
+    min-width: 50px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    font-weight: unset;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #ffffff;
+    color: black;
+    text-align: center;
+    padding: 5px 5px;
+    border:solid 1px #000000;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    text-decoration: unset;
+}
+.tooltip img {
+    max-width: 15px;
+    height: auto;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.data-field {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+footer {
+    bottom: 0;
+    position: absolute;
+    height: 1.5rem;
+    margin-left: 10px;
+}
+
+.page-container {
+    position: relative;
+    min-height: 85vh;
+}
+
+nav .page-container {
+    position: relative;
+    min-height: 75vh;
+}
+
+.content-wrap {
+    padding-bottom: 2.5rem;
+}
+
+footer a {
+    color: #bf383a;
+    text-decoration-line: none;
+}
+
+footer a:hover{
+    color: #ab3234;
+    text-decoration-line: underline;
+}
+
+h1 {
+    font-size: 30px;
+    color: #4d4d4d;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #4d4d4d;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 18px;
+    color: #4d4d4d;
+    margin-bottom: 20px;
+}
+
+header {
+    background-color: #dddddd;
+    display: flex;
+    align-content: center;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 240px;
+    min-width: 120px;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.ham {
+    position: static;
+    width: 35px;
+    height: 35px;
+    margin-left: 15px;
+    margin-top: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.ham img{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    height: 35px;
+}
+
+.menuX {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.sideNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 101;
+    background: #423f3f;
+    width: 350px;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    /* hide the menu above the screen by default */
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+}
+
+.showNav {
+    transform: translateX(0);
+}
+
+.sideNav ul {
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    padding-top: 5rem;
+}
+
+.sideNav ul li a, .sideNav #menuLinkActive:hover {
+    display: block;
+    color: white;
+    padding-bottom: 10px;
+    margin-top: 1rem;
+    border-bottom: 2px solid #423f3f;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    transition-duration: 300ms;
+}
+
+.sideNav ul li a:hover, .sideNav ul li a:focus, .sideNav #menuLinkActive {
+    border-bottom: 2px solid white;
+    transition-duration: 300ms;
+}
+
+
+.overlay {
+    position: fixed;
+    display: none;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100vh;
+}
+
+.showOverlay {
+    display: block;
+}
+
+.overlaymodal {
+    position: fixed;
+    display: none;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100vh;
+}
+
+.showOverlaymodal {
+    display: block;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: lightgrey;
+}
+
+tfoot td {
+    text-align: center;
+    font-weight: bold;
+}
+
+td {
+    padding: 0 10px;
+}
+
+.back {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-right: 15px;
+    margin-top: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.back img{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    height: 35px;
+}
+
+.details-button{
+    height: 20px;
+}
+
+.details {
+    padding: 5px;
+    margin: 10px;
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    border: 1px solid black;
+    border-radius: 4px;
+    z-index: 10;
+    background-color: white;
+    width: 50%;
+    height: 50%;
+    min-height: 370px;
+}
+
+.modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.modal-header .title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.modal-header .close-button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 10px 15px;
+    align-content: center;
+}
+
+.modal-body form label {
+    width: 60px;
+}
+
+.modal-body form .delete-reason  {
+    width: 300px;
+    height: 50px;
+    max-height: unset;
+    min-width: unset;
+}
+
+.modal-body img {
+    width: 120px;
+    display: inline-block;
+}
+
+.modalAlignCenter{
+    display: flex;
+    justify-content: center;
+}
+
+.modalAlignCenterDeletionReason{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.modalAlignCenter p{
+    margin-top: 20px;
+}
+
+.modal-body .date-submit {
+    margin-top: 30px;
+    display: block;
+    max-height: unset;
+    min-width: unset;
+}
+
+.confirmation-page {
+    display: flex;
+    align-content: center;
+}
+
+.confirmation-page section {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.align-middle {
+    display: flex;
+    align-content: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;
+    gap: 50px;
+}
+
+.search-bar form {
+    align-content: center;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 16px;
+    position: relative;
+}
+
+.search-bar .date-middle {
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    width: 115px;
+    position: relative;
+    align-content: center;
+}
+
+.search-bar input {
+    max-height: unset;
+    min-width: unset;
+}
+
+.middle-table {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    border: 0;
+}
+
+.date-field {
+    height: 30px;
+    display: block;
+    border: 0;
+    background-color: unset;
+    width: 140px;
+    position: relative;
+    font-size: 16px;
+    text-align: center;
+}
+
+.date-submit {
+    display: block;
+    position: relative;
+    text-align: center;
+    width: 145px;
+    height: 30px;
+    color: white;
+    background-color: #423f3f;
+    transition-duration: 300ms;
+    border-radius: 4px;
+    border: 0;
+    max-height: unset;
+    min-width: unset;
+}
+
+.date-submit a{
+    color: white;
+    text-decoration: none;
+}
+
+.date-submit:hover {
+    cursor: pointer;
+    background-color: #4d4d4d;
+    transition-duration: 300ms;
+}
+
+.data-submit input, .data-submit-guest button{
+    height: 50px;
+    width: 200px;
+    max-height: unset;
+    min-width: unset;
+    display: block;
+    margin-top: 30px;
+    background-color: #ab3234;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    border: 0;
+    transition-duration: 300ms;
+}
+
+.data-submit input:hover, .data-submit-guest button:hover{
+    background-color: #bf383a;
+    cursor: pointer;
+    transition-duration: 300ms;
+}
+
+.navEmployeesButton{
+    min-width: 200px;
+    min-height: 50px;
+    max-width: 200px;
+    max-height: 50px;
+
+    position: inherit;
+    padding-top: 17px;
+    display: block;
+    background-color: #423f3f;
+    color: white;
+    border-radius: 4px;
+    border: 0;
+    text-decoration-line: none;
+    text-align: center;
+    transition-duration: 300ms;
+
+    flex: 1 0 50%;
+}
+
+.navEmployeesButton:hover{
+    background-color: #4d4d4d;
+    cursor: pointer;
+    transition-duration: 300ms;
+}
+
+.navEmployees {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    text-align: center;
+    row-gap: 30px;
+    column-gap: 50px;
+}
+
+.navEmployeesButton{
+    margin-bottom: unset;
+    max-width: 200px;
+    max-height: 50px;
+    flex: 1 0 50%;
+}
+
+.flexButtons {
+    margin-left: 30px;
+    display: flex;
+    gap: 30px;
+}
+
+.thanks-img {
+    margin-top: 50px;
+    width: 200px;
+    margin-bottom: 50px;
+}
+
+.confirmation-page h1 {
+    margin-bottom: 50px;
+}
+
+.label-for-check img {
+    display: block;
+    opacity: 40%;
+    transition-duration: 300ms;
+    width: 70px;
+}
+
+.label-for-check img:hover {
+    opacity: 100%;
+    cursor: pointer;
+    transition-duration: 300ms;
+}
+
+input[type=checkbox]:checked + .label-for-check img {
+    opacity: 100%;;
+    transition-duration: 300ms;
+}
+
+.data-field-allergies{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: calc((100% - (220px * 3)));
+}
+
+.data-field-allergies label {
+    width: auto;
+}
+
+.data-field-allergies .data-field {
+    flex: 1 0 14.28571428571429%;
+}
+
+.flexDetails {
+    display: flex;
+    margin-bottom: 10px;
+}
+.flexDetailsEmail {
+    margin: 0;
+    display: flex;
+    gap: 5px;
+}
+
+.guestLoyaltyIndicator {
+    color: #9a9b9b;
+    font-style: italic;
+}
+
+.flexLabel {
+    margin: 0;
+    display: flex;
+    min-width: 225px;
+}
+
+.modalAlignCenter .flexLabel {
+    width: 80px;
+}
+
+.flexRequired {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.flexRequired div {
+    padding-right: 5px;
+}
+
+.flexRequired .errors {
+    font-weight: bold;
+}
+
+.flexLabel .errors {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.labelDetails {
+    display: block;
+    width: 250px;
+    font-weight: bold;
+}
+
+.flexInputWithErrors {
+    display: flex;
+    gap: 5px;
+}
+
+.daySummary .labelDetails {
+    display: block;
+    width: auto;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.h3detailsEmp {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 1130px) {
+    .modal {
+        width: 60%;
+        height: 60%;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .modal {
+        width: 75%;
+        height: 75%;
+    }
+
+    .modalAlignCenterDeletionReason{
+        display: inline-block;
+        justify-content: center;
+    }
+
+    .flexDetailsEmail {
+        display: inline-block;
+    }
+
+    .flexInputWithErrors {
+        display: block;
+    }
+
+    .data-field span{
+        margin-top: 5px;
+        display: block;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    .flexButtons {
+        display: inline-block;
+    }
+
+    .flexButtons .data-submit{
+        margin-top: 30px;
+    }
+
+    .detailsPageButtons form {
+        margin-bottom: 10px;
+    }
+
+    .flexDetails {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    textarea {
+        max-width: 80vw;
+    }
+
+    .data-field {
+        display: block;
+    }
+
+    .data-field span{
+        display: block;
+    }
+
+    .data-field input, .data-field select{
+        width: 80vw;
+    }
+
+    .flexLabel {
+        margin-bottom: 5px;
+    }
+
+    .modal {
+        width: 100%;
+        height: 100%;
+    }
+    .navEmployees {
+        margin-top: 50px;
+        margin-bottom: 30px;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .navEmployeesButton{
+        max-width: 80%;
+        max-height: 80%;
+        margin-left: 0;
+    }
+    .content-wrap {
+        padding-bottom: 1.5rem;
+    }
+    nav .content-wrap {
+        padding-bottom: 2.5rem;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .label-for-check img:hover {
+        opacity: 40%;
+    }
+}
