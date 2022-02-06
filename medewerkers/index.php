@@ -123,10 +123,11 @@ if (date('H') >= 06 && date('H') <= 11) {
             <nav class="navEmployees">
                 <a class="navEmployeesButton" href="../overzicht-reserveringen">Overzicht Reserveringen</a>
                 <a class="navEmployeesButton" href="../">Nieuwe Reservering</a>
-                <a class="navEmployeesButton" href="./">Daginstellingen
+                <a class="navEmployeesButton" href="../daginstellingen">Daginstellingen
                 <?php
-                /* <a class="navEmployeesButton" href="./">Daginstellingen</a>
-                <a class="navEmployeesButton" href="./">Tafelindeling</a> */ ?>
+                /*                 <a class="navEmployeesButton" href="./">Tafelindeling</a>
+                <a class="navEmployeesButton" href="./">Statistieken</a>
+                <a class="navEmployeesButton" href="./">Logboeken</a> */ ?>
                 <a class="navEmployeesButton" href="../medewerkers-instellingen">Medewerkers</a>
             </nav>
             <div class="daySummary">

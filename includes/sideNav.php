@@ -31,8 +31,11 @@
                     <li><a <?php if ($_SERVER['PHP_SELF'] == '/overzicht-reserveringen/index.php' || $_SERVER['PHP_SELF'] == '/RasaSenangReserveringsysteem-main/overzicht-reserveringen/index.php' || $_SERVER['PHP_SELF'] == '/overzicht-reserveringen/details.php' || $_SERVER['PHP_SELF'] == '/RasaSenangReserveringsysteem-main/overzicht-reserveringen/details.php' || ($_SERVER['PHP_SELF'] == '/index.php' || $_SERVER['PHP_SELF'] == '/RasaSenangReserveringsysteem-main/index.php') && isset($_GET['edit'])) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/overzicht-reserveringen">Overzicht
                             Reserveringen</a></li>
                     <li><a <?php if (($_SERVER['PHP_SELF'] == '/index.php' || $_SERVER['PHP_SELF'] == '/RasaSenangReserveringsysteem-main/index.php') && !isset($_GET['edit'])) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/">Nieuwe Reservering</a></li>
-                    <?php /*  <li><a class="menuLink" href="./">Daginstellingen</a></li>
-                    <li><a class="menuLink" href="./">Tafelindeling</a></li> */ ?>
+                    <li><a <?php if (($_SERVER['PHP_SELF'] == '/daginstellingen/index.php' || $_SERVER['PHP_SELF'] == '/RasaSenangReserveringsysteem-main/daginstellingen/index.php') && !isset($_GET['edit'])) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/daginstellingen">Daginstellingen</a></li>
+                    <?php /*
+                    <li><a class="menuLink" href="./">Tafelindeling</a></li>
+ <li><a class="menuLink" href="./">Statistieken</a></li>
+  <li><a class="menuLink" href="./">Logboeken</a></li> */ ?>
 
                     <li><a <?php if ($_SERVER['PHP_SELF'] == '/medewerkers-instellingen/index.php' || $_SERVER['PHP_SELF'] == '/RasaSenangReserveringsysteem-main/medewerkers-instellingen/index.php' || $_SERVER['PHP_SELF'] == '/medewerkers-instellingen/details.php' || $_SERVER['PHP_SELF'] == '/RasaSenangReserveringsysteem-main/medewerkers-instellingen/details.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/medewerkers-instellingen">Medewerkers</a></li>
             </div>

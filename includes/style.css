@@ -371,6 +371,12 @@ td {
     min-width: unset;
 }
 
+.flexDaySettings {
+    display: flex;
+    gap: 150px;
+    justify-content: center;
+}
+
 .modal-body img {
     width: 120px;
     display: inline-block;
