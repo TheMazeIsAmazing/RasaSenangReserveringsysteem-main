@@ -19,6 +19,26 @@ main {
     color: #bf383a;
 }
 
+.errorLoginPositive {
+    width: 100%;
+    background-color: darkseagreen;
+    height: 30px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+.errorLoginPositive div, .errorLoginNegative div {
+    margin-left: 10px;
+}
+.errorLoginNegative {
+    width: 100%;
+    background-color: #bf383a;
+    height: 30px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
 label {
     display: inline-block;
     font-weight: bold;

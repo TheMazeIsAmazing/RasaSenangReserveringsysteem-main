@@ -4,6 +4,7 @@ session_start();
 $changed = false;
 $deleted = false;
 
+//include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
 require_once "../includes/head.php";
 oneDotOrMoreHead('..');

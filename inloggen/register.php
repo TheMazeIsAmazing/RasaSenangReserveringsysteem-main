@@ -1,17 +1,6 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['loggedInUser'])) {
-    header("Location: ../inloggen/");
-    exit;
-}
-
-
-if ($_SESSION['loggedInUser']['can_visit_employees'] !== "true") {
-    header("Location: ../medewerkers/");
-    exit;
-}
-
 /*
 if (isset($_SESSION['canChangeEmployee']) && !isset($_GET)) {
     unset($_SESSION['canChangeEmployee']);
@@ -30,8 +19,16 @@ $can_visit_employees = "false";
 $can_visit_daysettings = "false";
 $can_visit_table = "false";
 
+//Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
+
+//May I even visit this page?
+require_once "../includes/logincheck.php";
+loginCheck();
+loginCheckPageSpecific('can_visit_employees');
+
+//include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
 require_once "../includes/head.php";
 oneDotOrMoreHead('..');
@@ -238,7 +235,7 @@ if (isset($_POST['submit'])) {
                         <input type="checkbox"
                                name="can_visit_employees" <?php if ($can_visit_employees == "true") { ?> checked <?php } ?> />
                     </div>
-                    <div class="data-field" style="display: none;">
+                    <div class="data-field">
                         <div class="flexLabel">
                             <label for="can_visit_daysettings">Daginstellingen:</label>
                         </div>

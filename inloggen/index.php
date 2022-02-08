@@ -7,13 +7,22 @@ if (isset($_SESSION['loggedInUser'])) {
     $login = false;
 }
 
+//Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
+
+//include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
 require_once "../includes/head.php";
 oneDotOrMoreHead('..');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
+
+if (isset($_GET)) {
+    if (isset($_GET['error'])) {
+        $errorType = $_GET['error'];
+    }
+}
 
 if (isset($_POST['submit'])) {
     $user = mysqli_escape_string($db, $_POST['username']);
@@ -87,6 +96,26 @@ if (isset($_POST['submit'])) {
                 <div>
                     <h1>Inloggen Medewerkers</h1>
                 </div>
+                <?php if(isset($errors['loginFailed'])) { ?>
+            <div class="errorLoginNegative">
+                <div>
+                    <?= $errors['loginFailed'] ?>
+                </div>
+            </div>
+            <?php } elseif (isset($errorType)) {
+                    if ($errorType == 'logoutSuccessful') { ?>
+                    <div class="errorLoginPositive">
+                        <div>
+                        U bent succesvol Uitgelogd!
+                        </div>
+                    </div>
+                <?php } else { ?>
+                        <div class="errorLoginNegative">
+                            <div>
+                                U moet eerst inloggen voordat u deze pagina kunt bezoeken!
+                            </div>
+                        </div>
+                        <?php }} ?>
                 <form action="" method="post">
                     <div class="data-field">
                         <div class="flexLabel">
@@ -107,7 +136,6 @@ if (isset($_POST['submit'])) {
                         </div>
                     </div>
                     <div class="data-submit">
-                        <p class="errors"><?= $errors['loginFailed'] ?? '' ?></p>
                         <input type="submit" name="submit" value="Login"/>
                     </div>
                 </form>

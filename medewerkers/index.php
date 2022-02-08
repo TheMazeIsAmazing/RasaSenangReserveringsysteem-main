@@ -11,14 +11,16 @@ if (isset($_SESSION['canChangeReservation'])) {
 
 $date = date("Y-m-d");
 
-//May I even visit this page?
-if (!isset($_SESSION['loggedInUser'])) {
-    header("Location: ../inloggen/");
-    exit;
-}
-
+//Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
+
+//May I even visit this page?
+require_once "../includes/logincheck.php";
+loginCheck();
+loginCheckPageSpecific('can_visit_employees');
+
+//include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
 require_once "../includes/head.php";
 oneDotOrMoreHead('..');

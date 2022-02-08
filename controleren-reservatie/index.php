@@ -12,8 +12,11 @@ if ((isset($_GET['edit']) && $_GET['edit'] !== '1') || (isset($_GET['edit']) && 
     exit;
 }
 
+//Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
+
+//include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
 require_once "../includes/head.php";
 oneDotOrMoreHead('..');

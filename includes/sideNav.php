@@ -19,7 +19,7 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
 } elseif ($_SERVER['PHP_SELF'] == '/index.php') {
     $link = $_SERVER['PHP_SELF'];
 }
-echo $link;?>
+//echo $link; ?>
 
 <nav class="sideNav">
     <button class="menuX">

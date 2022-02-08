@@ -6,8 +6,11 @@ if (isset($_SESSION['canChangeReservation'])) {
     unset($_SESSION['canChangeReservation']);
 }
 
+//Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
+
+//include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
 require_once "../includes/head.php";
 oneDotOrMoreHead('..');
