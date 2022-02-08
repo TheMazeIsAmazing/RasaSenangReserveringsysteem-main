@@ -98,20 +98,20 @@ if (isset($_POST['submit'])) {
                 </div>
                 <?php if(isset($errors['loginFailed'])) { ?>
             <div class="errorLoginNegative">
-                <div>
+                <div class="message">
                     <?= $errors['loginFailed'] ?>
                 </div>
             </div>
             <?php } elseif (isset($errorType)) {
                     if ($errorType == 'logoutSuccessful') { ?>
                     <div class="errorLoginPositive">
-                        <div>
+                        <div class="message">
                         U bent succesvol Uitgelogd!
                         </div>
                     </div>
                 <?php } else { ?>
                         <div class="errorLoginNegative">
-                            <div>
+                            <div class="message">
                                 U moet eerst inloggen voordat u deze pagina kunt bezoeken!
                             </div>
                         </div>

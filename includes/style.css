@@ -27,8 +27,9 @@ main {
     font-weight: bold;
     margin-bottom: 40px;
 }
-.errorLoginPositive div, .errorLoginNegative div {
+.errorLoginPositive .message, .errorLoginNegative .message {
     margin-left: 10px;
+    padding-top: 5px;
 }
 .errorLoginNegative {
     width: 100%;
