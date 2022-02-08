@@ -185,6 +185,7 @@ html {
     border: none;
     cursor: pointer;
     color: white;
+    z-index: 50;
 }
 
 .sideNav {
@@ -631,6 +632,13 @@ input[type=checkbox]:checked + .label-for-check img {
     min-width: 225px;
 }
 
+.employeeRights .flexLabel {
+    margin: 0;
+    display: flex;
+    gap: 0;
+    min-width: 200px;
+}
+
 .modalAlignCenter .flexLabel {
     width: 80px;
 }
@@ -734,6 +742,17 @@ input[type=checkbox]:checked + .label-for-check img {
     .data-field {
         display: block;
     }
+
+    .employeeRights .data-field {
+        display: flex;
+        gap: 30px;
+    }
+
+    .employeeRights .data-field input{
+        width: 19px;
+        min-width: unset;
+    }
+
 
     .data-field span{
         display: block;

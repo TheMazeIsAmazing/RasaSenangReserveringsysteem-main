@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 if (isset($_SESSION['canChangeReservation'])) {
     unset($_SESSION['canChangeReservation']);
 }

@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 $canChangeReservation = false;
 
 require_once './includes/database.php';

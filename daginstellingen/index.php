@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 //May I even visit this page?
 if (!isset($_SESSION['loggedInUser'])) {
     header("Location: ../inloggen/");

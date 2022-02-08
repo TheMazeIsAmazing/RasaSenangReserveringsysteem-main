@@ -140,10 +140,10 @@ if (date('H') >= 06 && date('H') <= 11) {
                     <div class="labelDetails">Aantal Reserveringen:</div>
                     <div><?= $amountReservations; ?></div>
                 </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>
-                    <div><?= $reservationsPlacedToday; ?></div>
-                </div>
+<!--                <div class="flexDetails">-->
+<!--                    <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>-->
+<!--                    <div>--><?//= $reservationsPlacedToday; ?><!--</div>-->
+<!--                </div>-->
                 <?php //in the future display how many tables are occupied
                 //<div class="daySummaryItem">
                 //Tafels Bezet:

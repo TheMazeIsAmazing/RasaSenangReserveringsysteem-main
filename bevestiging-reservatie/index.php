@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 $changed = false;
 $deleted = false;
 
@@ -19,9 +20,8 @@ if (!isset($_SESSION['reservation'])) {
     exit;
  }
 
-if (isset($_SESSION['reservation'])) {
-    unset($_SESSION['reservation']);
-}
+unset($_SESSION['reservation']);
+
 
 if (isset($_SESSION['deletedReservation'])) {
     $deleted = true;

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 //May I even visit this page?
 if (!isset($_SESSION['canChangeReservation']) && !isset($_SESSION['reservation'])) {
     header("Location: ../");
