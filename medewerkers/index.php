@@ -18,7 +18,6 @@ require_once '../includes/database.php';
 //May I even visit this page?
 require_once "../includes/logincheck.php";
 loginCheck();
-loginCheckPageSpecific('can_visit_employees');
 
 //include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
