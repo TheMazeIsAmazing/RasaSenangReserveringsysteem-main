@@ -331,7 +331,7 @@ if (isset($_POST['submit'])) {
 <body>
 
 
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="./data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -352,253 +352,253 @@ if (isset($_POST['submit'])) {
 <div class="overlay"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
+    <main class="content-wrap">
+        <header>
+            <?php if (isset($_SESSION['canChangeReservation']) && isset($_GET)) { ?>
+                <h1>Reservering Wijzigen</h1>
+            <?php } elseif (isset($_SESSION['loggedInUser'])) { ?>
+                <h1>Reservering Plaatsen</h1>
+            <?php } else { ?>
+                <h1>Reserveren</h1>
+            <?php } ?>
+            <!-- Show errors if present -->
+            <?php if (isset($errors['general'])) { ?>
+                <h3><?= $errors['general'] ?></h3>
+            <?php } ?>
+        </header>
+        <div class="flexRequired">
             <div>
-                <?php if (isset($_SESSION['canChangeReservation']) && isset($_GET)) { ?>
-                    <h1>Reservering Wijzigen</h1>
-                <?php } elseif (isset($_SESSION['loggedInUser'])) { ?>
-                    <h1>Reservering Plaatsen</h1>
-                <?php } else { ?>
-                    <h1>Reserveren</h1>
-                <?php } ?>
-                <!-- Show errors if present -->
-                <?php if (isset($errors['general'])) { ?>
-                    <h3><?= $errors['general'] ?></h3>
-                <?php } ?>
+                (Velden met een
             </div>
-            <div class="flexRequired">
-                <div>
-                    (Velden met een
-                </div>
-                <div class="errors">
-                    *
-                </div>
-                <div>
-                    zijn verplicht.)
-                </div>
+            <div class="errors">
+                *
             </div>
-            <section>
-                <!-- From for reservations -->
-                <form action="<?php /*
+            <div>
+                zijn verplicht.)
+            </div>
+        </div>
+        <section>
+            <!-- From for reservations -->
+            <form action="<?php /*
                 if (isset($_GET)) {
                     echo htmlentities($_SERVER["PHP_SELF"]) . '?edit=1';
                 } else {
                     echo htmlentities($_SERVER["PHP_SELF"]);
-                }  */?>" method="post">
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="date">Datum </label>
-                            <div class="errors">
-                                *
-                            </div>
-                            <div class="tooltip"><img src="./data/icon-general/information.png"> <span
-                                        class="tooltiptext">Vul hier de datum in waarop u wilt reserveren.</span>
-                            </div>
+                }  */ ?>" method="post">
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="date">Datum </label>
+                        <div class="errors">
+                            *
                         </div>
-                        <div class="flexInputWithErrors">
-                            <input type="date" name="date" value="<?= $date ?? '' ?>"/>
-                            <span class="errors"><?= $errors['date'] ?? '' ?></span>
+                        <div class="tooltip"><img src="./data/icon-general/information.png"> <span
+                                    class="tooltiptext">Vul hier de datum in waarop u wilt reserveren.</span>
                         </div>
                     </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="time">Aanvangstijd</label>
-                            <div class="errors">
-                                *
-                            </div>
-                            <div class="tooltip"><img src="./data/icon-general/information.png"> <span
-                                        class="tooltiptext">Vul hier in hoe laat u ongeveer in het restaurant zal zijn.</span>
-                            </div>
+                    <div class="flexInputWithErrors">
+                        <input type="date" name="date" value="<?= $date ?? '' ?>"/>
+                        <span class="errors"><?= $errors['date'] ?? '' ?></span>
+                    </div>
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="time">Aanvangstijd</label>
+                        <div class="errors">
+                            *
                         </div>
-                        <div class="flexInputWithErrors">
-                            <select name="time">
-                                <option value="16:00" <?php if ($time == "16:00") { ?> selected <?php } ?>>16:00</option>
-                                <option value="16:30" <?php if ($time == "16:30") { ?> selected <?php } ?>>16:30</option>
-                                <option value="17:00" <?php if ($time == "17:00") { ?> selected <?php } ?>>17:00</option>
-                                <option value="17:30" <?php if ($time == "17:30") { ?> selected <?php } ?>>17:30</option>
-                                <option value="18:00" <?php if ($time == "18:00") { ?> selected <?php } ?>>18:00</option>
-                                <option value="18:30" <?php if ($time == "18:30") { ?> selected <?php } ?>>18:30</option>
-                                <option value="19:00" <?php if ($time == "19:00") { ?> selected <?php } ?>>19:00</option>
-                                <option value="19:30" <?php if ($time == "19:30") { ?> selected <?php } ?>>19:30</option>
-                                <option value="20:00" <?php if ($time == "20:00") { ?> selected <?php } ?>>20:00</option>
-                                <option value="20:30" <?php if ($time == "20:30") { ?> selected <?php } ?>>20:30</option>
-                                <option value="21:00" <?php if ($time == "21:00") { ?> selected <?php } ?>>21:00</option>
-                            </select>
-                            <span class="errors"><?= $errors['time'] ?? '' ?></span>
+                        <div class="tooltip"><img src="./data/icon-general/information.png"> <span
+                                    class="tooltiptext">Vul hier in hoe laat u ongeveer in het restaurant zal zijn.</span>
                         </div>
                     </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="people">Aantal Gasten</label>
-                            <div class="errors">
-                                *
-                            </div>
-                            <div class="tooltip"><img src="./data/icon-general/information.png"> <span
-                                        class="tooltiptext">Vul hier in voor hoeveel personen u wilt reserveren.</span>
-                            </div>
+                    <div class="flexInputWithErrors">
+                        <select name="time">
+                            <option value="16:00" <?php if ($time == "16:00") { ?> selected <?php } ?>>16:00</option>
+                            <option value="16:30" <?php if ($time == "16:30") { ?> selected <?php } ?>>16:30</option>
+                            <option value="17:00" <?php if ($time == "17:00") { ?> selected <?php } ?>>17:00</option>
+                            <option value="17:30" <?php if ($time == "17:30") { ?> selected <?php } ?>>17:30</option>
+                            <option value="18:00" <?php if ($time == "18:00") { ?> selected <?php } ?>>18:00</option>
+                            <option value="18:30" <?php if ($time == "18:30") { ?> selected <?php } ?>>18:30</option>
+                            <option value="19:00" <?php if ($time == "19:00") { ?> selected <?php } ?>>19:00</option>
+                            <option value="19:30" <?php if ($time == "19:30") { ?> selected <?php } ?>>19:30</option>
+                            <option value="20:00" <?php if ($time == "20:00") { ?> selected <?php } ?>>20:00</option>
+                            <option value="20:30" <?php if ($time == "20:30") { ?> selected <?php } ?>>20:30</option>
+                            <option value="21:00" <?php if ($time == "21:00") { ?> selected <?php } ?>>21:00</option>
+                        </select>
+                        <span class="errors"><?= $errors['time'] ?? '' ?></span>
+                    </div>
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="people">Aantal Gasten</label>
+                        <div class="errors">
+                            *
                         </div>
-                        <div class="flexInputWithErrors">
-                            <input type="number" name="people" min="1" value="<?= $people ?? '' ?>"/>
-                            <span class="errors"><?= $errors['people'] ?? '' ?></span>
+                        <div class="tooltip"><img src="./data/icon-general/information.png"> <span
+                                    class="tooltiptext">Vul hier in voor hoeveel personen u wilt reserveren.</span>
                         </div>
                     </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="name">Naam</label>
-                            <div class="errors">
-                                *
-                            </div>
-                            <div class="tooltip"><img src="./data/icon-general/information.png"> <span
-                                        class="tooltiptext">Vul hier in op welke naam wilt reserveren.</span>
-                            </div>
+                    <div class="flexInputWithErrors">
+                        <input type="number" name="people" min="1" value="<?= $people ?? '' ?>"/>
+                        <span class="errors"><?= $errors['people'] ?? '' ?></span>
+                    </div>
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="name">Naam</label>
+                        <div class="errors">
+                            *
                         </div>
-                        <div class="flexInputWithErrors">
-                            <input type="text" name="name" value="<?= $name ?? '' ?>" placeholder="Jan Alleman"/>
-                            <span class="errors"><?= $errors['name'] ?? '' ?></span>
+                        <div class="tooltip"><img src="./data/icon-general/information.png"> <span
+                                    class="tooltiptext">Vul hier in op welke naam wilt reserveren.</span>
                         </div>
                     </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="emailadres">E-mailadres</label>
-                            <div class="errors">
-                                *
-                            </div>
-                            <div class="tooltip"><img src="./data/icon-general/information.png"> <span
-                                        class="tooltiptext">Vul hier uw e-mailadres in, zo kunnen wij een bevestiging sturen van uw reservering. </span>
-                            </div>
+                    <div class="flexInputWithErrors">
+                        <input type="text" name="name" value="<?= $name ?? '' ?>" placeholder="Jan Alleman"/>
+                        <span class="errors"><?= $errors['name'] ?? '' ?></span>
+                    </div>
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="emailadres">E-mailadres</label>
+                        <div class="errors">
+                            *
                         </div>
-                        <div class="flexInputWithErrors">
-                            <input type="email" name="emailadres" maxlength="255"
-                                   value="<?= $emailadres ?? '' ?>" placeholder="jan-en-alleman@mail.nl"/>
-                            <span class="errors"><?= $errors['emailadres'] ?? '' ?></span>
+                        <div class="tooltip"><img src="./data/icon-general/information.png"> <span
+                                    class="tooltiptext">Vul hier uw e-mailadres in, zo kunnen wij een bevestiging sturen van uw reservering. </span>
                         </div>
                     </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="phonenumber">Telefoonnummer</label>
-                            <div class="errors">
-                                *
-                            </div>
-                            <div class="tooltip"><img src="./data/icon-general/information.png"> <span
-                                        class="tooltiptext">Vul hier uw telefoonnummer in, dan kunnen wij, mocht dit nodig zijn, gemakkelijk contact opnemen met u. </span>
-                            </div>
+                    <div class="flexInputWithErrors">
+                        <input type="email" name="emailadres" maxlength="255"
+                               value="<?= $emailadres ?? '' ?>" placeholder="jan-en-alleman@mail.nl"/>
+                        <span class="errors"><?= $errors['emailadres'] ?? '' ?></span>
+                    </div>
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="phonenumber">Telefoonnummer</label>
+                        <div class="errors">
+                            *
                         </div>
-                        <div class="flexInputWithErrors">
-                            <input type="tel" name="phonenumber" value="<?= $phonenumber ?? '' ?>"
-                                   placeholder="06-12345678"/>
-                            <div class="errors"><?= $errors['phonenumber'] ?? '' ?> </div>
+                        <div class="tooltip"><img src="./data/icon-general/information.png"> <span
+                                    class="tooltiptext">Vul hier uw telefoonnummer in, dan kunnen wij, mocht dit nodig zijn, gemakkelijk contact opnemen met u. </span>
                         </div>
                     </div>
-                    <label for="allergies"> Allergieën/Voedselwensen
-                        <div class="tooltip"><img src="./data/icon-general/information.png"> <span class="tooltiptext">Vul hier mogelijke allergieën in, dan kunnen wij hier direct rekening mee houden. Ook als u voedselwensen heeft, bijvoorbeeld omdat u vegetariër bent, kunt u dit hier doorgeven. </span>
-                        </div>
-                    </label>
-                    <div class="data-field-allergies">
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-egg" name="allergie-egg"
-                                   style="display: none;" <?php if ($allergie_egg == "on") { ?> checked <?php } ?> />
-                            <label
-                                    class="label-for-check" for="allergie-egg"><img src="./data/icon-allergie/ei.png"
-                                                                                    alt="Eieren"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-gluten" name="allergie-gluten"
-                                   style="display: none;" <?php if ($allergie_gluten == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-gluten"><img
-                                        src="./data/icon-allergie/gluten.png" alt="Gluten"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-lupine" name="allergie-lupine"
-                                   style="display: none;" <?php if ($allergie_lupine == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-lupine"><img
-                                        src="./data/icon-allergie/lupine.png" alt="Lupine"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-milk" name="allergie-milk"
-                                   style="display: none;" <?php if ($allergie_milk == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-milk"><img src="./data/icon-allergie/melk.png"
-                                                                                     alt="Melk"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-mustard" name="allergie-mustard"
-                                   style="display: none;" <?php if ($allergie_mustard == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-mustard"><img
-                                        src="./data/icon-allergie/mosterd.png" alt="Mosterd"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-nuts" name="allergie-nuts"
-                                   style="display: none;" <?php if ($allergie_nuts == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-nuts"><img
-                                        src="./data/icon-allergie/noten.png" alt="Noten"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-peanut" name="allergie-peanut"
-                                   style="display: none;" <?php if ($allergie_peanut == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-peanut"><img
-                                        src="./data/icon-allergie/pindas.png" alt="Pinda's"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-shell" name="allergie-shell"
-                                   style="display: none;" <?php if ($allergie_shell == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-shell"><img
-                                        src="./data/icon-allergie/schaald.png" alt="Schaaldieren"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-celery" name="allergie-celery"
-                                   style="display: none;" <?php if ($allergie_celery == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-celery"><img
-                                        src="./data/icon-allergie/selderij.png" alt="Selderij"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-sesame" name="allergie-sesame"
-                                   style="display: none;" <?php if ($allergie_sesame == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-sesame"><img
-                                        src="./data/icon-allergie/sesamzaad.png" alt="Sesamzaad"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-soja" name="allergie-soja"
-                                   style="display: none;" <?php if ($allergie_soja == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-soja"><img src="./data/icon-allergie/soja.png"
-                                                                                     alt="Soja"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-fish" name="allergie-fish"
-                                   style="display: none;" <?php if ($allergie_fish == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-fish"><img src="./data/icon-allergie/vis.png"
-                                                                                     alt="Vis"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-mollusks" name="allergie-mollusks"
-                                   style="display: none;" <?php if ($allergie_mollusks == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-mollusks"><img
-                                        src="./data/icon-allergie/weekdieren.png" alt="Weekdieren"/></label>
-                        </div>
-                        <div class="data-field">
-                            <input type="checkbox" id="allergie-sulfur" name="allergie-sulfur"
-                                   style="display: none;" <?php if ($allergie_sulfur == "on") { ?> checked <?php } ?> /><label
-                                    class="label-for-check" for="allergie-sulfur"><img
-                                        src="./data/icon-allergie/zwavel.png" alt="Zwaveldioxide"/></label>
-                        </div>
+                    <div class="flexInputWithErrors">
+                        <input type="tel" name="phonenumber" value="<?= $phonenumber ?? '' ?>"
+                               placeholder="06-12345678"/>
+                        <div class="errors"><?= $errors['phonenumber'] ?? '' ?> </div>
+                    </div>
+                </div>
+                <label for="allergies"> Allergieën/Voedselwensen
+                    <div class="tooltip"><img src="./data/icon-general/information.png"> <span class="tooltiptext">Vul hier mogelijke allergieën in, dan kunnen wij hier direct rekening mee houden. Ook als u voedselwensen heeft, bijvoorbeeld omdat u vegetariër bent, kunt u dit hier doorgeven. </span>
+                    </div>
+                </label>
+                <div class="data-field-allergies">
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-egg" name="allergie-egg"
+                               style="display: none;" <?php if ($allergie_egg == "on") { ?> checked <?php } ?> />
+                        <label
+                                class="label-for-check" for="allergie-egg"><img src="./data/icon-allergie/ei.png"
+                                                                                alt="Eieren"/></label>
                     </div>
                     <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="comments">Opmerkingen </label>
-                            <div class="tooltip"><img src="./data/icon-general/information.png"> <span
-                                        class="tooltiptext">Mocht u opmerkingen hebben voor ons, dan kunt u dat hier invullen.</span>
-                            </div>
-                        </div>
-                        <textarea name="comments" cols="40" rows="5"><?php if(isset($comments) && $comments !== '') {echo htmlspecialchars_decode($comments);} ?></textarea>
-                        <span class="errors"><?= $errors['comments'] ?? '' ?></span>
+                        <input type="checkbox" id="allergie-gluten" name="allergie-gluten"
+                               style="display: none;" <?php if ($allergie_gluten == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-gluten"><img
+                                    src="./data/icon-allergie/gluten.png" alt="Gluten"/></label>
                     </div>
-                    <div class="flexButtons">
-                        <div class="data-submit">
-                            <input type="submit" name="submit" value="Controleren"/>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-lupine" name="allergie-lupine"
+                               style="display: none;" <?php if ($allergie_lupine == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-lupine"><img
+                                    src="./data/icon-allergie/lupine.png" alt="Lupine"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-milk" name="allergie-milk"
+                               style="display: none;" <?php if ($allergie_milk == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-milk"><img src="./data/icon-allergie/melk.png"
+                                                                                 alt="Melk"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-mustard" name="allergie-mustard"
+                               style="display: none;" <?php if ($allergie_mustard == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-mustard"><img
+                                    src="./data/icon-allergie/mosterd.png" alt="Mosterd"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-nuts" name="allergie-nuts"
+                               style="display: none;" <?php if ($allergie_nuts == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-nuts"><img
+                                    src="./data/icon-allergie/noten.png" alt="Noten"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-peanut" name="allergie-peanut"
+                               style="display: none;" <?php if ($allergie_peanut == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-peanut"><img
+                                    src="./data/icon-allergie/pindas.png" alt="Pinda's"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-shell" name="allergie-shell"
+                               style="display: none;" <?php if ($allergie_shell == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-shell"><img
+                                    src="./data/icon-allergie/schaald.png" alt="Schaaldieren"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-celery" name="allergie-celery"
+                               style="display: none;" <?php if ($allergie_celery == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-celery"><img
+                                    src="./data/icon-allergie/selderij.png" alt="Selderij"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-sesame" name="allergie-sesame"
+                               style="display: none;" <?php if ($allergie_sesame == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-sesame"><img
+                                    src="./data/icon-allergie/sesamzaad.png" alt="Sesamzaad"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-soja" name="allergie-soja"
+                               style="display: none;" <?php if ($allergie_soja == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-soja"><img src="./data/icon-allergie/soja.png"
+                                                                                 alt="Soja"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-fish" name="allergie-fish"
+                               style="display: none;" <?php if ($allergie_fish == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-fish"><img src="./data/icon-allergie/vis.png"
+                                                                                 alt="Vis"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-mollusks" name="allergie-mollusks"
+                               style="display: none;" <?php if ($allergie_mollusks == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-mollusks"><img
+                                    src="./data/icon-allergie/weekdieren.png" alt="Weekdieren"/></label>
+                    </div>
+                    <div class="data-field">
+                        <input type="checkbox" id="allergie-sulfur" name="allergie-sulfur"
+                               style="display: none;" <?php if ($allergie_sulfur == "on") { ?> checked <?php } ?> /><label
+                                class="label-for-check" for="allergie-sulfur"><img
+                                    src="./data/icon-allergie/zwavel.png" alt="Zwaveldioxide"/></label>
+                    </div>
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="comments">Opmerkingen </label>
+                        <div class="tooltip"><img src="./data/icon-general/information.png"> <span
+                                    class="tooltiptext">Mocht u opmerkingen hebben voor ons, dan kunt u dat hier invullen.</span>
                         </div>
                     </div>
-                </form>
-            </section>
-        </div>
+                    <textarea name="comments" cols="40" rows="5"><?php if (isset($comments) && $comments !== '') {
+                            echo htmlspecialchars_decode($comments);
+                        } ?></textarea>
+                    <span class="errors"><?= $errors['comments'] ?? '' ?></span>
+                </div>
+                <div class="flexButtons">
+                    <div class="data-submit">
+                        <input type="submit" name="submit" value="Controleren"/>
+                    </div>
+                </div>
+            </form>
+        </section>
     </main>
     <footer>
         <section> <?= $footer ?>  </section>

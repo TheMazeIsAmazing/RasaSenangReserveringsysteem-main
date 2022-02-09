@@ -126,7 +126,7 @@ if (isset($_POST['submit'])) {
             $errors['passwordConfirm'] = 'Vul opnieuw het wachtwoord in.';
         }
 
-        if ($passwordConfirm !== '' && $passwordEmployee !== '' &&$passwordEmployee !== $passwordConfirm) {
+        if ($passwordConfirm !== '' && $passwordEmployee !== '' && $passwordEmployee !== $passwordConfirm) {
             $errors['password'] = 'De wachtwoorden komen niet overeen';
         }
 
@@ -156,7 +156,7 @@ if (isset($_POST['submit'])) {
     <?php } ?>
 </head>
 <body>
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -171,94 +171,92 @@ if (isset($_POST['submit'])) {
 <div class="overlay"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
+    <main class="content-wrap">
+        <header>
+            <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
+                <h1>Medewerker aanpassen</h1>
+            <?php } else { ?>
+                <h1>Nieuwe medewerker registeren</h1>
+            <?php } ?>
+        </header>
+        <form action="" method="post">
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="name" class="loginLabel">Naam</label>
+                </div>
+                <div class="flexInputWithErrors">
+                    <input type="text" name="name" value="<?= $name ?? '' ?>"/>
+                    <span class="errors"><?= $errors['name'] ?? '' ?></span>
+                </div>
+            </div>
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="username" class="loginLabel">Gebruikersnaam</label>
+                </div>
+                <div class="flexInputWithErrors">
+                    <input type="text" name="username" value="<?= $user ?? '' ?>"/>
+                    <span class="errors"><?= $errors['username'] ?? '' ?></span>
+                </div>
+            </div>
+            <?php if (!isset($_SESSION['canChangeEmployee']) && !isset($_GET['edit'])) { ?>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="password">Wachtwoord</label>
+                    </div>
+                    <div class="flexInputWithErrors">
+                        <input type="password" name="password" value="<?= $passwordEmployee ?? '' ?>"/>
+                        <span class="errors"><?= $errors['password'] ?? '' ?></span>
+                    </div>
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="passwordConfirm">Wachtwoord Bevestigen</label>
+                    </div>
+                    <div class="flexInputWithErrors">
+                        <input type="password" name="passwordConfirm" value="<?= $passwordConfirm ?? '' ?>"/>
+                        <span class="errors"><?= $errors['passwordConfirm'] ?? '' ?></span>
+                    </div>
+                </div>
+            <?php } ?>
+            <h3 class="h3detailsEmp">Rechten:</h3>
+            <div class="employeeRights">
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="can_visit_reservations">Overzicht Reserveringen:</label>
+                    </div>
+                    <input type="checkbox"
+                           name="can_visit_reservations" <?php if ($can_visit_reservations == "true") { ?> checked <?php } ?> />
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="can_visit_employees">Overzicht Medewerkers:</label>
+                    </div>
+                    <input type="checkbox"
+                           name="can_visit_employees" <?php if ($can_visit_employees == "true") { ?> checked <?php } ?> />
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="can_visit_daysettings">Daginstellingen:</label>
+                    </div>
+                    <input type="checkbox"
+                           name="can_visit_daysettings" <?php if ($can_visit_daysettings == "true") { ?> checked <?php } ?> />
+                </div>
+                <div class="data-field" style="display: none;">
+                    <div class="flexLabel">
+                        <label for="can_visit_table">Tafelindeling:</label>
+                    </div>
+                    <input type="checkbox"
+                           name="can_visit_table" <?php if ($can_visit_table == "true") { ?> checked <?php } ?> />
+                </div>
+            </div>
+            <div class="data-submit">
                 <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
-                    <h1>Medewerker aanpassen</h1>
+                    <input type="submit" name="submit" value="Bevestigen"/>
                 <?php } else { ?>
-                    <h1>Nieuwe medewerker registeren</h1>
+                    <input type="submit" name="submit" value="Registreren"/>
                 <?php } ?>
             </div>
-            <form action="" method="post">
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="name" class="loginLabel">Naam</label>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="text" name="name" value="<?= $name ?? '' ?>"/>
-                        <span class="errors"><?= $errors['name'] ?? '' ?></span>
-                    </div>
-                </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="username" class="loginLabel">Gebruikersnaam</label>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="text" name="username" value="<?= $user ?? '' ?>"/>
-                        <span class="errors"><?= $errors['username'] ?? '' ?></span>
-                    </div>
-                </div>
-                <?php if (!isset($_SESSION['canChangeEmployee']) && !isset($_GET['edit'])) { ?>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="password">Wachtwoord</label>
-                        </div>
-                        <div class="flexInputWithErrors">
-                            <input type="password" name="password" value="<?= $passwordEmployee ?? '' ?>"/>
-                            <span class="errors"><?= $errors['password'] ?? '' ?></span>
-                        </div>
-                    </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="passwordConfirm">Wachtwoord Bevestigen</label>
-                        </div>
-                        <div class="flexInputWithErrors">
-                            <input type="password" name="passwordConfirm" value="<?= $passwordConfirm ?? '' ?>"/>
-                            <span class="errors"><?= $errors['passwordConfirm'] ?? '' ?></span>
-                        </div>
-                    </div>
-                <?php } ?>
-                <h3 class="h3detailsEmp">Rechten:</h3>
-                <div class="employeeRights">
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="can_visit_reservations">Overzicht Reserveringen:</label>
-                        </div>
-                        <input type="checkbox"
-                               name="can_visit_reservations" <?php if ($can_visit_reservations == "true") { ?> checked <?php } ?> />
-                    </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="can_visit_employees">Overzicht Medewerkers:</label>
-                        </div>
-                        <input type="checkbox"
-                               name="can_visit_employees" <?php if ($can_visit_employees == "true") { ?> checked <?php } ?> />
-                    </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="can_visit_daysettings">Daginstellingen:</label>
-                        </div>
-                        <input type="checkbox"
-                               name="can_visit_daysettings" <?php if ($can_visit_daysettings == "true") { ?> checked <?php } ?> />
-                    </div>
-                    <div class="data-field" style="display: none;">
-                        <div class="flexLabel">
-                            <label for="can_visit_table">Tafelindeling:</label>
-                        </div>
-                        <input type="checkbox"
-                               name="can_visit_table" <?php if ($can_visit_table == "true") { ?> checked <?php } ?> />
-                    </div>
-                </div>
-                <div class="data-submit">
-                    <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
-                        <input type="submit" name="submit" value="Bevestigen"/>
-                    <?php } else { ?>
-                        <input type="submit" name="submit" value="Registreren"/>
-                    <?php } ?>
-                </div>
-            </form>
-        </div>
+        </form>
     </main>
     <footer>
         <section> <?= $footer ?>  </section>

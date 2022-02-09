@@ -68,8 +68,8 @@ if (isset($_POST['submitDelete'])) {
     $deleteQuery = "DELETE FROM users WHERE id = '$employeeIdQuery'";
     $result3 = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
     if ($result) {
-    mysqli_close($db);
-       header('Location: ./');
+        mysqli_close($db);
+        header('Location: ./');
         exit;
     } else {
         $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
@@ -83,7 +83,7 @@ if (isset($_POST['submitDelete'])) {
     <title><?= ' Medewerker ' . htmlentities($employee['username']) ?> bij Rasa Senang</title>
 </head>
 <body>
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -99,28 +99,27 @@ if (isset($_POST['submitDelete'])) {
 <div class="overlaymodal"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
-                <h1>Details</h1>
-                <h3><?= ' Medewerker ' . htmlentities($employee['username']) ?></h3>
-            </div>
+    <main class="content-wrap">
+        <header>
+            <h1>Details</h1>
+            <h3><?= ' Medewerker ' . htmlentities($employee['username']) ?></h3>
+        </header>
 
-            <div class="details">
-                <div class="flexDetails">
-                    <div class="labelDetails">Naam:</div>
-                    <div><?= $employee['name'] ?></div>
-                </div>
-                <h3 class="h3detailsEmp">Rechten:</h3>
-                <div class="flexDetails">
-                    <div class="labelDetails">Overzicht Reserveringen:</div>
-                    <div> <?= $employee['can_visit_reservations'] ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Overzicht Medewerkers:</div>
-                    <div> <?= $employee['can_visit_employees'] ?></div>
-                </div>
-                <?php /*
+        <div class="details">
+            <div class="flexDetails">
+                <div class="labelDetails">Naam:</div>
+                <div><?= $employee['name'] ?></div>
+            </div>
+            <h3 class="h3detailsEmp">Rechten:</h3>
+            <div class="flexDetails">
+                <div class="labelDetails">Overzicht Reserveringen:</div>
+                <div> <?= $employee['can_visit_reservations'] ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Overzicht Medewerkers:</div>
+                <div> <?= $employee['can_visit_employees'] ?></div>
+            </div>
+            <?php /*
                 <div class="flexDetails">
                     <div class="labelDetails">Daginstellingen:</div>
                     <div> <?= $employee['can_visit_daysettings'] ?></div>
@@ -129,36 +128,36 @@ if (isset($_POST['submitDelete'])) {
                     <div class="labelDetails">Tafelindeling:</div>
                     <div> <?= $employee['can_visit_table'] ?></div>
                 </div>
-        */?>
-            </div>
+        */ ?>
+        </div>
 
-            <div class="detailsPageButtons">
-                <div class="flexButtons">
-                    <form action="" method="post">
-                        <input class="date-submit" type="submit" name="change" value="Wijzigen"/>
-                    </form>
-                    <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
-                </div>
+        <div class="detailsPageButtons">
+            <div class="flexButtons">
+                <form action="" method="post">
+                    <input class="date-submit" type="submit" name="change" value="Wijzigen"/>
+                </form>
+                <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
             </div>
-            <div class="modal" id="modal">
-                <div class="modal-header">
-                    <div class="title"> Weet u zeker dat u deze Medewerker wilt verwijderen?</div>
-                    <button data-close-button class="close-button">&times;</button>
+        </div>
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <div class="title"> Weet u zeker dat u deze Medewerker wilt verwijderen?</div>
+                <button data-close-button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modalAlignCenter">
+                    <img src="../data/icon-general/bin-red.png">
                 </div>
-                <div class="modal-body">
-                    <div class="modalAlignCenter">
-                        <img src="../data/icon-general/bin-red.png">
-                    </div>
-                    <div class="modalAlignCenter">
-                        <p class="errors">Let op: deze actie is permanent!</p>
-                    </div>
-                    <div class="modalAlignCenter">
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]). '?id=' . $employeeID; ?>" method="post">
-                            <div class="date-submit-div">
-                                <input class="date-submit" type="submit" name="submitDelete" value="Verwijderen"/>
-                            </div>
-                        </form>
-                    </div>
+                <div class="modalAlignCenter">
+                    <p class="errors">Let op: deze actie is permanent!</p>
+                </div>
+                <div class="modalAlignCenter">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $employeeID; ?>"
+                          method="post">
+                        <div class="date-submit-div">
+                            <input class="date-submit" type="submit" name="submitDelete" value="Verwijderen"/>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

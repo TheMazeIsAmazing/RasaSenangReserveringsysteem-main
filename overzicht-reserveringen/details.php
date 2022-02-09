@@ -158,7 +158,7 @@ if (isset($_POST['submitDelete'])) {
     <title><?= ' Reservering ' . htmlentities($reservation['reservering_id']) ?> bij Rasa Senang</title>
 </head>
 <body>
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -174,106 +174,105 @@ if (isset($_POST['submitDelete'])) {
 <div class="overlaymodal"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
-                <h1>Details</h1>
-                <h3><?= ' Reserveringsnummer ' . htmlentities($reservation['reservering_id']) ?></h3>
-            </div>
+    <main class="content-wrap">
+        <header>
+            <h1>Details</h1>
+            <h3><?= ' Reserveringsnummer ' . htmlentities($reservation['reservering_id']) ?></h3>
+        </header>
 
-            <div class="details">
+        <div class="details">
+            <div class="flexDetails">
+                <div class="labelDetails">Reservering geplaatst op:</div>
+                <div><?= date("d/m/Y - H:i", strtotime($reservation['date_placed_reservation'])) ?></div>
+            </div>
+            <?php if ($reservation['date_placed_reservation'] !== $reservation['date_updated_reservation']) { ?>
                 <div class="flexDetails">
-                    <div class="labelDetails">Reservering geplaatst op:</div>
-                    <div><?= date("d/m/Y - H:i", strtotime($reservation['date_placed_reservation'])) ?></div>
+                    <div class="labelDetails"> Reservering laatst gewijzigd op:</div>
+                    <div><?= date("d/m/Y - H:i", strtotime($reservation['date_updated_reservation'])); ?></div>
+                </div> <?php } ?>
+            <div class="flexDetails">
+                <div class="labelDetails">Datum:</div>
+                <div> <?= date("d/m/Y", strtotime($reservation['date'])) ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Aanvangstijd:</div>
+                <div> <?= htmlentities(date("H:i", strtotime($reservation['start_time']))) ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Aantal gasten:</div>
+                <div> <?= htmlentities($reservation['amount_people']) ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Naam:</div>
+                <div> <?= htmlentities($reservation['full_name']) ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">E-mailadres:</div>
+                <div class="flexDetailsEmail">
+                    <div> <?= htmlentities($reservation['emailadres']) ?></div>
+                    <div class="guestLoyaltyIndicator"> <?= $guestInfoMessage ?></div>
                 </div>
-                <?php if ($reservation['date_placed_reservation'] !== $reservation['date_updated_reservation']) { ?>
-                    <div class="flexDetails">
-                        <div class="labelDetails"> Reservering laatst gewijzigd op:</div>
-                        <div><?= date("d/m/Y - H:i", strtotime($reservation['date_updated_reservation'])); ?></div>
-                    </div> <?php } ?>
-                <div class="flexDetails">
-                    <div class="labelDetails">Datum:</div>
-                    <div> <?= date("d/m/Y", strtotime($reservation['date'])) ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Telefoonnummer:</div>
+                <div> <?= htmlentities($reservation['phonenumber']) ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Allergieën:</div>
+                <div><?= htmlentities($reservation['str_all']) ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Opmerkingen:</div>
+                <div><?php if ($reservation['comments'] == '') {
+                        echo "Niet van toepassing.";
+                    } else {
+                        echo htmlentities(htmlspecialchars_decode($reservation['comments']));
+                    } ?></div>
+            </div>
+        </div>
+        <div class="detailsPageButtons">
+            <div class="flexButtons">
+                <form action="" method="post">
+                    <input class="date-submit" type="submit" name="change" value="Wijzigen"/>
+                </form>
+                <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
+            </div>
+        </div>
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
+                <button data-close-button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modalAlignCenter">
+                    <img src="../data/icon-general/bin-red.png">
                 </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Aanvangstijd:</div>
-                    <div> <?= htmlentities(date("H:i", strtotime($reservation['start_time']))) ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Aantal gasten:</div>
-                    <div> <?= htmlentities($reservation['amount_people']) ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Naam:</div>
-                    <div> <?= htmlentities($reservation['full_name']) ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">E-mailadres:</div>
-                    <div class="flexDetailsEmail">
-                        <div> <?= htmlentities($reservation['emailadres']) ?></div>
-                        <div class="guestLoyaltyIndicator"> <?= $guestInfoMessage ?></div>
-                    </div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Telefoonnummer:</div>
-                    <div> <?= htmlentities($reservation['phonenumber']) ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Allergieën:</div>
-                    <div><?= htmlentities($reservation['str_all']) ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Opmerkingen:</div>
-                    <div><?php if ($reservation['comments'] == '') {
-                            echo "Niet van toepassing.";
+                <div class="modalAlignCenter">
+                    <p class="errors"> <?php if (isset($errors['general']) && $errors['general'] !== '') {
+                            echo $errors['general'];
                         } else {
-                            echo htmlentities(htmlspecialchars_decode($reservation['comments']));
-                        } ?></div>
+                            echo "Let op: deze actie is permanent!";
+                        } ?></p>
                 </div>
-            </div>
-            <div class="detailsPageButtons">
-                <div class="flexButtons">
-                    <form action="" method="post">
-                        <input class="date-submit" type="submit" name="change" value="Wijzigen"/>
-                    </form>
-                    <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
-                </div>
-            </div>
-            <div class="modal" id="modal">
-                <div class="modal-header">
-                    <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
-                    <button data-close-button class="close-button">&times;</button>
-                </div>
-                <div class="modal-body">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $reservationID; ?>"
+                      method="post">
                     <div class="modalAlignCenter">
-                        <img src="../data/icon-general/bin-red.png">
-                    </div>
-                    <div class="modalAlignCenter">
-                        <p class="errors"> <?php if (isset($errors['general']) && $errors['general'] !== '') {
-                                echo $errors['general'];
-                            } else {
-                                echo "Let op: deze actie is permanent!";
-                            } ?></p>
-                    </div>
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $reservationID; ?>"
-                          method="post">
-                        <div class="modalAlignCenter">
-                            <div class="modalAlignCenterDeletionReason">
-                                <div class="flexLabel">
-                                    <label for="reason">Reden:</label>
-                                    <div class="errors">
-                                        *
-                                    </div>
+                        <div class="modalAlignCenterDeletionReason">
+                            <div class="flexLabel">
+                                <label for="reason">Reden:</label>
+                                <div class="errors">
+                                    *
                                 </div>
-                                <input class="delete-reason" type="text" name="reason" value=""/>
-                            </div> </div>
-                            <div class="modalAlignCenter">
-                            <div class="date-submit-div">
-                                <input class="date-submit" type="submit" name="submitDelete" value="Verwijderen"/>
                             </div>
+                            <input class="delete-reason" type="text" name="reason" value=""/>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modalAlignCenter">
+                        <div class="date-submit-div">
+                            <input class="date-submit" type="submit" name="submitDelete" value="Verwijderen"/>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </main>

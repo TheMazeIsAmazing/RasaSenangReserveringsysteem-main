@@ -36,7 +36,7 @@ mysqli_close($db);
     <title>Medewekers van Rasa Senang</title>
 </head>
 <body>
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -51,55 +51,53 @@ mysqli_close($db);
 <div class="overlay"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
-                <h1>Overzicht Medewerkers</h1>
-            </div>
-            <div class="search-bar">
-                <button class="date-submit">
-                    <a href="../inloggen/register.php">
-                        Nieuwe Medewerker
-                    </a>
-                </button>
-            </div>
-            <section class="align-middle">
-                <table class="middle-table">
-                    <thead>
-                    <tr>
-                        <th>Gebruikersnaam</th>
-                        <th>Naam</th>
-                        <th>Mag naar Overzicht Reserveringen</th>
-                        <th>Mag naar Overzicht Medewerkers</th>
-                        <th></th>
-                        <?php /*
+    <main class="content-wrap">
+        <header>
+            <h1>Overzicht Medewerkers</h1>
+        </header>
+        <div class="search-bar">
+            <button class="date-submit">
+                <a href="../inloggen/register.php">
+                    Nieuwe Medewerker
+                </a>
+            </button>
+        </div>
+        <section class="align-middle">
+            <table class="middle-table">
+                <thead>
+                <tr>
+                    <th>Gebruikersnaam</th>
+                    <th>Naam</th>
+                    <th>Mag naar Overzicht Reserveringen</th>
+                    <th>Mag naar Overzicht Medewerkers</th>
+                    <th></th>
+                    <?php /*
                         //<th>Daginstellingen</th>
-                        //<th>Tafelindeling</th> */?>
-                        <th colspan="3"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($employees as $employee) {
-                        ?>
-                        <tr>
-                            <td><?= htmlentities($employee['username']) ?></td>
-                            <td><?= htmlentities($employee['name']) ?></td>
-                            <td><?= htmlentities($employee['can_visit_reservations']) ?></td>
-                            <td><?= htmlentities($employee['can_visit_employees']) ?></td>
-                            <?php /*
+                        //<th>Tafelindeling</th> */ ?>
+                    <th colspan="3"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($employees as $employee) {
+                    ?>
+                    <tr>
+                        <td><?= htmlentities($employee['username']) ?></td>
+                        <td><?= htmlentities($employee['name']) ?></td>
+                        <td><?= htmlentities($employee['can_visit_reservations']) ?></td>
+                        <td><?= htmlentities($employee['can_visit_employees']) ?></td>
+                        <?php /*
                             <td><?= htmlentities($employee['can_visit_daysettings']) ?></td>
                             <td><?= htmlentities($employee['can_visit_table']) ?></td> */ ?>
-                            <td><a href="details.php?id=<?= htmlentities($employee['id']) ?>"><img
-                                            class="details-button" src="../data/icon-general/information.png"
-                                            alt="Details"></a>
-                            </td>
-                        </tr>
-                        <?php
-                    } ?>
-                    </tbody>
-                </table>
-            </section>
-        </div>
+                        <td><a href="details.php?id=<?= htmlentities($employee['id']) ?>"><img
+                                        class="details-button" src="../data/icon-general/information.png"
+                                        alt="Details"></a>
+                        </td>
+                    </tr>
+                    <?php
+                } ?>
+                </tbody>
+            </table>
+        </section>
     </main>
     <footer>
         <section> <?= $footer ?>  </section>

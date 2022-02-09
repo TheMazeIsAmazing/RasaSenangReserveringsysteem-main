@@ -19,7 +19,7 @@ if (!isset($_SESSION['reservation'])) {
     }
     header("Location: ../");
     exit;
- }
+}
 
 unset($_SESSION['reservation']);
 
@@ -49,7 +49,7 @@ if (isset($_SESSION['loggedInUser'])) {
     <title>Bevestiging van Rasa Senang</title>
 </head>
 <body>
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -63,35 +63,32 @@ if (isset($_SESSION['loggedInUser'])) {
 
 <div class="overlay"></div>
 
-<div class="page-container" >
-    <main>
-        <div class="content-wrap">
-            <div class="confirmation-page">
-                <?php if ($deleted == true) { ?>
-                    <section>
-                        <img class="thanks-img" src="../data/icon-general/bin.png">
-                        <h1>Uw reservering is succesvol verwijderd!</h1>
-                        <h3>Let op: Dit kan niemand meer ongedaan maken.</h3>
-                        <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
-                        <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
-                    </section>
-                <?php } elseif ($changed == true) { ?>
-                    <section>
-                        <img class="thanks-img" src="../data/icon-general/check.png">
-                        <h1>Uw reservering is succesvol gewijzigd!</h1>
-                        <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
-                        <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
-                    </section>
-                <?php } else { ?>
-                    <section>
-                        <section>
-                            <img class="thanks-img" src="../data/icon-general/heart.png">
-                            <h1>Bedankt voor uw reservering!</h1>
-                            <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
-                            <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
-                        </section>
-                <?php } ?>
-            </div>
+<div class="page-container">
+    <main class="content-wrap">
+        <div class="confirmation-page">
+            <?php if ($deleted == true) { ?>
+                <section>
+                    <img class="thanks-img" src="../data/icon-general/bin.png">
+                    <h1>Uw reservering is succesvol verwijderd!</h1>
+                    <h3>Let op: Dit kan niemand meer ongedaan maken.</h3>
+                    <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
+                    <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
+                </section>
+            <?php } elseif ($changed == true) { ?>
+                <section>
+                    <img class="thanks-img" src="../data/icon-general/check.png">
+                    <h1>Uw reservering is succesvol gewijzigd!</h1>
+                    <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
+                    <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
+                </section>
+            <?php } else { ?>
+                <section>
+                    <img class="thanks-img" src="../data/icon-general/heart.png">
+                    <h1>Bedankt voor uw reservering!</h1>
+                    <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
+                    <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
+                </section>
+            <?php } ?>
         </div>
     </main>
     <footer>

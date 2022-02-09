@@ -101,7 +101,7 @@ if (date('H') >= 06 && date('H') <= 11) {
 
 <body>
 
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -116,64 +116,62 @@ if (date('H') >= 06 && date('H') <= 11) {
 <div class="overlay"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
-                <h1> <?= $dayPart . htmlentities($name) ?>!</h1>
-            </div>
-            <nav class="navEmployees">
-                <a class="navEmployeesButton" href="../overzicht-reserveringen">Overzicht Reserveringen</a>
-                <a class="navEmployeesButton" href="../">Nieuwe Reservering</a>
-                <a class="navEmployeesButton" href="../daginstellingen">Daginstellingen
+    <main class="content-wrap">
+        <header>
+            <h1> <?= $dayPart . htmlentities($name) ?>!</h1>
+        </header>
+        <nav class="navEmployees">
+            <a class="navEmployeesButton" href="../overzicht-reserveringen">Overzicht Reserveringen</a>
+            <a class="navEmployeesButton" href="../">Nieuwe Reservering</a>
+            <a class="navEmployeesButton" href="../daginstellingen">Daginstellingen
                 <?php
                 /*                 <a class="navEmployeesButton" href="./">Tafelindeling</a>
                 <a class="navEmployeesButton" href="./">Statistieken</a>
                 <a class="navEmployeesButton" href="./">Logboeken</a> */ ?>
                 <a class="navEmployeesButton" href="../medewerkers-instellingen">Medewerkers</a>
-            </nav>
-            <div class="daySummary">
-                <h2>Dagsamenvatting</h2>
-                <div class="flexDetails">
-                    <div class="labelDetails">Aantal Gasten:</div>
-                    <div><?= $guestCount; ?></div>
+        </nav>
+        <div class="daySummary">
+            <h2>Dagsamenvatting</h2>
+            <div class="flexDetails">
+                <div class="labelDetails">Aantal Gasten:</div>
+                <div><?= $guestCount; ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Aantal Reserveringen:</div>
+                <div><?= $amountReservations; ?></div>
+            </div>
+            <!--                <div class="flexDetails">-->
+            <!--                    <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>-->
+            <!--                    <div>--><? //= $reservationsPlacedToday; ?><!--</div>-->
+            <!--                </div>-->
+            <?php //in the future display how many tables are occupied
+            //<div class="daySummaryItem">
+            //Tafels Bezet:
+            //</div>?>
+            <div class="flexDetails">
+                <div class="labelDetails"> Gasten met
+                    Allergieën:
                 </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Aantal Reserveringen:</div>
-                    <div><?= $amountReservations; ?></div>
-                </div>
-<!--                <div class="flexDetails">-->
-<!--                    <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>-->
-<!--                    <div>--><?//= $reservationsPlacedToday; ?><!--</div>-->
-<!--                </div>-->
-                <?php //in the future display how many tables are occupied
-                //<div class="daySummaryItem">
-                //Tafels Bezet:
-                //</div>?>
-                <div class="flexDetails">
-                    <div class="labelDetails"> Gasten met
-                        Allergieën:
-                    </div>
-                    <div><?php if (count($reservationsWithAllergies) > 0) {
-                            if (count($reservationsWithAllergies) > 1) {
-                                $reservationsWithAllergies_string = "Ja, bij reserveringen: ";
-                            } else {
-                                $reservationsWithAllergies_string = "Ja, bij reservering: ";
-                            }
-
-                            for ($i = 0; $i < count($reservationsWithAllergies); $i++) {
-                                if (($i + 1 == count($reservationsWithAllergies)) && count($reservationsWithAllergies) !== 1) {
-                                    $reservationsWithAllergies_string = "$reservationsWithAllergies_string en $reservationsWithAllergies[$i]";
-                                } elseif (count($reservationsWithAllergies) == 1 || $i == 0) {
-                                    $reservationsWithAllergies_string = "$reservationsWithAllergies_string $reservationsWithAllergies[$i]";
-                                } else {
-                                    $reservationsWithAllergies_string = "$reservationsWithAllergies_string, $reservationsWithAllergies[$i]";
-                                }
-                            }
-                            echo $reservationsWithAllergies_string;
+                <div><?php if (count($reservationsWithAllergies) > 0) {
+                        if (count($reservationsWithAllergies) > 1) {
+                            $reservationsWithAllergies_string = "Ja, bij reserveringen: ";
                         } else {
-                            echo "Niet van toepassing.";
-                        } ?>
-                    </div>
+                            $reservationsWithAllergies_string = "Ja, bij reservering: ";
+                        }
+
+                        for ($i = 0; $i < count($reservationsWithAllergies); $i++) {
+                            if (($i + 1 == count($reservationsWithAllergies)) && count($reservationsWithAllergies) !== 1) {
+                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string en $reservationsWithAllergies[$i]";
+                            } elseif (count($reservationsWithAllergies) == 1 || $i == 0) {
+                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string $reservationsWithAllergies[$i]";
+                            } else {
+                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string, $reservationsWithAllergies[$i]";
+                            }
+                        }
+                        echo $reservationsWithAllergies_string;
+                    } else {
+                        echo "Niet van toepassing.";
+                    } ?>
                 </div>
             </div>
         </div>

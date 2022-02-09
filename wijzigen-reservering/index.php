@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
 <div class="overlay"></div>
 
 
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -79,62 +79,60 @@ if (isset($_POST['submit'])) {
 </header>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
-                <h1>Reservering Wijzigen</h1>
-                <h3>Vul hieronder de benodigde informatie in zodat wij uw reservering kunnen vinden:</h3>
+    <main class="content-wrap">
+        <header>
+            <h1>Reservering Wijzigen</h1>
+            <h3>Vul hieronder de benodigde informatie in zodat wij uw reservering kunnen vinden:</h3>
+        </header>
+        <form action="" method="post">
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="reservering_id">Reserveringsnummer</label>
+                    <div class="errors">
+                        *
+                    </div>
+                </div>
+                <div class="flexInputWithErrors">
+                    <input type="text" name="reservering_id"
+                           value="<?= $reservering_id ?? '' ?>"/>
+                    <span class="errors"><?= $errors['reservering_id'] ?? '' ?></span>
+                </div>
             </div>
-            <form action="" method="post">
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="reservering_id">Reserveringsnummer</label>
-                        <div class="errors">
-                            *
-                        </div>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="text" name="reservering_id"
-                               value="<?= $reservering_id ?? '' ?>"/>
-                        <span class="errors"><?= $errors['reservering_id'] ?? '' ?></span>
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="emailadres">E-mailadres</label>
+                    <div class="errors">
+                        *
                     </div>
                 </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="emailadres">E-mailadres</label>
-                        <div class="errors">
-                            *
-                        </div>
+                <div class="flexInputWithErrors">
+                    <input type="email" name="emailadres" maxlength="255"
+                           value="<?= $emailadres ?? '' ?>"/>
+                    <span class="errors"><?= $errors['emailadres'] ?? '' ?></span>
+                </div>
+            </div>
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="unique_code" class="changeLabel">Wijzigingscode
+                    </label>
+                    <div class="errors">
+                        *
                     </div>
-                    <div class="flexInputWithErrors">
-                        <input type="email" name="emailadres" maxlength="255"
-                               value="<?= $emailadres ?? '' ?>"/>
-                        <span class="errors"><?= $errors['emailadres'] ?? '' ?></span>
+                    <div class="tooltip"><img src="../data/icon-general/information.png"> <span
+                                class="tooltiptext">Vul hier uw unieke wijzigingscode in die u heeft ontvangen in uw e-mailbevestiging. Mocht u deze kwijt zijn kunt u voor het wijzigen van uw reservering ook contact opnemen met het restaurant via: 078-6511160. </span>
                     </div>
                 </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="unique_code" class="changeLabel">Wijzigingscode
-                        </label>
-                        <div class="errors">
-                            *
-                        </div>
-                        <div class="tooltip"><img src="../data/icon-general/information.png"> <span
-                                    class="tooltiptext">Vul hier uw unieke wijzigingscode in die u heeft ontvangen in uw e-mailbevestiging. Mocht u deze kwijt zijn kunt u voor het wijzigen van uw reservering ook contact opnemen met het restaurant via: 078-6511160. </span>
-                        </div>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="text" name="unique_code" maxlength="4"
-                               value="<?= $unique_code ?? '' ?>"/>
-                        <span class="errors"><?= $errors['unique_code'] ?? '' ?></span>
-                    </div>
+                <div class="flexInputWithErrors">
+                    <input type="text" name="unique_code" maxlength="4"
+                           value="<?= $unique_code ?? '' ?>"/>
+                    <span class="errors"><?= $errors['unique_code'] ?? '' ?></span>
                 </div>
-                <div class="data-submit">
-                    <p class="errors"><?= $errors['loginFailed'] ?? '' ?></p>
-                    <input type="submit" name="submit" value="Zoeken"/>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="data-submit">
+                <p class="errors"><?= $errors['loginFailed'] ?? '' ?></p>
+                <input type="submit" name="submit" value="Zoeken"/>
+            </div>
+        </form>
     </main>
     <footer>
         <section> <?= $footer ?>  </section>

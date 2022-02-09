@@ -75,7 +75,7 @@ if (isset($_POST['submit'])) {
 <div class="overlay"></div>
 
 
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -88,59 +88,58 @@ if (isset($_POST['submit'])) {
 </header>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <?php if ($login) {
-                header('Location: ../medewerkers');
-            } else { ?>
-                <div>
-                    <h1>Inloggen Medewerkers</h1>
+    <main class="content-wrap">
+        <?php if ($login) {
+            header('Location: ../medewerkers');
+        } else { ?>
+            <header>
+                <h1>Inloggen Medewerkers</h1>
+            </header>
+            <?php if (isset($errors['loginFailed'])) { ?>
+                <div class="errorLoginNegative">
+                    <div class="message">
+                        <?= $errors['loginFailed'] ?>
+                    </div>
                 </div>
-                <?php if(isset($errors['loginFailed'])) { ?>
-            <div class="errorLoginNegative">
-                <div class="message">
-                    <?= $errors['loginFailed'] ?>
-                </div>
-            </div>
             <?php } elseif (isset($errorType)) {
-                    if ($errorType == 'logoutSuccessful') { ?>
+                if ($errorType == 'logoutSuccessful') { ?>
                     <div class="errorLoginPositive">
                         <div class="message">
-                        U bent succesvol Uitgelogd!
+                            U bent succesvol Uitgelogd!
                         </div>
                     </div>
                 <?php } else { ?>
-                        <div class="errorLoginNegative">
-                            <div class="message">
-                                U moet eerst inloggen voordat u deze pagina kunt bezoeken!
-                            </div>
-                        </div>
-                        <?php }} ?>
-                <form action="" method="post">
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="username" class="loginLabel">Gebruikersnaam</label>
-                        </div>
-                        <div class="flexInputWithErrors">
-                            <input type="text" name="username" value="<?= $user ?? '' ?>"/>
-                            <span class="errors"><?= $errors['username'] ?? '' ?></span>
+                    <div class="errorLoginNegative">
+                        <div class="message">
+                            U moet eerst inloggen voordat u deze pagina kunt bezoeken!
                         </div>
                     </div>
-                    <div class="data-field">
-                        <div class="flexLabel">
-                            <label for="password" class="loginLabel">Wachtwoord</label>
-                        </div>
-                        <div class="flexInputWithErrors">
-                            <input type="password" name="password"/>
-                            <span class="errors"><?= $errors['password'] ?? '' ?></span>
-                        </div>
+                <?php }
+            } ?>
+            <form action="" method="post">
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="username" class="loginLabel">Gebruikersnaam</label>
                     </div>
-                    <div class="data-submit">
-                        <input type="submit" name="submit" value="Login"/>
+                    <div class="flexInputWithErrors">
+                        <input type="text" name="username" value="<?= $user ?? '' ?>"/>
+                        <span class="errors"><?= $errors['username'] ?? '' ?></span>
                     </div>
-                </form>
-            <?php } ?>
-        </div>
+                </div>
+                <div class="data-field">
+                    <div class="flexLabel">
+                        <label for="password" class="loginLabel">Wachtwoord</label>
+                    </div>
+                    <div class="flexInputWithErrors">
+                        <input type="password" name="password"/>
+                        <span class="errors"><?= $errors['password'] ?? '' ?></span>
+                    </div>
+                </div>
+                <div class="data-submit">
+                    <input type="submit" name="submit" value="Login"/>
+                </div>
+            </form>
+        <?php } ?>
     </main>
     <footer>
         <section> <?= $footer ?>  </section>

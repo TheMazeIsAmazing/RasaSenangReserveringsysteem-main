@@ -95,7 +95,7 @@ if (date('H') >= 06 && date('H') <= 11) {
 
 <body>
 
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -110,72 +110,70 @@ if (date('H') >= 06 && date('H') <= 11) {
 <div class="overlay"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
-                <h1>Daginstellingen</h1>
-            </div>
-            <div class="search-bar">
-                <button class="date-submit">
-                    <a href="../daginstellingen/rules.php">
-                        Regels overzicht
-                    </a>
-                </button>
-            </div>
-            <div class="flexDaySettings">
-                <div class="daySummary">
-                    <h2>Instellingen voor Vandaag:</h2>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Restaurant open/dicht:</div>
-                        <div></div>
-                    </div>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Gasten limiet:</div>
-                        <div><?php //guestlimittoday ?>(Er komen vandaag <?= $guestCount; ?> gasten)</div>
-                    </div>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Reservering limiet:</div>
-                        <div><?php //reservationslimittoday ?>(Er zijn vandaag <?= $amountReservations;; ?> reserveringen)</div>
-                    </div>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Beschikbare tijden:</div>
-                        <div></div>
-                    </div>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Beschikbare tijdsloten:</div>
-                        <div></div>
+    <main class="content-wrap">
+        <header>
+            <h1>Daginstellingen</h1>
+        </header>
+        <div class="search-bar">
+            <button class="date-submit">
+                <a href="../daginstellingen/rules.php">
+                    Regels overzicht
+                </a>
+            </button>
+        </div>
+        <div class="flexDaySettings">
+            <div class="daySummary">
+                <h2>Instellingen voor Vandaag:</h2>
+                <div class="flexDetails">
+                    <div class="labelDetails">Restaurant open/dicht:</div>
+                    <div></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Gasten limiet:</div>
+                    <div><?php //guestlimittoday ?>(Er komen vandaag <?= $guestCount; ?> gasten)</div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Reservering limiet:</div>
+                    <div><?php //reservationslimittoday ?>(Er zijn vandaag <?= $amountReservations;; ?>reserveringen)
                     </div>
                 </div>
-                <div class="daySummary">
-                    <h2>Algemene Instellingen:</h2>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Restaurant open/dicht:</div>
-                        <div></div>
-                    </div>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Gasten limiet:</div>
-                        <div></div>
-                    </div>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Reservering limiet:</div>
-                        <div></div>
-                    </div>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Beschikbare tijden:</div>
-                        <div></div>
-                    </div>
-                    <div class="flexDetails">
-                        <div class="labelDetails">Beschikbare tijdsloten:</div>
-                        <div></div>
-                    </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Beschikbare tijden:</div>
+                    <div></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Beschikbare tijdsloten:</div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="daySummary">
+                <h2>Algemene Instellingen:</h2>
+                <div class="flexDetails">
+                    <div class="labelDetails">Restaurant open/dicht:</div>
+                    <div></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Gasten limiet:</div>
+                    <div></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Reservering limiet:</div>
+                    <div></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Beschikbare tijden:</div>
+                    <div></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Beschikbare tijdsloten:</div>
+                    <div></div>
                 </div>
             </div>
         </div>
-</div>
-</main>
-<footer>
-    <section> <?= $footer ?>  </section>
-</footer>
+    </main>
+    <footer>
+        <section> <?= $footer ?>  </section>
+    </footer>
 </div>
 </body>
 </html>

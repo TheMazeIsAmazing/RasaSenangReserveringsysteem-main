@@ -67,9 +67,10 @@ if (isset($_POST['submit'])) {
 $reservationCount = 0;
 
 foreach ($reservations as $reservation) {
-if (date("Y m d", strtotime($reservation['date'])) > date("Y m d") || date("Y m d", strtotime($reservation['date'])) == date("Y m d", strtotime($date))) {
-    $reservationCount++;
-}}
+    if (date("Y m d", strtotime($reservation['date'])) > date("Y m d") || date("Y m d", strtotime($reservation['date'])) == date("Y m d", strtotime($date))) {
+        $reservationCount++;
+    }
+}
 ?>
 <!doctype html>
 <html lang="nl">
@@ -92,72 +93,72 @@ if (date("Y m d", strtotime($reservation['date'])) > date("Y m d") || date("Y m 
 <div class="overlay"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
-                <h1>Overzicht Reserveringen</h1>
+    <main class="content-wrap">
+        <header>
+            <h1>Overzicht Reserveringen</h1>
+        </header>
+
+        <div class="search-bar">
+            <div class="search-bar-item">
+                <button class="date-submit">
+                    <a href="../">
+                        Nieuwe Reservering
+                    </a>
+                </button>
             </div>
-            <div class="search-bar">
-                <div class="search-bar-item">
-                    <button class="date-submit">
-                        <a href="../">
-                            Nieuwe Reservering
-                        </a>
-                    </button>
-                </div>
-                <div class="search-bar-item">
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="date-field">
-                            <input class="date-field" id="date" type="date" name="date" value="<?= $date ?? '' ?>"/>
-                        </div>
-                </div>
-                <div class="search-bar-item">
-                    <div class="date-submit-div">
-                        <input class="date-submit" type="submit" name="submit" value="Zoeken"/>
+            <div class="search-bar-item">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <div class="date-field">
+                        <input class="date-field" id="date" type="date" name="date" value="<?= $date ?? '' ?>"/>
                     </div>
-                    </form>
-                </div>
             </div>
-            <section class="align-middle">
-                <?php if (count($reservations) == 0) { ?>
-                    <p class="middle-table">Er zijn geen reserveringen gevonden op de opgegeven datum.</p>
-                <?php } elseif ($reservationCount == 0) { ?>
-                    <p class="middle-table">Er zijn geen reserveringen gevonden die plaatsvinden op, of na, <?php echo date('d-m-Y')?>.</p>
-                <?php } else { ?>
-                    <table class="middle-table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Datum</th>
-                            <th>Aanvangstijd</th>
-                            <th>Aantal Gasten</th>
-                            <th>Naam</th>
-                            <th colspan="3"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($reservations as $reservation) {
-                            if (date("Y m d", strtotime($reservation['date'])) > date("Y m d") || date("Y m d", strtotime($reservation['date'])) == date("Y m d", strtotime($date))) {
-                                ?>
-                                <tr>
-                                    <td><?= htmlentities($reservation['reservering_id']) ?></td>
-                                    <td><?= htmlentities(date("d/m/Y", strtotime($reservation['date']))) ?></td>
-                                    <td><?= htmlentities(date("H:i", strtotime($reservation['start_time']))) ?></td>
-                                    <td><?= htmlentities($reservation['amount_people']) ?></td>
-                                    <td><?= htmlentities($reservation['full_name']) ?></td>
-                                    <td>
-                                        <a href="details.php?id=<?= htmlentities($reservation['reservering_id']) ?>"><img
-                                                    class="details-button" src="../data/icon-general/information.png"
-                                                    alt="Details"></a>
-                                    </td>
-                                </tr>
-                            <?php }
-                        } ?>
-                        </tbody>
-                    </table>
-                <?php } ?>
-            </section>
+            <div class="search-bar-item">
+                <div class="date-submit-div">
+                    <input class="date-submit" type="submit" name="submit" value="Zoeken"/>
+                </div>
+                </form>
+            </div>
         </div>
+        <section class="align-middle">
+            <?php if (count($reservations) == 0) { ?>
+                <p class="middle-table">Er zijn geen reserveringen gevonden op de opgegeven datum.</p>
+            <?php } elseif ($reservationCount == 0) { ?>
+                <p class="middle-table">Er zijn geen reserveringen gevonden die plaatsvinden op, of
+                    na, <?php echo date('d-m-Y') ?>.</p>
+            <?php } else { ?>
+                <table class="middle-table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Datum</th>
+                        <th>Aanvangstijd</th>
+                        <th>Aantal Gasten</th>
+                        <th>Naam</th>
+                        <th colspan="3"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($reservations as $reservation) {
+                        if (date("Y m d", strtotime($reservation['date'])) > date("Y m d") || date("Y m d", strtotime($reservation['date'])) == date("Y m d", strtotime($date))) {
+                            ?>
+                            <tr>
+                                <td><?= htmlentities($reservation['reservering_id']) ?></td>
+                                <td><?= htmlentities(date("d/m/Y", strtotime($reservation['date']))) ?></td>
+                                <td><?= htmlentities(date("H:i", strtotime($reservation['start_time']))) ?></td>
+                                <td><?= htmlentities($reservation['amount_people']) ?></td>
+                                <td><?= htmlentities($reservation['full_name']) ?></td>
+                                <td>
+                                    <a href="details.php?id=<?= htmlentities($reservation['reservering_id']) ?>"><img
+                                                class="details-button" src="../data/icon-general/information.png"
+                                                alt="Details"></a>
+                                </td>
+                            </tr>
+                        <?php }
+                    } ?>
+                    </tbody>
+                </table>
+            <?php } ?>
+        </section>
     </main>
     <footer>
         <section> <?= $footer ?>  </section>

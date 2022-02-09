@@ -373,7 +373,7 @@ if (isset($_POST['back'])) {
     <title>Controleren bij Rasa Senang</title>
 </head>
 <body>
-<header>
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
@@ -399,103 +399,106 @@ if (isset($_POST['back'])) {
 <div class="overlaymodal"></div>
 
 <div class="page-container">
-    <main>
-        <div class="content-wrap">
-            <div>
-                <h1><?php if (isset($_SESSION['canChangeReservation'])) { ?> Reservering Wijzigen <?php } else { ?> Reserveren <?php } ?></h1>
-                <h3><?php if (isset($_SESSION['canChangeReservation'])) {
-                        if ($_SESSION['canChangeReservation']['load_check_page'] == "false" && isset($_GET)) { ?> We hebben de onderstaande informatie gevonden:
-                        <?php } elseif ($_SESSION['canChangeReservation']['load_check_page'] == "true") { ?> Controleer hieronder de aangepaste informatie:
-                        <?php }
-                    } else { ?> Controleer hieronder de ingevulde informatie: <?php } ?>
-                </h3>
-                <?php if (isset($errors['general'])) { ?>
-                    <h3 class="errors"><?= $errors['general'] ?></h3>
-                <?php } ?>
-            </div>
-            <form action="" method="post">
-                <ul class="details">
-                    <li>Datum: <?= htmlentities(date("d/m/Y", strtotime($date))); ?></li>
-                    <li>Aanvangstijd: <?= htmlentities(date("H:i", strtotime($time))); ?></li>
-                    <li>Aantal gasten: <?= htmlentities($people); ?></li>
-                    <li>Naam: <?= htmlentities($name); ?></li>
-                    <li>E-mailadres: <?= htmlentities($emailadres); ?></li>
-                    <li>Telefoonnummer: <?= htmlentities($phonenumber); ?></li>
-                    <li>Allergieën/Voedselwensen: <?= htmlentities($allergie_string) ?> </li>
-                    <li>Opmerkingen: <?php if ($comments == '') { echo "Niet van toepassing.";} else { echo htmlentities(htmlspecialchars_decode($comments));} ?></li>
-                </ul>
-                <?php if (htmlentities($allergie_string) !== "Niet van toepassing.") { ?> <p class="errors">Let op! Wij
-                    gaan zorgvuldig om met uw voedselallergie, helaas kunnen wij kruisbesmetting niet 100%
-                    uitsluiten.</p> <?php } ?>
-                <div class="flexButtons">
-                    <div>
-                        <div class="data-submit">
-                            <?php if (isset($_SESSION['canChangeReservation'])) {
-                                if ($_SESSION['canChangeReservation']['load_check_page'] == "false") { ?>
-                                    <input type="submit" name="back" value="Wijzigen"/>
-                                <?php } else { ?> <input type="submit" name="back" value="Terug"/>
-                                <?php }
-                            } else { ?> <input type="submit" name="back" value="Terug"/> <?php } ?>
-                        </div>
+    <main class="content-wrap">
+        <header>
+            <h1><?php if (isset($_SESSION['canChangeReservation'])) { ?> Reservering Wijzigen <?php } else { ?> Reserveren <?php } ?></h1>
+            <h3><?php if (isset($_SESSION['canChangeReservation'])) {
+                    if ($_SESSION['canChangeReservation']['load_check_page'] == "false" && isset($_GET)) { ?> We hebben de onderstaande informatie gevonden:
+                    <?php } elseif ($_SESSION['canChangeReservation']['load_check_page'] == "true") { ?> Controleer hieronder de aangepaste informatie:
+                    <?php }
+                } else { ?> Controleer hieronder de ingevulde informatie: <?php } ?>
+            </h3>
+            <?php if (isset($errors['general'])) { ?>
+                <h3 class="errors"><?= $errors['general'] ?></h3>
+            <?php } ?>
+        </header>
+        <form action="" method="post">
+            <ul class="details">
+                <li>Datum: <?= htmlentities(date("d/m/Y", strtotime($date))); ?></li>
+                <li>Aanvangstijd: <?= htmlentities(date("H:i", strtotime($time))); ?></li>
+                <li>Aantal gasten: <?= htmlentities($people); ?></li>
+                <li>Naam: <?= htmlentities($name); ?></li>
+                <li>E-mailadres: <?= htmlentities($emailadres); ?></li>
+                <li>Telefoonnummer: <?= htmlentities($phonenumber); ?></li>
+                <li>Allergieën/Voedselwensen: <?= htmlentities($allergie_string) ?> </li>
+                <li>Opmerkingen: <?php if ($comments == '') {
+                        echo "Niet van toepassing.";
+                    } else {
+                        echo htmlentities(htmlspecialchars_decode($comments));
+                    } ?></li>
+            </ul>
+            <?php if (htmlentities($allergie_string) !== "Niet van toepassing.") { ?> <p class="errors">Let op! Wij
+                gaan zorgvuldig om met uw voedselallergie, helaas kunnen wij kruisbesmetting niet 100%
+                uitsluiten.</p> <?php } ?>
+            <div class="flexButtons">
+                <div>
+                    <div class="data-submit">
+                        <?php if (isset($_SESSION['canChangeReservation'])) {
+                            if ($_SESSION['canChangeReservation']['load_check_page'] == "false") { ?>
+                                <input type="submit" name="back" value="Wijzigen"/>
+                            <?php } else { ?> <input type="submit" name="back" value="Terug"/>
+                            <?php }
+                        } else { ?> <input type="submit" name="back" value="Terug"/> <?php } ?>
                     </div>
-                    <?php if (isset($_SESSION['canChangeReservation'])) {
-                        if ($_SESSION['canChangeReservation']['load_check_page'] == "false") { ?>
-                            <div class="data-submit-guest">
-                                <button type="button" data-modal-target="#modal">Verwijderen</button>
+                </div>
+                <?php if (isset($_SESSION['canChangeReservation'])) {
+                    if ($_SESSION['canChangeReservation']['load_check_page'] == "false") { ?>
+                        <div class="data-submit-guest">
+                            <button type="button" data-modal-target="#modal">Verwijderen</button>
+                        </div>
+                        <div class="modal" id="modal">
+                            <div class="modal-header">
+                                <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
+                                <button data-close-button class="close-button">&times;</button>
                             </div>
-                            <div class="modal" id="modal">
-                                <div class="modal-header">
-                                    <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
-                                    <button data-close-button class="close-button">&times;</button>
+                            <div class="modal-body">
+                                <div class="modalAlignCenter">
+                                    <img src="../data/icon-general/bin-red.png">
                                 </div>
-                                <div class="modal-body">
+                                <div class="modalAlignCenter">
+                                    <p class="errors"> <?php if (isset($errors['general']) && $errors['general'] !== '') {
+                                            echo $errors['general'];
+                                        } else {
+                                            echo "Let op: deze actie is permanent!";
+                                        } ?></p>
+                                </div>
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $reservationID; ?>"
+                                      method="post">
                                     <div class="modalAlignCenter">
-                                        <img src="../data/icon-general/bin-red.png">
-                                    </div>
-                                    <div class="modalAlignCenter">
-                                        <p class="errors"> <?php if (isset($errors['general']) && $errors['general'] !== '') {
-                                                echo $errors['general'];
-                                            } else {
-                                                echo "Let op: deze actie is permanent!";
-                                            } ?></p>
-                                    </div>
-                                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $reservationID; ?>"
-                                          method="post">
-                                        <div class="modalAlignCenter">
-                                            <div class="date-submit-div">
-                                                <input class="date-submit" type="submit" name="submitDelete" value="Verwijderen"/>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="modal" id="modal">
-                                <div class="modal-header">
-                                    <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
-                                    <button data-close-button class="close-button">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="../data/icon-general/bin-red.png"> <br>
-                                    <p>Let op: dit kan niet ongedaan worden.</p>
-                                    <form action="" method="post">
                                         <div class="date-submit-div">
-                                            <input class="date-submit" type="submit" name="submitDeletion"
+                                            <input class="date-submit" type="submit" name="submitDelete"
                                                    value="Verwijderen"/>
                                         </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
                             </div>
-                        <?php } else { ?>
-                            <div class="data-submit">
-                                <input type="submit" name="submit" value="Bevestigen"/>
-                            </div> <?php }
-                    } else { ?>
+                        </div>
+                        <div class="modal" id="modal">
+                            <div class="modal-header">
+                                <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
+                                <button data-close-button class="close-button">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="../data/icon-general/bin-red.png"> <br>
+                                <p>Let op: dit kan niet ongedaan worden.</p>
+                                <form action="" method="post">
+                                    <div class="date-submit-div">
+                                        <input class="date-submit" type="submit" name="submitDeletion"
+                                               value="Verwijderen"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    <?php } else { ?>
                         <div class="data-submit">
                             <input type="submit" name="submit" value="Bevestigen"/>
-                        </div> <?php } ?>
-                </div>
-            </form>
-        </div>
+                        </div> <?php }
+                } else { ?>
+                    <div class="data-submit">
+                        <input type="submit" name="submit" value="Bevestigen"/>
+                    </div> <?php } ?>
+            </div>
+        </form>
     </main>
     <footer>
         <section> <?= $footer ?>  </section>
