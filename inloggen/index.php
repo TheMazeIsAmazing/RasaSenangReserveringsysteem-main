@@ -47,6 +47,7 @@ if (isset($_POST['submit'])) {
                 $login = true;
 
                 $_SESSION['loggedInUser'] = [
+                    'id' => mysqli_escape_string($db, $user['id']),
                     'username' => mysqli_escape_string($db, $user['username']),
                     'name' => mysqli_escape_string($db, $user['name']),
                     'can_visit_reservations' => mysqli_escape_string($db, $user['can_visit_reservations']),

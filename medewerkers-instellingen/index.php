@@ -18,7 +18,6 @@ oneDotOrMoreHead('..');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 
-
 $query = "SELECT * FROM users";
 //Get the result set from the database with a SQL query
 $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
@@ -58,43 +57,58 @@ mysqli_close($db);
         </header>
         <div class="search-bar">
             <button class="date-submit">
-                <a href="../inloggen/register.php">
+                <a href="nieuwe-gebruiker.php">
                     Nieuwe Medewerker
                 </a>
+            </button>
+            <button class="date-submit">
+                <a href="details.php?id=<?= htmlentities($_SESSION['loggedInUser']['id']) ?>">Mijn Account</a>
             </button>
         </div>
         <section class="align-middle">
             <table class="middle-table">
                 <thead>
+                <tr class="rights">
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>Rechten</th>
+                    <th></th>
+                    <th></th>
+                    <?php //<th>Tafelindeling</th>?>
+                    <th colspan="6"></th>
+                </tr>
                 <tr>
                     <th>Gebruikersnaam</th>
                     <th>Naam</th>
-                    <th>Mag naar Overzicht Reserveringen</th>
-                    <th>Mag naar Overzicht Medewerkers</th>
+                    <th>Overzicht Reserveringen</th>
+                    <th>Medewerkers Instellingen</th>
+                    <th>Daginstellingen</th>
                     <th></th>
-                    <?php /*
-                        //<th>Daginstellingen</th>
-                        //<th>Tafelindeling</th> */ ?>
-                    <th colspan="3"></th>
+                    <?php //<th>Tafelindeling</th>?>
+                    <th colspan="6"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($employees as $employee) {
-                    ?>
-                    <tr>
-                        <td><?= htmlentities($employee['username']) ?></td>
-                        <td><?= htmlentities($employee['name']) ?></td>
-                        <td><?= htmlentities($employee['can_visit_reservations']) ?></td>
-                        <td><?= htmlentities($employee['can_visit_employees']) ?></td>
-                        <?php /*
+                    if (htmlentities($employee['username']) !== htmlentities($_SESSION['loggedInUser']['username'])) {
+                        ?>
+                        <tr>
+                            <td><?= htmlentities($employee['username']) ?></td>
+                            <td><?= htmlentities($employee['name']) ?></td>
+                            <td><?= htmlentities($employee['can_visit_reservations']) ?></td>
+                            <td><?= htmlentities($employee['can_visit_employees']) ?></td>
                             <td><?= htmlentities($employee['can_visit_daysettings']) ?></td>
+                            <?php /*
+
                             <td><?= htmlentities($employee['can_visit_table']) ?></td> */ ?>
-                        <td><a href="details.php?id=<?= htmlentities($employee['id']) ?>"><img
-                                        class="details-button" src="../data/icon-general/information.png"
-                                        alt="Details"></a>
-                        </td>
-                    </tr>
-                    <?php
+                            <td><a href="details.php?id=<?= htmlentities($employee['id']) ?>"><img
+                                            class="details-button" src="../data/icon-general/information.png"
+                                            alt="Details"></a>
+                            </td>
+                        </tr>
+                        <?php
+                    }
                 } ?>
                 </tbody>
             </table>

@@ -22,7 +22,6 @@ require_once '../includes/database.php';
 //May I even visit this page?
 require_once "../includes/logincheck.php";
 loginCheck();
-loginCheckPageSpecific('can_visit_employees');
 
 //include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
@@ -55,12 +54,21 @@ if (mysqli_num_rows($result) !== 1) {
 
 $employee = mysqli_fetch_assoc($result);
 
+if (htmlentities($employee['username']) !== htmlentities($_SESSION['loggedInUser']['username'])) {
+    loginCheckPageSpecific('can_visit_employees');
+}
+
 if (isset($_POST['change'])) {
     $_SESSION['canChangeEmployee'] = [
         'employee_id' => mysqli_escape_string($db, $employeeID),
     ];
-    header('Location: ../inloggen/register.php?edit=1');
-    exit;
+    if (htmlentities($employee['username']) !== htmlentities($_SESSION['loggedInUser']['username'])) {
+        header('Location: ./nieuwe-gebruiker.php?edit=1');
+        exit;
+    } else {
+        header('Location: ./wijzigen-wachtwoord.php');
+        exit;
+    }
 }
 
 
@@ -111,29 +119,46 @@ if (isset($_POST['submitDelete'])) {
                 <div class="labelDetails">Naam:</div>
                 <div><?= $employee['name'] ?></div>
             </div>
-            <h3 class="h3detailsEmp">Rechten:</h3>
+            <?php if (htmlentities($employee['username']) !== htmlentities($_SESSION['loggedInUser']['username'])) { ?>
+                <h3 class="h3detailsEmp">Deze gebruiker mag naar de volgende pagina's:</h3>
+            <?php } else { ?>
+                <h3 class="h3detailsEmp">U mag naar de volgende pagina's:</h3>
+            <?php } ?>
             <div class="flexDetails">
                 <div class="labelDetails">Overzicht Reserveringen:</div>
-                <div> <?= $employee['can_visit_reservations'] ?></div>
+                <div> <?php if ($employee['can_visit_reservations'] == 'true') {
+                        echo 'Ja';
+                    } else {
+                        echo 'Nee';
+                    } ?></div>
             </div>
             <div class="flexDetails">
                 <div class="labelDetails">Overzicht Medewerkers:</div>
-                <div> <?= $employee['can_visit_employees'] ?></div>
+                <div> <?php if ($employee['can_visit_employees'] == 'true') {
+                        echo 'Ja';
+                    } else {
+                        echo 'Nee';
+                    } ?></div>
+            </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Daginstellingen:</div>
+                <div> <?php if ($employee['can_visit_daysettings'] == 'true') {
+                        echo 'Ja';
+                    } else {
+                        echo 'Nee';
+                    } ?></div>
             </div>
             <?php /*
                 <div class="flexDetails">
-                    <div class="labelDetails">Daginstellingen:</div>
-                    <div> <?= $employee['can_visit_daysettings'] ?></div>
-                </div>
-                <div class="flexDetails">
                     <div class="labelDetails">Tafelindeling:</div>
-                    <div> <?= $employee['can_visit_table'] ?></div>
+ <div> <?php if ($employee['can_visit_table'] == 'true') {echo 'Ja';} else { echo 'Nee';} ?></div>
                 </div>
         */ ?>
         </div>
 
         <div class="detailsPageButtons">
             <div class="flexButtons">
+                <?php if (htmlentities($employee['username']) !== htmlentities($_SESSION['loggedInUser']['username'])) { ?>
                 <form action="" method="post">
                     <input class="date-submit" type="submit" name="change" value="Wijzigen"/>
                 </form>
@@ -161,6 +186,12 @@ if (isset($_POST['submitDelete'])) {
                     </form>
                 </div>
             </div>
+
+            <?php } else {?>
+            <form action="" method="post">
+                <input class="date-submit" type="submit" name="change" value="Wachtwoord Wijzigen"/>
+            </form>
+            <?php }?>
         </div>
     </main>
     <footer>

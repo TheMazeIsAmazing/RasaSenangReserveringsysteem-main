@@ -129,7 +129,11 @@ if (date('H') >= 06 && date('H') <= 11) {
                 /*                 <a class="navEmployeesButton" href="./">Tafelindeling</a>
                 <a class="navEmployeesButton" href="./">Statistieken</a>
                 <a class="navEmployeesButton" href="./">Logboeken</a> */ ?>
+                <?php if ($_SESSION['loggedInUser']['can_visit_employees'] == 'true') {?>
                 <a class="navEmployeesButton" href="../medewerkers-instellingen">Medewerkers</a>
+                <?php } else {?>
+                    <a class="navEmployeesButton" href="../medewerkers-instellingen/details.php?id=<?= htmlentities($_SESSION['loggedInUser']['id']) ?>">Mijn Account</a>
+                <?php }?>
         </nav>
         <div class="daySummary">
             <h2>Dagsamenvatting</h2>

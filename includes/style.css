@@ -87,7 +87,7 @@ textarea {
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 200px;
-    background-color: #ffffff;
+    background-color: rgb(245, 245, 245);
     color: black;
     text-align: center;
     padding: 5px 5px;
@@ -161,7 +161,7 @@ h3 {
 }
 
 .topBar {
-    background-color: #dddddd;
+    background-color: rgb(225, 225, 225);
     display: flex;
     align-content: center;
 }
@@ -299,7 +299,21 @@ html {
 }
 
 tbody tr:nth-child(odd) {
-    background-color: lightgrey;
+    background-color: rgb(225, 225, 225);
+}
+
+.rights th{
+    background-color: rgb(245, 245, 245);
+    padding-bottom: 5px;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 18px;
+}
+
+th {
+    background-color: #eaeaea;
+    color: black;
+    font-weight: bold;
 }
 
 tfoot td {
@@ -817,8 +831,7 @@ input[type=checkbox]:checked + .label-for-check img {
     .content-wrap {
         padding-bottom: 1.5rem;
     }
-    nav .
-    content-wrap {
+    nav .content-wrap {
         padding-bottom: 2.5rem;
     }
 

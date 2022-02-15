@@ -4,13 +4,13 @@ session_start();
 /*
 if (isset($_SESSION['canChangeEmployee']) && !isset($_GET)) {
     unset($_SESSION['canChangeEmployee']);
-    header('Location: ./register.php');
+    header('Location: ./nieuwe-gebruiker.php');
     exit;
 }
 
 if (!isset($_SESSION['canChangeEmployee']) && isset($_GET)) {
     unset($_GET);
-    header('Location: ./register.php');
+    header('Location: ./nieuwe-gebruiker.php');
     exit;
 } */
 
@@ -53,7 +53,7 @@ if (isset($_SESSION['canChangeEmployee']) && $_GET['edit'] == '1') {
 } else {
     unset($_GET);
     unset($_SESSION['canChangeEmployee']);
-    //header('Location: ./register.php');
+    //header('Location: ./nieuwe-gebruiker.php');
     //exit;
 }
 
@@ -162,7 +162,7 @@ if (isset($_POST['submit'])) {
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>
     <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="../medewerkers-instellingen">
+    <a href="./">
         <button class="back">
             <img src="../data/icon-general/back.png" alt="Terug naar Beginpagina">
         </button>

@@ -79,7 +79,8 @@ foreach ($reservations as $reservation) {
     <title>Reserveringen van Rasa Senang</title>
 </head>
 <body>
-<header>
+
+<header class="topBar">
     <button class="ham">
         <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
     </button>

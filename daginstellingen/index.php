@@ -117,7 +117,7 @@ if (date('H') >= 06 && date('H') <= 11) {
         </header>
         <div class="search-bar">
             <button class="date-submit">
-                <a href="../daginstellingen/rules.php">
+                <a href="../daginstellingen/regels.php">
                     Regels overzicht
                 </a>
             </button>
