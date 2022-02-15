@@ -111,11 +111,11 @@ $time_string = "-";
         </header>
         <div class="search-bar">
             <div class="search-bar-item">
-                <button class="date-submit">
-                    <a href="../">
+                <a href="">
+                    <button class="date-submit">
                         Nieuwe Regel
-                    </a>
-                </button>
+                    </button>
+                </a>
             </div>
             <div class="search-bar-item">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

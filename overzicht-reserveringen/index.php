@@ -102,11 +102,11 @@ foreach ($reservations as $reservation) {
 
         <div class="search-bar">
             <div class="search-bar-item">
+                <a href="../">
                 <button class="date-submit">
-                    <a href="../">
                         Nieuwe Reservering
-                    </a>
                 </button>
+                </a>
             </div>
             <div class="search-bar-item">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

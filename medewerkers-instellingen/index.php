@@ -56,14 +56,16 @@ mysqli_close($db);
             <h1>Overzicht Medewerkers</h1>
         </header>
         <div class="search-bar">
-            <button class="date-submit">
-                <a href="nieuwe-gebruiker.php">
+            <a href="nieuwe-gebruiker.php">
+                <button class="date-submit">
                     Nieuwe Medewerker
-                </a>
-            </button>
-            <button class="date-submit">
-                <a href="details.php?id=<?= htmlentities($_SESSION['loggedInUser']['id']) ?>">Mijn Account</a>
-            </button>
+                </button>
+            </a>
+            <a href="details.php?id=<?= htmlentities($_SESSION['loggedInUser']['id']) ?>">
+                <button class="date-submit">
+                    Mijn Account
+                </button>
+            </a>
         </div>
         <section class="align-middle">
             <table class="middle-table">

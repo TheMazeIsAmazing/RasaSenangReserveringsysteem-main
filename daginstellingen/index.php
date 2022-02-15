@@ -116,11 +116,11 @@ if (date('H') >= 06 && date('H') <= 11) {
             <h1>Daginstellingen</h1>
         </header>
         <div class="search-bar">
+            <a href="../daginstellingen/regels.php">
             <button class="date-submit">
-                <a href="../daginstellingen/regels.php">
                     Regels overzicht
-                </a>
             </button>
+            </a>
         </div>
         <div class="flexDaySettings">
             <div class="daySummary">

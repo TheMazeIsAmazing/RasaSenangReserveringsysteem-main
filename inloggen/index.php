@@ -26,11 +26,11 @@ if (isset($_GET)) {
 }
 
 if (isset($_POST['submit'])) {
-    $user = mysqli_escape_string($db, $_POST['username']);
+    $usernameInput = mysqli_escape_string($db, $_POST['username']);
     $password = $_POST['password'];
 
     $errors = [];
-    if ($user == '') {
+    if ($usernameInput == '') {
         $errors['username'] = 'Voer een gebruikersnaam in';
     }
     if ($password == '') {
@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
 
     if (empty($errors)) {
         //Get record from DB based on first name
-        $query = "SELECT * FROM users WHERE username='$user'";
+        $query = "SELECT * FROM users WHERE username='$usernameInput'";
         $result = mysqli_query($db, $query);
         if (mysqli_num_rows($result) == 1) {
             $user = mysqli_fetch_assoc($result);
@@ -124,7 +124,7 @@ if (isset($_POST['submit'])) {
                         <label for="username" class="loginLabel">Gebruikersnaam</label>
                     </div>
                     <div class="flexInputWithErrors">
-                        <input type="text" name="username" value="<?= $user ?? '' ?>"/>
+                        <input type="text" name="username" value="<?= $usernameInput ?? '' ?>"/>
                         <span class="errors"><?= $errors['username'] ?? '' ?></span>
                     </div>
                 </div>
