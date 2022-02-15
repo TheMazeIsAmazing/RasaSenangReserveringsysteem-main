@@ -20,9 +20,14 @@ main {
 }
 
 .errorLoginPositive {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     width: 100%;
     background-color: darkseagreen;
-    height: 30px;
+    min-height: 30px;
+    height: auto;
+    overflow: auto;
     color: white;
     font-weight: bold;
     margin-bottom: 40px;
@@ -32,12 +37,18 @@ main {
 .errorLoginPositive .message, .errorLoginNegative .message {
     margin-left: 10px;
     padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .errorLoginNegative {
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
     width: 100%;
     background-color: #bf383a;
-    height: 30px;
+    min-height: 30px;
+    height: auto;
+    overflow: auto;
     color: white;
     font-weight: bold;
     border-radius: 4px;
@@ -635,6 +646,9 @@ input[type=checkbox]:checked + .label-for-check img {
 .data-field-allergies .data-field {
     flex: 1 0 14.28571428571429%;
 }
+.data-field-allergies .data-field input{
+    display: none;
+}
 
 .flexDetails {
     display: flex;
@@ -807,11 +821,22 @@ input[type=checkbox]:checked + .label-for-check img {
         max-height: 80%;
         margin-left: 0;
     }
+
     .content-wrap {
         padding-bottom: 1.5rem;
     }
-    nav .content-wrap {
+    nav .
+    content-wrap {
         padding-bottom: 2.5rem;
+    }
+
+    .logo {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+        width: 60vw;
+        min-width: unset;
+        min-height: unset;
     }
 }
 

@@ -21,6 +21,7 @@ loginCheck();
 
 //include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
+/**@var string $footer */
 require_once "../includes/head.php";
 oneDotOrMoreHead('..');
 require_once "../includes/sideNav.php";

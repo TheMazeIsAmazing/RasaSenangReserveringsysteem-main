@@ -4,7 +4,7 @@ session_start();
 
 //Require database in this file
 require_once '../includes/database.php';
-/** @var mysqli $db */
+/**@var mysqli $db*/
 
 //May I even visit this page?
 require_once "../includes/logincheck.php";
@@ -13,6 +13,7 @@ loginCheckPageSpecific('can_visit_daysettings');
 
 //include basic pages such as navbar and footer.
 require_once "../includes/footer.php";
+/**@var string $footer */
 require_once "../includes/head.php";
 oneDotOrMoreHead('..');
 require_once "../includes/sideNav.php";
