@@ -20,11 +20,18 @@ main {
 }
 
 .errorLoginPositive {
+    background-color: darkseagreen;
+}
+
+.errorLoginNegative {
+    background-color: #bf383a;
+}
+
+.errorLoginPositive, .errorLoginNegative {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     flex-wrap: wrap;
     width: 100%;
-    background-color: darkseagreen;
     min-height: 30px;
     height: auto;
     overflow: auto;
@@ -38,21 +45,6 @@ main {
     margin-left: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-}
-
-.errorLoginNegative {
-    display: flex;
-    justify-content: left;
-    flex-wrap: wrap;
-    width: 100%;
-    background-color: #bf383a;
-    min-height: 30px;
-    height: auto;
-    overflow: auto;
-    color: white;
-    font-weight: bold;
-    border-radius: 4px;
-    margin-bottom: 40px;
 }
 
 label {
