@@ -1,6 +1,3 @@
-<!doctype html>
-<html lang="nl">
-
 <?php
 function oneDotOrMoreNav($dotsString)
 {
@@ -52,6 +49,7 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
                     <li><a class="menuLink" href="./">Tafelindeling</a></li> */ ?>
 
                     <li><a <?php if ($link == '/medewerkers-instellingen/index.php' || $link == '/medewerkers-instellingen/details.php' || $link == '/inloggen/nieuwe-gebruiker.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/medewerkers-instellingen">Medewerkers</a></li>
+                </ul>
             </div>
             <ul>
                 <li><a class="menuLink" href="<?= $dotsString ?>/inloggen/logout.php">Uitloggen</a></li>

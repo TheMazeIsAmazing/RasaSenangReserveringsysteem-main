@@ -28,14 +28,6 @@ require_once "../includes/logincheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_employees');
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
 if (isset($_SESSION['canChangeEmployee']) && $_GET['edit'] == '1') {
     $employeeID = $_SESSION['canChangeEmployee']['employee_id'];
 
@@ -50,6 +42,7 @@ if (isset($_SESSION['canChangeEmployee']) && $_GET['edit'] == '1') {
     $can_visit_employees = $employee['can_visit_employees'];
     $can_visit_daysettings = $employee['can_visit_daysettings'];
     $can_visit_table = $employee['can_visit_table'];
+    mysqli_close($db);
 } else {
     unset($_GET);
     unset($_SESSION['canChangeEmployee']);
@@ -144,30 +137,22 @@ if (isset($_POST['submit'])) {
             }
         }
     }
-
 }
+
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+if (isset($_SESSION['canChangeEmployee'])) {
+    oneDotOrMoreHead('..', 'Medewerker wijzigen bij Rasa Senang');
+} else {
+    oneDotOrMoreHead('..', 'Medewerker registreren bij Rasa Senan');
+}
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', './');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
 ?>
-<!doctype html>
-<html lang="nl">
-<head>
-    <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
-        <title>Medewerker wijzigen bij Rasa Senang</title>
-    <?php } else { ?>
-        <title>Nieuwe Medewerker bij Rasa Senang</title>
-    <?php } ?>
-</head>
-<body>
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="./">
-        <button class="back">
-            <img src="../data/icon-general/back.png" alt="Terug naar Beginpagina">
-        </button>
-    </a>
-</header>
 
 <div class="overlay"></div>
 

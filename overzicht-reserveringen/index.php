@@ -22,15 +22,6 @@ require_once "../includes/logincheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_reservations');
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
-
 if (isset($_POST['submit'])) {
     if ($_POST['date'] !== '') {
         $date = date("Y-m-d", strtotime($_POST['date']));
@@ -72,25 +63,17 @@ foreach ($reservations as $reservation) {
         $reservationCount++;
     }
 }
-?>
-<!doctype html>
-<html lang="nl">
-<head>
-    <title>Reserveringen van Rasa Senang</title>
-</head>
-<body>
 
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="../medewerkers">
-        <button class="back">
-            <img src="../data/icon-general/back.png" alt="Terug naar Beginpagina">
-        </button>
-    </a>
-</header>
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Reserveringen van Rasa Senang');
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', '../medewerkers');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
+?>
 
 <div class="overlay"></div>
 

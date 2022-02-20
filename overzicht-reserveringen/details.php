@@ -36,15 +36,6 @@ require_once "../includes/logincheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_reservations');
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
-
 //Retrieve the GET parameter from the 'Super global'
 $reservationID = mysqli_escape_string($db, $_GET['id']);
 
@@ -151,25 +142,16 @@ if (isset($_POST['submitDelete'])) {
     }
 }
 
-
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Reservering ' . htmlentities($reservation['reservering_id']) . ' bij Rasa Senang');
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', './');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
 ?>
-<!doctype html>
-<html lang="nl">
-<head>
-    <title><?= ' Reservering ' . htmlentities($reservation['reservering_id']) ?> bij Rasa Senang</title>
-</head>
-<body>
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="./">
-        <button class="back">
-            <img src="../data/icon-general/back.png" alt="Terug naar Reserveringen">
-        </button>
-    </a>
-</header>
 
 <div class="overlay"></div>
 <div class="overlaymodal"></div>
@@ -280,5 +262,6 @@ if (isset($_POST['submitDelete'])) {
     <footer>
         <section> <?= $footer ?>  </section>
     </footer>
+</div>
 </body>
 </html>

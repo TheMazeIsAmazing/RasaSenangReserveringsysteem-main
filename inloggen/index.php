@@ -11,14 +11,6 @@ if (isset($_SESSION['loggedInUser'])) {
 require_once '../includes/database.php';
 /**@var mysqli $db */
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
 if (isset($_GET)) {
     if (isset($_GET['error'])) {
         $errorType = $_GET['error'];
@@ -59,35 +51,27 @@ if (isset($_POST['submit'])) {
                 //error onjuiste inloggegevens
                 $errors['loginFailed'] = 'De combinatie van Gebruikersnaam en Wachtwoord is bij ons niet bekend';
             }
+            mysqli_close($db);
         } else {
             //error onjuiste inloggegevens
             $errors['loginFailed'] = 'De combinatie van Gebruikersnaam en Wachtwoord is bij ons niet bekend';
+            mysqli_close($db);
         }
     }
 }
-?>
-<!doctype html>
-<html lang="nl">
-<head>
-    <title>Inloggen bij Rasa Senang</title>
-</head>
 
-<body>
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Inloggen bij Rasa Senang');
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', '../');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
+?>
 
 <div class="overlay"></div>
-
-
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="../">
-        <button class="back">
-            <img src="../data/icon-general/back.png" alt="Terug naar Beginpagina">
-        </button>
-    </a>
-</header>
 
 <div class="page-container">
     <main class="content-wrap">

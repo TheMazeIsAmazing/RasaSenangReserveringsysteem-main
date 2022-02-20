@@ -4,63 +4,52 @@ session_start();
 $changed = false;
 $deleted = false;
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+//Require database in this file
+require_once '../includes/database.php';
+/** @var mysqli $db */
 
 //May I even visit this page?
-if (!isset($_SESSION['reservation'])) {
-    if (!isset($_SESSION['canChangeReservation'])) {
-        header("Location: ../");
-        exit;
-    }
-    header("Location: ../");
-    exit;
-}
-
-unset($_SESSION['reservation']);
-
-
-if (isset($_SESSION['deletedReservation'])) {
-    $deleted = true;
-    unset($_SESSION['canChangeReservation']);
-    unset($_SESSION['deletedReservation']);
-}
-
-if (isset($_SESSION['canChangeReservation'])) {
-    $changed = true;
-    unset($_SESSION['canChangeReservation']);
-}
-
 
 if (isset($_SESSION['loggedInUser'])) {
     header("Location: ../overzicht-reserveringen");
     exit;
 }
 
-?>
+if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation'])) {
+    header("Location: ../");
+    exit;
+} else {
+    if (isset($_SESSION['deletedReservation'])) {
+        $deleted = true;
+        unset($_SESSION['canChangeReservation']);
+        unset($_SESSION['deletedReservation']);
+        unset($_SESSION['reservation']);
+    } elseif (isset($_SESSION['canChangeReservation'])) {
+        $changed = true;
+        $whatsappDate = date('d F Y', strtotime($_SESSION['canChangeReservation']['date']));
+        $whatsappTime = date('H:i', strtotime($_SESSION['canChangeReservation']['time']));
+        $whatsappPeopleAmount = mysqli_escape_string($db, $_SESSION['canChangeReservation']['amount_people']);
+        unset($_SESSION['canChangeReservation']);
+        unset($_SESSION['reservation']);
+    } else {
+        $whatsappDate = date('d F Y', strtotime($_SESSION['reservation']['date']));
+        $whatsappTime = date('H:i', strtotime($_SESSION['reservation']['time']));
+        $whatsappPeopleAmount = mysqli_escape_string($db, $_SESSION['reservation']['people']);
+        unset($_SESSION['reservation']);
+    }
+    mysqli_close($db);
+}
 
-<!doctype html>
-<html lang="nl">
-<head>
-    <title>Bevestiging van Rasa Senang</title>
-</head>
-<body>
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="../">
-        <button class="back">
-            <img src="../data/icon-general/back.png" alt="Terug naar Reserveringen">
-        </button>
-    </a>
-</header>
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Bevestiging van reservering bij Rasa Senang');
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', '../');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
+?>
 
 <div class="overlay"></div>
 
@@ -81,6 +70,14 @@ if (isset($_SESSION['loggedInUser'])) {
                     <h1>Uw reservering is succesvol gewijzigd!</h1>
                     <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
                     <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
+                    <a class="whatsappShareButton"
+                       href="whatsapp://send?text=Ik heb zojuist gereserveerd bij Rasa Senang! Ik heb gereserveerd op: <?= $whatsappDate ?>, vanaf: <?= $whatsappTime ?>, voor <?= $whatsappPeopleAmount ?> personen. Dit is het adres van het restaurant: De Jagerweg 227; 3328 AA, Dordrecht"
+                       data-action="share/whatsapp/share"
+                       target="_blank">
+                        <div class="flexWhatsapp"><img src="../data/icon-general/WhatsApp_icon.png">
+                            <div>Delen via WhatsApp</div>
+                        </div>
+                    </a>
                 </section>
             <?php } else { ?>
                 <section>
@@ -88,6 +85,14 @@ if (isset($_SESSION['loggedInUser'])) {
                     <h1>Bedankt voor uw reservering!</h1>
                     <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
                     <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
+                    <a class="whatsappShareButton"
+                       href="whatsapp://send?text=Ik heb zojuist gereserveerd bij Rasa Senang! Ik heb gereserveerd op: <?= $whatsappDate ?>, vanaf: <?= $whatsappTime ?>, voor <?= $whatsappPeopleAmount ?> personen. Dit is het adres van het restaurant: De Jagerweg 227; 3328 AA, Dordrecht"
+                       data-action="share/whatsapp/share"
+                       target="_blank">
+                        <div class="flexWhatsapp"><img src="../data/icon-general/WhatsApp_icon.png">
+                            <div>Delen via WhatsApp</div>
+                        </div>
+                    </a>
                 </section>
             <?php } ?>
         </div>

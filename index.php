@@ -7,14 +7,6 @@ $canChangeReservation = false;
 require_once './includes/database.php';
 /** @var mysqli $db */
 
-//include basic pages such as navbar and footer.
-require_once "./includes/footer.php";
-/**@var string $footer */
-require_once "./includes/head.php";
-oneDotOrMoreHead('.');
-require_once "./includes/sideNav.php";
-oneDotOrMoreNav('.');
-
 if ((isset($_GET['edit']) && $_GET['edit'] !== '1') || (isset($_GET['edit']) && !isset($_SESSION['canChangeReservation'])) || (!isset($_GET['edit']) && isset($_SESSION['canChangeReservation']))) {
     if (isset($_SESSION['canChangeReservation'])) {
         unset($_SESSION['canChangeReservation']);
@@ -319,36 +311,16 @@ if (isset($_POST['submit'])) {
     $allergie_sulfur = mysqli_escape_string($db, $_SESSION['canChangeReservation']['all_sulfur']);
 }
 
+//include basic pages such as navbar and footer.
+require_once "./includes/footer.php";
+/**@var string $footer */
+require_once "./includes/head.php";
+oneDotOrMoreHead('.', 'Reserveren bij Rasa Senang');
+require_once "./includes/topBar.php";
+oneDotOrMoreTopBar('.', 'https://www.rasasenang.com/nl/');
+require_once "./includes/sideNav.php";
+oneDotOrMoreNav('.');
 ?>
-
-<!DOCTYPE html>
-<html lang="nl">
-
-<head>
-    <title>Reserveren bij Rasa Senang</title>
-</head>
-
-
-<body>
-
-
-<header class="topBar">
-    <button class="ham">
-        <img src="./data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="./data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <?php if (isset($_SESSION['loggedInUser'])) { ?>
-    <a href="./overzicht-reserveringen">
-        <?php } elseif (isset($_GET)) { ?>
-        <a href="./controleren-reservatie/index.php?edit=1">
-            <?php } else { ?>
-            <a href="https://www.rasasenang.com/nl/">
-                <?php } ?>
-                <button class="back">
-                    <img src="./data/icon-general/back.png" alt="Terug naar Beginpagina">
-                </button>
-            </a>
-</header>
 
 <div class="overlay"></div>
 
@@ -496,60 +468,88 @@ if (isset($_POST['submit'])) {
                 </label>
                 <div class="data-field-allergies">
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-egg" name="allergie-egg" <?php if ($allergie_egg == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-egg"><img src="./data/icon-allergie/ei.png" alt="Eieren"/></label>
+                        <input type="checkbox" id="allergie-egg"
+                               name="allergie-egg" <?php if ($allergie_egg == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-egg"><img src="./data/icon-allergie/ei.png"
+                                                                               alt="Eieren"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-gluten" name="allergie-gluten" <?php if ($allergie_gluten == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-gluten"><img src="./data/icon-allergie/gluten.png" alt="Gluten"/></label>
+                        <input type="checkbox" id="allergie-gluten"
+                               name="allergie-gluten" <?php if ($allergie_gluten == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-gluten"><img src="./data/icon-allergie/gluten.png"
+                                                                                  alt="Gluten"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-lupine" name="allergie-lupine" <?php if ($allergie_lupine == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-lupine"><img src="./data/icon-allergie/lupine.png" alt="Lupine"/></label>
+                        <input type="checkbox" id="allergie-lupine"
+                               name="allergie-lupine" <?php if ($allergie_lupine == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-lupine"><img src="./data/icon-allergie/lupine.png"
+                                                                                  alt="Lupine"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-milk" name="allergie-milk" <?php if ($allergie_milk == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-milk"><img src="./data/icon-allergie/melk.png" alt="Melk"/></label>
+                        <input type="checkbox" id="allergie-milk"
+                               name="allergie-milk" <?php if ($allergie_milk == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-milk"><img src="./data/icon-allergie/melk.png"
+                                                                                alt="Melk"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-mustard" name="allergie-mustard" <?php if ($allergie_mustard == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-mustard"><img src="./data/icon-allergie/mosterd.png" alt="Mosterd"/></label>
+                        <input type="checkbox" id="allergie-mustard"
+                               name="allergie-mustard" <?php if ($allergie_mustard == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-mustard"><img
+                                    src="./data/icon-allergie/mosterd.png" alt="Mosterd"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-nuts" name="allergie-nuts" <?php if ($allergie_nuts == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-nuts"><img src="./data/icon-allergie/noten.png" alt="Noten"/></label>
+                        <input type="checkbox" id="allergie-nuts"
+                               name="allergie-nuts" <?php if ($allergie_nuts == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-nuts"><img src="./data/icon-allergie/noten.png"
+                                                                                alt="Noten"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-peanut" name="allergie-peanut" <?php if ($allergie_peanut == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-peanut"><img src="./data/icon-allergie/pindas.png" alt="Pinda's"/></label>
+                        <input type="checkbox" id="allergie-peanut"
+                               name="allergie-peanut" <?php if ($allergie_peanut == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-peanut"><img src="./data/icon-allergie/pindas.png"
+                                                                                  alt="Pinda's"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-shell" name="allergie-shell" <?php if ($allergie_shell == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-shell"><img src="./data/icon-allergie/schaald.png" alt="Schaaldieren"/></label>
+                        <input type="checkbox" id="allergie-shell"
+                               name="allergie-shell" <?php if ($allergie_shell == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-shell"><img src="./data/icon-allergie/schaald.png"
+                                                                                 alt="Schaaldieren"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-celery" name="allergie-celery" <?php if ($allergie_celery == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-celery"><img src="./data/icon-allergie/selderij.png" alt="Selderij"/></label>
+                        <input type="checkbox" id="allergie-celery"
+                               name="allergie-celery" <?php if ($allergie_celery == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-celery"><img
+                                    src="./data/icon-allergie/selderij.png" alt="Selderij"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-sesame" name="allergie-sesame" <?php if ($allergie_sesame == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-sesame"><img src="./data/icon-allergie/sesamzaad.png" alt="Sesamzaad"/></label>
+                        <input type="checkbox" id="allergie-sesame"
+                               name="allergie-sesame" <?php if ($allergie_sesame == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-sesame"><img
+                                    src="./data/icon-allergie/sesamzaad.png" alt="Sesamzaad"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-soja" name="allergie-soja" <?php if ($allergie_soja == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-soja"><img src="./data/icon-allergie/soja.png" alt="Soja"/></label>
+                        <input type="checkbox" id="allergie-soja"
+                               name="allergie-soja" <?php if ($allergie_soja == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-soja"><img src="./data/icon-allergie/soja.png"
+                                                                                alt="Soja"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-fish" name="allergie-fish" <?php if ($allergie_fish == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-fish"><img src="./data/icon-allergie/vis.png" alt="Vis"/></label>
+                        <input type="checkbox" id="allergie-fish"
+                               name="allergie-fish" <?php if ($allergie_fish == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-fish"><img src="./data/icon-allergie/vis.png"
+                                                                                alt="Vis"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-mollusks" name="allergie-mollusks" <?php if ($allergie_mollusks == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-mollusks"><img src="./data/icon-allergie/weekdieren.png" alt="Weekdieren"/></label>
+                        <input type="checkbox" id="allergie-mollusks"
+                               name="allergie-mollusks" <?php if ($allergie_mollusks == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-mollusks"><img
+                                    src="./data/icon-allergie/weekdieren.png" alt="Weekdieren"/></label>
                     </div>
                     <div class="data-field">
-                        <input type="checkbox" id="allergie-sulfur" name="allergie-sulfur" <?php if ($allergie_sulfur == "on") { ?> checked <?php } ?> />
-                        <label class="label-for-check" for="allergie-sulfur"><img src="./data/icon-allergie/zwavel.png" alt="Zwaveldioxide"/></label>
+                        <input type="checkbox" id="allergie-sulfur"
+                               name="allergie-sulfur" <?php if ($allergie_sulfur == "on") { ?> checked <?php } ?> />
+                        <label class="label-for-check" for="allergie-sulfur"><img src="./data/icon-allergie/zwavel.png"
+                                                                                  alt="Zwaveldioxide"/></label>
                     </div>
                 </div>
                 <div class="data-field">

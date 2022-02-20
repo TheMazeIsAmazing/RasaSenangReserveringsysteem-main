@@ -10,14 +10,6 @@ if (isset($_SESSION['canChangeReservation'])) {
 require_once '../includes/database.php';
 /** @var mysqli $db */
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
 if (isset($_POST['submit'])) {
     $reservation = mysqli_escape_string($db, $_POST['reservering_id']);
     $reservering_id = mysqli_escape_string($db, $_POST['reservering_id']);
@@ -41,6 +33,7 @@ if (isset($_POST['submit'])) {
         $result = mysqli_query($db, $query); // or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
         if (mysqli_num_rows($result) == 1) {
             $reservation = mysqli_fetch_assoc($result);
+            mysqli_close($db);
             if ($emailadres == $reservation['emailadres'] && $unique_code == $reservation['unique_code']) {
                 $_SESSION['canChangeReservation'] = [
                     'reservering_id' => $reservering_id,
@@ -55,29 +48,19 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-?>
-<!doctype html>
-<html lang="nl">
-<head>
-    <title>Wijzigen Reservering bij Rasa Senang</title>
-</head>
 
-<body>
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Wijzigen Reservering bij Rasa Senang');
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', '../');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
+?>
 
 <div class="overlay"></div>
-
-
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="../">
-        <button class="back">
-            <img src="../data/icon-general/back.png" alt="Terug naar Beginpagina">
-        </button>
-    </a>
-</header>
 
 <div class="page-container">
     <main class="content-wrap">

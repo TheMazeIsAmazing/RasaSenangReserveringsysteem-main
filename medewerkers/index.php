@@ -19,17 +19,8 @@ require_once '../includes/database.php';
 require_once "../includes/logincheck.php";
 loginCheck();
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
 //Get Name user from session
 $name = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
-
 
 $query = "SELECT * FROM reserveringen";
 //Get the result set from the database with a SQL query
@@ -38,7 +29,6 @@ $reservations = [];
 
 $guestCount = 0;
 $amountReservations = 0;
-$reservationsPlacedToday = 0;
 $reservationsWithAllergies = [];
 
 while ($row = mysqli_fetch_assoc($result)) {
@@ -60,9 +50,6 @@ foreach ($reservations as $reservation) {
                 $reservationsWithAllergies[] = $reservation['reservering_id'];
             }
         }
-        if (date("Y-m-d", strtotime($reservation['date_placed_reservation'])) == date("Y-m-d")) {
-            $reservationsPlacedToday++;
-        }
     }
 
 }
@@ -71,7 +58,9 @@ if (isset($deleteReservations)) {
         $deleteQuery = "DELETE FROM reserveringen WHERE reservering_id = '$deleteReservation'";
         mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
     }
-
+    mysqli_close($db);
+} else {
+    mysqli_close($db);
 }
 
 //function to find hour and display correct message based on it.
@@ -90,29 +79,17 @@ if (date('H') >= 06 && date('H') <= 11) {
 } else {
     $dayPart = "Goedenacht, ";
 }
+
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Welkom ' . htmlentities($name) . ' bij Rasa Senang');
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', '../inloggen/logout.php');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
 ?>
-
-<!DOCTYPE html>
-<html lang="nl">
-
-<head>
-    <title>Medewerkers van Rasa Senang</title>
-</head>
-
-
-<body>
-
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="../inloggen/logout.php">
-        <button class="back">
-            <img src="../data/icon-general/log-out.png" alt="Uitloggen">
-        </button>
-    </a>
-</header>
 
 <div class="overlay"></div>
 

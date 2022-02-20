@@ -52,11 +52,11 @@ label {
     font-weight: bold;
 }
 
-label .tooltiptext{
+label .tooltiptext {
     font-weight: normal;
 }
 
-input, select{
+input, select {
     min-width: 200px;
     font-size: 14px;
     font-family: "Roboto", sans-serif;
@@ -91,12 +91,13 @@ textarea {
     color: black;
     text-align: center;
     padding: 5px 5px;
-    border:solid 1px #000000;
+    border: solid 1px #000000;
     border-radius: 6px;
     position: absolute;
     z-index: 1;
     text-decoration: unset;
 }
+
 .tooltip img {
     max-width: 15px;
     height: auto;
@@ -137,7 +138,7 @@ footer a {
     text-decoration-line: none;
 }
 
-footer a:hover{
+footer a:hover {
     color: #ab3234;
     text-decoration-line: underline;
 }
@@ -195,7 +196,7 @@ html {
     cursor: pointer;
 }
 
-.ham img{
+.ham img {
     display: block;
     margin: 0 auto;
     text-align: center;
@@ -302,7 +303,7 @@ tbody tr:nth-child(odd) {
     background-color: rgb(225, 225, 225);
 }
 
-.rights th{
+.rights th {
     background-color: rgb(245, 245, 245);
     padding-bottom: 5px;
     font-weight: bold;
@@ -336,14 +337,14 @@ td {
     cursor: pointer;
 }
 
-.back img{
+.back img {
     display: block;
     margin: 0 auto;
     text-align: center;
     height: 35px;
 }
 
-.details-button{
+.details-button {
     height: 20px;
 }
 
@@ -407,7 +408,7 @@ td {
     width: 60px;
 }
 
-.modal-body form .delete-reason  {
+.modal-body form .delete-reason {
     width: 300px;
     height: 50px;
     max-height: unset;
@@ -425,18 +426,18 @@ td {
     display: inline-block;
 }
 
-.modalAlignCenter{
+.modalAlignCenter {
     display: flex;
     justify-content: center;
 }
 
-.modalAlignCenterDeletionReason{
+.modalAlignCenterDeletionReason {
     margin-top: 20px;
     display: flex;
     justify-content: center;
 }
 
-.modalAlignCenter p{
+.modalAlignCenter p {
     margin-top: 20px;
 }
 
@@ -526,7 +527,7 @@ td {
     min-width: unset;
 }
 
-.date-submit a{
+.date-submit a {
     color: white;
     text-decoration: none;
 }
@@ -537,7 +538,7 @@ td {
     transition-duration: 300ms;
 }
 
-.data-submit input, .data-submit-guest button{
+.data-submit input, .data-submit-guest button {
     height: 50px;
     width: 200px;
     max-height: unset;
@@ -552,13 +553,13 @@ td {
     transition-duration: 300ms;
 }
 
-.data-submit input:hover, .data-submit-guest button:hover{
+.data-submit input:hover, .data-submit-guest button:hover {
     background-color: #bf383a;
     cursor: pointer;
     transition-duration: 300ms;
 }
 
-.navEmployeesButton{
+.navEmployeesButton {
     min-width: 200px;
     min-height: 50px;
     max-width: 200px;
@@ -578,7 +579,7 @@ td {
     flex: 1 0 50%;
 }
 
-.navEmployeesButton:hover{
+.navEmployeesButton:hover {
     background-color: #4d4d4d;
     cursor: pointer;
     transition-duration: 300ms;
@@ -595,7 +596,7 @@ td {
     column-gap: 50px;
 }
 
-.navEmployeesButton{
+.navEmployeesButton {
     margin-bottom: unset;
     max-width: 200px;
     max-height: 50px;
@@ -636,7 +637,7 @@ input[type=checkbox]:checked + .label-for-check img {
     transition-duration: 300ms;
 }
 
-.data-field-allergies{
+.data-field-allergies {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -652,7 +653,8 @@ input[type=checkbox]:checked + .label-for-check img {
 .data-field-allergies .data-field {
     flex: 1 0 14.28571428571429%;
 }
-.data-field-allergies .data-field input{
+
+.data-field-allergies .data-field input {
     display: none;
 }
 
@@ -660,6 +662,7 @@ input[type=checkbox]:checked + .label-for-check img {
     display: flex;
     margin-bottom: 10px;
 }
+
 .flexDetailsEmail {
     margin: 0;
     display: flex;
@@ -729,6 +732,10 @@ input[type=checkbox]:checked + .label-for-check img {
     margin-top: 20px;
 }
 
+.whatsappShareButton {
+    display: none;
+}
+
 @media screen and (max-width: 1130px) {
     .modal {
         width: 60%;
@@ -742,7 +749,7 @@ input[type=checkbox]:checked + .label-for-check img {
         height: 75%;
     }
 
-    .modalAlignCenterDeletionReason{
+    .modalAlignCenterDeletionReason {
         display: inline-block;
         justify-content: center;
     }
@@ -755,7 +762,7 @@ input[type=checkbox]:checked + .label-for-check img {
         display: block;
     }
 
-    .data-field span{
+    .data-field span {
         margin-top: 5px;
         display: block;
     }
@@ -767,7 +774,7 @@ input[type=checkbox]:checked + .label-for-check img {
         display: inline-block;
     }
 
-    .flexButtons .data-submit{
+    .flexButtons .data-submit {
         margin-top: 30px;
     }
 
@@ -793,17 +800,17 @@ input[type=checkbox]:checked + .label-for-check img {
         gap: 30px;
     }
 
-    .employeeRights .data-field input{
+    .employeeRights .data-field input {
         width: 19px;
         min-width: unset;
     }
 
 
-    .data-field span{
+    .data-field span {
         display: block;
     }
 
-    .data-field input, .data-field select{
+    .data-field input, .data-field select {
         width: 80vw;
     }
 
@@ -815,6 +822,7 @@ input[type=checkbox]:checked + .label-for-check img {
         width: 100%;
         height: 100%;
     }
+
     .navEmployees {
         margin-top: 50px;
         margin-bottom: 30px;
@@ -822,7 +830,7 @@ input[type=checkbox]:checked + .label-for-check img {
         gap: 30px;
     }
 
-    .navEmployeesButton{
+    .navEmployeesButton {
         max-width: 80%;
         max-height: 80%;
         margin-left: 0;
@@ -831,6 +839,7 @@ input[type=checkbox]:checked + .label-for-check img {
     .content-wrap {
         padding-bottom: 1.5rem;
     }
+
     nav .content-wrap {
         padding-bottom: 2.5rem;
     }
@@ -848,5 +857,32 @@ input[type=checkbox]:checked + .label-for-check img {
 @media screen and (max-width: 400px) {
     .label-for-check img:hover {
         opacity: 40%;
+    }
+
+    .whatsappShareButton {
+        display: inline-block;
+        background-color: #3fb73f;
+        border-radius: 4px;
+        margin-bottom: 30px;
+        width: 70vw;
+        color: white;
+        text-decoration: none;
+
+    }
+
+    .flexWhatsapp {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .flexWhatsapp div {
+        padding-top: 3.5%;
+    }
+
+    .whatsappShareButton img {
+        width: 40px;
+
     }
 }

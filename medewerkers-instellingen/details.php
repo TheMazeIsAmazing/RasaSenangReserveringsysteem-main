@@ -23,15 +23,6 @@ require_once '../includes/database.php';
 require_once "../includes/logincheck.php";
 loginCheck();
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
-
 // redirect when uri does not contain a id
 if (!isset($_GET['id']) || $_GET['id'] == '') {
     // redirect to index.php
@@ -47,9 +38,12 @@ $employeeID = mysqli_escape_string($db, $_GET['id']);
 $query = "SELECT * FROM users WHERE id = '$employeeID'";
 $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query)
 if (mysqli_num_rows($result) !== 1) {
+    mysqli_close($db);
     // redirect when db returns no result
     header('Location: ./');
     exit;
+} else {
+    mysqli_close($db);
 }
 
 $employee = mysqli_fetch_assoc($result);
@@ -85,24 +79,17 @@ if (isset($_POST['submitDelete'])) {
         mysqli_close($db);
     }
 }
+
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Medewerker ' . htmlentities($employee['username']) . ' bij Rasa Senang');
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', './');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
 ?>
-<!doctype html>
-<html lang="nl">
-<head>
-    <title><?= ' Medewerker ' . htmlentities($employee['username']) ?> bij Rasa Senang</title>
-</head>
-<body>
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="./">
-        <button class="back">
-            <img src="../data/icon-general/back.png" alt="Terug naar Reserveringen">
-        </button>
-    </a>
-</header>
 
 <div class="overlay"></div>
 <div class="overlaymodal"></div>
@@ -111,7 +98,7 @@ if (isset($_POST['submitDelete'])) {
     <main class="content-wrap">
         <header>
             <h1>Details</h1>
-            <h3><?= ' Medewerker ' . htmlentities($employee['username']) ?></h3>
+            <h3><?= 'Medewerker ' . htmlentities($employee['username']) ?></h3>
         </header>
 
         <div class="details">
@@ -197,5 +184,6 @@ if (isset($_POST['submitDelete'])) {
     <footer>
         <section> <?= $footer ?>  </section>
     </footer>
+</div>
 </body>
 </html>

@@ -11,14 +11,6 @@ require_once "../includes/logincheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_daysettings');
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
 //Get Name user from session
 $name = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
 
@@ -36,6 +28,8 @@ $reservationsWithAllergies = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $reservations[] = $row;
 }
+
+mysqli_close($db);
 
 $date = date("Y-m-d");
 
@@ -68,45 +62,16 @@ if (isset($deleteReservations)) {
 
 }
 
-//function to find hour and display correct message based on it.
-
-//morning 6:00 - 12:00
-//afternoon 12:00 - 18:00
-//evening 18:00 - 22:00
-//night 22:00 - 6:00
-
-if (date('H') >= 06 && date('H') <= 11) {
-    $dayPart = "Goedemorgen, ";
-} elseif (date('H') <= 17 && date('H') > 11) {
-    $dayPart = "Goedemiddag, ";
-} elseif (date('H') <= 21 && date('H') > 17) {
-    $dayPart = "Goedenavond, ";
-} else {
-    $dayPart = "Goedenacht, ";
-}
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang');
+require_once "../includes/topBar.php";
+oneDotOrMoreTopBar('..', '../medewerkers');
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
 ?>
-
-<!DOCTYPE html>
-<html lang="nl">
-
-<head>
-    <title>Daginstellingen van Rasa Senang</title>
-</head>
-
-
-<body>
-
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <a href="../medewerkers">
-        <button class="back">
-            <img src="../data/icon-general/back.png" alt="Terug naar Beginpagina">
-        </button>
-    </a>
-</header>
 
 <div class="overlay"></div>
 
@@ -135,7 +100,7 @@ if (date('H') >= 06 && date('H') <= 11) {
                 </div>
                 <div class="flexDetails">
                     <div class="labelDetails">Reservering limiet:</div>
-                    <div><?php //reservationslimittoday ?>(Er zijn vandaag <?= $amountReservations;; ?>reserveringen)
+                    <div><?php //reservationslimittoday ?>(Er zijn vandaag <?= $amountReservations;; ?> reserveringen)
                     </div>
                 </div>
                 <div class="flexDetails">

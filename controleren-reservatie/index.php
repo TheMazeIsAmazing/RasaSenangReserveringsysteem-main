@@ -16,14 +16,6 @@ if ((isset($_GET['edit']) && $_GET['edit'] !== '1') || (isset($_GET['edit']) && 
 require_once '../includes/database.php';
 /** @var mysqli $db */
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
-require_once "../includes/head.php";
-oneDotOrMoreHead('..');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
-
 if (isset($_POST['submitDeletion'])) {
     $reservationIdQuery = mysqli_escape_string($db, $_SESSION['canChangeReservation']['reservering_id']);
     $_SESSION['canChangeReservation']['deletion'] = "true";
@@ -87,6 +79,8 @@ if (isset($_SESSION['canChangeReservation'])) {
         $_SESSION['canChangeReservation']['time'] = mysqli_escape_string($db, $time);
         $_SESSION['canChangeReservation']['people'] = mysqli_escape_string($db, $people);
         $_SESSION['canChangeReservation']['name'] = mysqli_escape_string($db, $name);
+
+        mysqli_close($db);
 
     } else {
         $date = mysqli_escape_string($db, $_SESSION['reservation']['date']);
@@ -343,7 +337,6 @@ if (isset($_POST['submit'])) {
             $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
             mysqli_close($db);
         }
-
     } else {
         $reservering_id = $_SESSION['canChangeReservation']['reservering_id'];
         $query = "UPDATE `reserveringen` SET date = '$date', mail_str_date = '$date', start_time = '$time', mail_str_time = '$time', amount_people = '$people', full_name = '$name', emailadres = '$emailadres', phonenumber = '$phonenumber', comments = '$comments', date_updated_reservation = '$currentTime', all_egg = '$allergie_egg', all_gluten = '$allergie_gluten', all_lupine = '$allergie_lupine', all_milk = '$allergie_milk', all_mustard = '$allergie_mustard', all_nuts = '$allergie_nuts', all_peanut = '$allergie_peanut', all_shell = '$allergie_shell', all_celery = '$allergie_celery', all_sesame = '$allergie_celery', all_soja = '$allergie_soja', all_fish = '$allergie_fish', all_mollusks = '$allergie_mollusks', all_sulfur = '$allergie_sulfur', str_all = '$allergie_string' WHERE reservering_id = '$reservering_id'";
@@ -367,34 +360,29 @@ if (isset($_POST['back'])) {
         exit;
     }
 }
+
+//include basic pages such as navbar and footer.
+require_once "../includes/footer.php";
+/**@var string $footer */
+require_once "../includes/head.php";
+oneDotOrMoreHead('..', 'Controleren reservering bij Rasa Senang');
+require_once "../includes/topBar.php";
+
+if (isset($_GET) && isset($_SESSION['canChangeReservation'])) {
+    if ($_SESSION['canChangeReservation']['load_check_page'] == "false") {
+        oneDotOrMoreTopBar('..', '../wijzigen-reservering');
+    } else {
+        oneDotOrMoreTopBar('..', '../index.php?edit=1');
+    }
+} elseif (isset($_SESSION['canChangeReservation'])) {
+    oneDotOrMoreTopBar('..', '../index.php?edit=1');
+} else {
+    oneDotOrMoreTopBar('..', '../');
+}
+
+require_once "../includes/sideNav.php";
+oneDotOrMoreNav('..');
 ?>
-<!doctype html>
-<html lang="nl">
-<head>
-    <title>Controleren bij Rasa Senang</title>
-</head>
-<body>
-<header class="topBar">
-    <button class="ham">
-        <img src="../data/icon-general/menu.png" alt="Open Zijmenu">
-    </button>
-    <img class="logo" src="../data/logo-half-transparent.png" alt="Logo Rasa Senang">
-    <?php if (isset($_GET) && isset($_SESSION['canChangeReservation'])) {
-    if ($_SESSION['canChangeReservation']['load_check_page'] == "false") { ?>
-    <a href="../wijzigen-reservering">
-        <?php } else { ?>
-        <a href="../index.php?edit=1">
-            <?php }
-            } elseif (isset($_SESSION['canChangeReservation'])) { ?>
-            <a href="../index.php?edit=1">
-                <?php } else { ?>
-                <a href="../">
-                    <?php } ?>
-                    <button class="back">
-                        <img src="../data/icon-general/back.png" alt="Terug naar Reserveringen">
-                    </button>
-                </a>
-</header>
 
 <div class="overlay"></div>
 <div class="overlaymodal"></div>
@@ -463,7 +451,7 @@ if (isset($_POST['back'])) {
                                             echo "Let op: deze actie is permanent!";
                                         } ?></p>
                                 </div>
-                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $reservationID; ?>"
+                                <form action="<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $reservationID; ?>"
                                       method="post">
                                     <div class="modalAlignCenter">
                                         <div class="date-submit-div">
