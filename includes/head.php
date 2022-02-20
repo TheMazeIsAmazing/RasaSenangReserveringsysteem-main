@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="nl">
-<body>
-<header>
+<head>
     <?php function oneDotOrMoreHead($dotsString, $title)
     { ?><meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,5 +20,6 @@
     <?php } ?>
         <script defer src="<?= $dotsString ?>/includes/menu.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-</header>
+</head>
+<body>
     <?php } ?>
