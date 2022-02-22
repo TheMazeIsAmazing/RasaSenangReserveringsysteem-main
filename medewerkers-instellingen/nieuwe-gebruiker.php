@@ -94,7 +94,7 @@ if (isset($_POST['submit'])) {
             $queryUpdate = "UPDATE `users` SET username = '$user', name = '$name', can_visit_reservations = '$can_visit_reservations', can_visit_daysettings = '$can_visit_daysettings', can_visit_table = '$can_visit_table', can_visit_employees = '$can_visit_employees' WHERE id = '$employeeID'";
 
             $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Db Error: '.mysqli_error($db).' with query: '.$query);
-
+            mysqli_close($db);
             if ($resultUpdate) {
                 header('Location: ../medewerkers-instellingen/details.php?id=' . $employeeID);
                 exit;
@@ -130,7 +130,7 @@ if (isset($_POST['submit'])) {
             $queryRegister = "INSERT INTO users (username, password, name ) VALUES ('$user', '$passwordEmployee', '$name')";
 
             $resultRegister = mysqli_query($db, $queryRegister); //or die('Db Error: '.mysqli_error($db).' with query: '.$query);
-
+            mysqli_close($db);
             if ($resultRegister) {
                 header('Location: ../medewerkers-instellingen/index.php');
                 exit;

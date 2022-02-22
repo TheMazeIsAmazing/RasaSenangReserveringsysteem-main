@@ -1,3 +1,5 @@
+window.addEventListener('load', init)
+
 const sideNav = document.querySelector(".sideNav")
 const overlay = document.querySelector(".overlay")
 const ham = document.querySelector(".ham")
@@ -17,6 +19,13 @@ function toggleHamburger() {
     sideNav.classList.toggle("showNav")
 }
 
+
+function init() {
+    if (document.location.hash === '#open') {
+        const modalInit = document.getElementById('modal')
+        openModal(modalInit)
+    }
+}
 
 const openModalButtons = document.querySelectorAll('[data-modal-target]')
 const closeModalButtons = document.querySelectorAll('[data-close-button]')
@@ -47,10 +56,12 @@ function openModal(modal) {
     if (modal == null) return
     modal.classList.add('active')
     overlaymodal.classList.add('showOverlaymodal')
+    document.location.hash = 'open'
 }
 
 function closeModal(modal) {
     if (modal == null) return
     modal.classList.remove('active')
     overlaymodal.classList.remove('showOverlaymodal')
+    document.location.hash = ''
 }

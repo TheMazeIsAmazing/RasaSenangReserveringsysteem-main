@@ -58,8 +58,8 @@ if (isset($deleteReservations)) {
     foreach ($deleteReservations as $deleteReservation) {
         $deleteQuery = "DELETE FROM reserveringen WHERE reservering_id = '$deleteReservation'";
         mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
+        mysqli_close($db);
     }
-
 }
 
 //include basic pages such as navbar and footer.

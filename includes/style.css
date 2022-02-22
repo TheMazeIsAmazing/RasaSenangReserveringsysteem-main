@@ -362,7 +362,7 @@ td {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    transition: 200ms ease-in-out;
+    transition: 100ms ease-in-out;
     border: 1px solid black;
     border-radius: 4px;
     z-index: 10;
@@ -688,7 +688,8 @@ input[type=checkbox]:checked + .label-for-check img {
 }
 
 .modalAlignCenter .flexLabel {
-    width: 80px;
+    width: 85px;
+    min-width: unset;
 }
 
 .flexRequired {

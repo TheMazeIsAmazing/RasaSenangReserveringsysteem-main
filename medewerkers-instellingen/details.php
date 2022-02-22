@@ -37,13 +37,11 @@ $employeeID = mysqli_escape_string($db, $_GET['id']);
 //Get the record from the database result
 $query = "SELECT * FROM users WHERE id = '$employeeID'";
 $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query)
+mysqli_close($db);
 if (mysqli_num_rows($result) !== 1) {
-    mysqli_close($db);
     // redirect when db returns no result
     header('Location: ./');
     exit;
-} else {
-    mysqli_close($db);
 }
 
 $employee = mysqli_fetch_assoc($result);
@@ -69,14 +67,13 @@ if (isset($_POST['change'])) {
 if (isset($_POST['submitDelete'])) {
     $employeeIdQuery = mysqli_escape_string($db, $employee['id']);
     $deleteQuery = "DELETE FROM users WHERE id = '$employeeIdQuery'";
-    $result3 = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
-    if ($result) {
-        mysqli_close($db);
+    $resultDeletion = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
+    mysqli_close($db);
+    if ($resultDeletion) {
         header('Location: ./');
         exit;
     } else {
         $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
-        mysqli_close($db);
     }
 }
 

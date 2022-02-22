@@ -42,7 +42,7 @@ $reservationID = mysqli_escape_string($db, $_GET['id']);
 //Get the record from the database result
 $query = "SELECT * FROM reserveringen WHERE reservering_id = '$reservationID'";
 $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query)
-
+mysqli_close($db);
 if (mysqli_num_rows($result) !== 1) {
     // redirect when db returns no result
     header('Location: ./');
@@ -55,9 +55,10 @@ $reservation = mysqli_fetch_assoc($result);
 $emailGuestInfo = mysqli_escape_string($db, $reservation['emailadres']);
 $queryGuestInfo = "SELECT COUNT(emailadres) FROM reserveringen WHERE emailadres = '$emailGuestInfo' AND `deleted_by_user` IS NULL";
 $resultGuestInfo = mysqli_query($db, $queryGuestInfo); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
-
 //Loop through the result to create a custom array
 $reservationsGuestInfo = mysqli_fetch_assoc($resultGuestInfo);
+
+mysqli_close($db);
 
 $amountReservationsGuestInfo = $reservationsGuestInfo['COUNT(emailadres)'];
 
@@ -75,10 +76,11 @@ if (isset($_POST['change'])) {
         'reservering_id' => $reservationID,
     ];
     $reservering_id = mysqli_escape_string($db, $_SESSION['canChangeReservation']['reservering_id']);
-    $query = "SELECT * FROM reserveringen WHERE reservering_id = '$reservering_id'";
-    $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+    $queryChange = "SELECT * FROM reserveringen WHERE reservering_id = '$reservering_id'";
+    $resultChange = mysqli_query($db, $queryChange); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+    $reservation = mysqli_fetch_assoc($resultChange);
 
-    $reservation = mysqli_fetch_assoc($result);
+    mysqli_close($db);
 
     $_SESSION['canChangeReservation']['date'] = test_input($reservation['date']);
     $_SESSION['canChangeReservation']['start_time'] = test_input(date("H:i", strtotime($reservation['start_time'])));
@@ -129,16 +131,17 @@ if (isset($_POST['submitDelete'])) {
         $deleteMail = "false";
         $deleteQuery = "UPDATE reserveringen SET  date_updated_reservation = '$currentTime', deleted_by_user = '$userDelete', reason_of_deletion = '$reason', delete_mail_sent = '$deleteMail' WHERE reservering_id = '$reservationIdQuery'";
         $resultDelete = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
+        mysqli_close($db);
         if ($resultDelete) {
-            mysqli_close($db);
             header('Location: ./');
             exit;
         } else {
-            $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
-            mysqli_close($db);
+            header('Location: ./details.php?id=' . $reservation['reservering_id'] . '&error=dbError#open');
+            exit;
         }
     } else {
-        $errors['general'] = 'Het veld: Reden is verplicht.';
+        header('Location: ./details.php?id=' . $reservation['reservering_id'] . '&error=noReason#open');
+        exit;
     }
 }
 
@@ -221,7 +224,7 @@ oneDotOrMoreNav('..');
                 <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
             </div>
         </div>
-        <div class="modal" id="modal">
+        <div class="modal" id="modal" <?php if (isset($_GET['error']) && $_GET['error'] !== '') {?>style="transition: none" <?php }?>>
             <div class="modal-header">
                 <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
                 <button data-close-button class="close-button">&times;</button>
@@ -231,8 +234,14 @@ oneDotOrMoreNav('..');
                     <img src="../data/icon-general/bin-red.png">
                 </div>
                 <div class="modalAlignCenter">
-                    <p class="errors"> <?php if (isset($errors['general']) && $errors['general'] !== '') {
-                            echo $errors['general'];
+                    <p class="errors"> <?php if (isset($_GET['error']) && $_GET['error'] !== '') {
+                            if ($_GET['error'] == 'dbError') {
+                                echo "Er is helaas iets fout gegaan, probeer het later opnieuw.";
+                            } elseif ($_GET['error'] == 'noReason') {
+                                echo "Het veld: Reden is verplicht.";
+                            } else {
+                                echo "Let op: deze actie is permanent!";
+                            }
                         } else {
                             echo "Let op: deze actie is permanent!";
                         } ?></p>

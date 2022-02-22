@@ -24,15 +24,14 @@ if (isset($_POST['submitDeletion'])) {
     $deleteMail = "false";
     $deleteQuery = "UPDATE reserveringen SET  date_updated_reservation = '$currentTime', deleted_by_user = '$userDelete', delete_mail_sent = '$deleteMail' WHERE reservering_id = '$reservationIdQuery'";
     $result3 = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
+    mysqli_close($db);
     if ($result3) {
-        mysqli_close($db);
         $_SESSION['deletedReservation'] = "true";
         $_SESSION['reservation'] = "true";
         header('Location: ../bevestiging-reservatie');
         exit;
     } else {
         $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
-        mysqli_close($db);
     }
 }
 
@@ -323,9 +322,8 @@ if (isset($_POST['submit'])) {
         $randomNumber = rand(1000, 9999);
         $query = "INSERT INTO `reserveringen`(date, start_time, amount_people, full_name, emailadres, phonenumber, date_placed_reservation, comments, unique_code, date_updated_reservation, all_egg, all_gluten, all_lupine, all_milk, all_mustard, all_nuts, all_peanut, all_shell, all_celery, all_sesame, all_soja, all_fish, all_mollusks, all_sulfur, str_all, mail_str_date, mail_str_time) VALUES ('$date', '$time', '$people', '$name', '$emailadres', '$phonenumber', '$currentTime', '$comments', '$randomNumber', '$currentTime', '$allergie_egg', '$allergie_gluten', '$allergie_lupine', '$allergie_milk', '$allergie_mustard', '$allergie_nuts', '$allergie_peanut', '$allergie_shell', '$allergie_celery', '$allergie_sesame', '$allergie_soja', '$allergie_fish', '$allergie_mollusks', '$allergie_sulfur', '$allergie_string', '$date', '$time')";
         $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
-
+        mysqli_close($db);
         if ($result) {
-            mysqli_close($db);
             if (isset($_SESSION['loggedInUser'])) {
                 header('Location: ../overzicht-reserveringen');
                 exit;
@@ -335,19 +333,17 @@ if (isset($_POST['submit'])) {
             }
         } else {
             $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
-            mysqli_close($db);
         }
     } else {
         $reservering_id = $_SESSION['canChangeReservation']['reservering_id'];
         $query = "UPDATE `reserveringen` SET date = '$date', mail_str_date = '$date', start_time = '$time', mail_str_time = '$time', amount_people = '$people', full_name = '$name', emailadres = '$emailadres', phonenumber = '$phonenumber', comments = '$comments', date_updated_reservation = '$currentTime', all_egg = '$allergie_egg', all_gluten = '$allergie_gluten', all_lupine = '$allergie_lupine', all_milk = '$allergie_milk', all_mustard = '$allergie_mustard', all_nuts = '$allergie_nuts', all_peanut = '$allergie_peanut', all_shell = '$allergie_shell', all_celery = '$allergie_celery', all_sesame = '$allergie_celery', all_soja = '$allergie_soja', all_fish = '$allergie_fish', all_mollusks = '$allergie_mollusks', all_sulfur = '$allergie_sulfur', str_all = '$allergie_string' WHERE reservering_id = '$reservering_id'";
-        $result = mysqli_query($db, $query) or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+        $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+        mysqli_close($db);
         if ($result) {
-            mysqli_close($db);
             header('Location: ../bevestiging-reservatie');
             exit;
         } else {
             $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
-            mysqli_close($db);
         }
     }
 }
