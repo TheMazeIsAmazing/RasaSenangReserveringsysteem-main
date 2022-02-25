@@ -16,7 +16,7 @@ require_once '../includes/database.php';
 /** @var mysqli $db */
 
 //May I even visit this page?
-require_once "../includes/logincheck.php";
+require_once "../includes/loginCheck.php";
 loginCheck();
 
 //Get Name user from session
@@ -29,6 +29,7 @@ $reservations = [];
 
 $guestCount = 0;
 $amountReservations = 0;
+$reservationsPlacedToday = 0;
 $reservationsWithAllergies = [];
 
 while ($row = mysqli_fetch_assoc($result)) {
@@ -40,7 +41,7 @@ $deleteReservations = [];
 //if the reservation is set to be deleted (the confirmation mail has been sent) put it in the deletion array
 //else if the delete mail is null then add it to the day-summary
 foreach ($reservations as $reservation) {
-    if ($reservation['delete_mail_sent'] == "true") {
+    if ($reservation['delete_mail_sent'] == 'true') {
         $deleteReservations[] = $reservation['reservering_id'];
     } elseif ($reservation['delete_mail_sent'] == '') {
         if (date("Y-m-d", strtotime($reservation['date'])) == date("Y-m-d", strtotime($date))) {
@@ -49,6 +50,9 @@ foreach ($reservations as $reservation) {
             if ($reservation['str_all'] !== 'Niet van toepassing.') {
                 $reservationsWithAllergies[] = $reservation['reservering_id'];
             }
+        }
+        if (date("Y-m-d", strtotime($reservation['date_placed_reservation'])) == date("Y-m-d")) {
+            $reservationsPlacedToday++;
         }
     }
 
@@ -91,8 +95,6 @@ require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
 
-<div class="overlay"></div>
-
 <div class="page-container">
     <main class="content-wrap">
         <header>
@@ -106,11 +108,13 @@ oneDotOrMoreNav('..');
                 /*                 <a class="navEmployeesButton" href="./">Tafelindeling</a>
                 <a class="navEmployeesButton" href="./">Statistieken</a>
                 <a class="navEmployeesButton" href="./">Logboeken</a> */ ?>
-                <?php if ($_SESSION['loggedInUser']['can_visit_employees'] == 'true') {?>
-                <a class="navEmployeesButton" href="../medewerkers-instellingen">Medewerkers</a>
-                <?php } else {?>
-                    <a class="navEmployeesButton" href="../medewerkers-instellingen/details.php?id=<?= htmlentities($_SESSION['loggedInUser']['id']) ?>">Mijn Account</a>
-                <?php }?>
+                <?php if ($_SESSION['loggedInUser']['can_visit_employees'] == 'true') { ?>
+                    <a class="navEmployeesButton" href="../medewerkers-instellingen">Medewerkers</a>
+                <?php } else { ?>
+                    <a class="navEmployeesButton"
+                       href="../medewerkers-instellingen/details.php?id=<?= htmlentities($_SESSION['loggedInUser']['id']) ?>">Mijn
+                        Account</a>
+                <?php } ?>
         </nav>
         <div class="daySummary">
             <h2>Dagsamenvatting</h2>
@@ -122,10 +126,12 @@ oneDotOrMoreNav('..');
                 <div class="labelDetails">Aantal Reserveringen:</div>
                 <div><?= $amountReservations; ?></div>
             </div>
-            <!--                <div class="flexDetails">-->
-            <!--                    <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>-->
-            <!--                    <div>--><? //= $reservationsPlacedToday; ?><!--</div>-->
-            <!--                </div>-->
+<?php if ($_SESSION['loggedInUser']['is-admin'] == 'true') { ?>
+                            <div class="flexDetails">
+                                <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>
+                                <div><?= $reservationsPlacedToday; ?></div>
+                            </div>
+            <?php } ?>
             <?php //in the future display how many tables are occupied
             //<div class="daySummaryItem">
             //Tafels Bezet:
@@ -134,26 +140,27 @@ oneDotOrMoreNav('..');
                 <div class="labelDetails"> Gasten met
                     Allergieën:
                 </div>
-                <div><?php if (count($reservationsWithAllergies) > 0) {
-                        if (count($reservationsWithAllergies) > 1) {
-                            $reservationsWithAllergies_string = "Ja, bij reserveringen: ";
-                        } else {
-                            $reservationsWithAllergies_string = "Ja, bij reservering: ";
-                        }
-
+                <div><?php if (count($reservationsWithAllergies) > 1) { ?>
+                        Ja bij reserveringen: <?php
+//                        for ($i = 0; $i < count($reservationsWithAllergies); $i++) {
+//                            if (($i + 1 == count($reservationsWithAllergies)) && count($reservationsWithAllergies) !== 1) {
+//                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string en $reservationsWithAllergies[$i]";
+//                            } elseif (count($reservationsWithAllergies) == 1 || $i == 0) {
+//                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string $reservationsWithAllergies[$i]";
+//                            } else {
+//                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string, $reservationsWithAllergies[$i]";
+//                            }
+//                        }
+                    } else if (count($reservationsWithAllergies) == 1) {
                         for ($i = 0; $i < count($reservationsWithAllergies); $i++) {
-                            if (($i + 1 == count($reservationsWithAllergies)) && count($reservationsWithAllergies) !== 1) {
-                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string en $reservationsWithAllergies[$i]";
-                            } elseif (count($reservationsWithAllergies) == 1 || $i == 0) {
-                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string $reservationsWithAllergies[$i]";
-                            } else {
-                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string, $reservationsWithAllergies[$i]";
-                            }
+                            $reservationWithAllergy = $reservationsWithAllergies[$i];
                         }
-                        echo $reservationsWithAllergies_string;
-                    } else {
-                        echo "Niet van toepassing.";
-                    } ?>
+                        ?>
+                        Ja bij reservering: <a
+                                href="../overzicht-reserveringen/details.php?id=<?= $reservationWithAllergy ?>"><?= $reservationWithAllergy ?></a>
+                    <?php } else { ?>
+                        Niet van toepassing.
+                    <?php } ?>
                 </div>
             </div>
         </div>

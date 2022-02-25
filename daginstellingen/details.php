@@ -12,7 +12,7 @@ if (isset($_SESSION['canChangeReservation'])) {
 // redirect when uri does not contain a id
 if (!isset($_GET['id']) || $_GET['id'] == '') {
     // redirect to index.php
-    header('Location: ./');
+    header('Location: ./regels.php');
     exit;
 }
 
@@ -23,7 +23,7 @@ require_once '../includes/database.php';
 //May I even visit this page?
 require_once "../includes/loginCheck.php";
 loginCheck();
-loginCheckPageSpecific('can_visit_reservations');
+loginCheckPageSpecific('can_visit_daysettings');
 
 //Retrieve the GET parameter from the 'Super global'
 $reservationID = mysqli_escape_string($db, $_GET['id']);

@@ -10,7 +10,7 @@ require_once '../includes/database.php';
 /** @var mysqli $db */
 
 //May I even visit this page?
-require_once "../includes/logincheck.php";
+require_once "../includes/loginCheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_daysettings');
 
@@ -68,8 +68,6 @@ oneDotOrMoreTopBar('..', './');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
-
-<div class="overlay"></div>
 
 <div class="page-container">
     <main class="content-wrap">

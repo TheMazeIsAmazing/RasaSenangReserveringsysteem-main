@@ -9,19 +9,9 @@ if (isset($_SESSION['canChangeReservation'])) {
     unset($_SESSION['canChangeReservation']);
 }
 
-//May I even visit this page?
-if (!isset($_SESSION['loggedInUser'])) {
-    header("Location: ../inloggen/");
-    exit;
-}
-
 //Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
-
-//May I even visit this page?
-require_once "../includes/logincheck.php";
-loginCheck();
 
 // redirect when uri does not contain a id
 if (!isset($_GET['id']) || $_GET['id'] == '') {
@@ -29,7 +19,6 @@ if (!isset($_GET['id']) || $_GET['id'] == '') {
     header('Location: ./');
     exit;
 }
-
 
 //Retrieve the GET parameter from the 'Super global'
 $employeeID = mysqli_escape_string($db, $_GET['id']);
@@ -46,6 +35,9 @@ if (mysqli_num_rows($result) !== 1) {
 
 $employee = mysqli_fetch_assoc($result);
 
+//May I even visit this page?
+require_once "../includes/loginCheck.php";
+loginCheck();
 if (htmlentities($employee['username']) !== htmlentities($_SESSION['loggedInUser']['username'])) {
     loginCheckPageSpecific('can_visit_employees');
 }
@@ -88,7 +80,6 @@ require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
 
-<div class="overlay"></div>
 <div class="overlaymodal"></div>
 
 <div class="page-container">

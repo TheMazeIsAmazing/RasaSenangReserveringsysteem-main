@@ -15,6 +15,13 @@ main {
     margin: 10px;
 }
 
+.topBarLogoRedirect {
+    display: block;
+    position: inherit;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .errors {
     color: #bf383a;
 }
@@ -223,7 +230,7 @@ html {
     left: 0;
     bottom: 0;
     z-index: 101;
-    background: #423f3f;
+    background: #313131; /* #423f3f */
     width: 350px;
     height: 100vh;
     overflow: hidden;
@@ -252,15 +259,15 @@ html {
     color: white;
     padding-bottom: 10px;
     margin-top: 1rem;
-    border-bottom: 2px solid #423f3f;
+    border-bottom: 2px solid #313131;
     text-decoration: none;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2rem;
     transition-duration: 300ms;
 }
 
-.sideNav ul li a:hover, .sideNav ul li a:focus, .sideNav #menuLinkActive {
-    border-bottom: 2px solid white;
+.sideNav ul li a:hover, .sideNav ul li a:focus, .sideNav #menuLinkActive, .sideNav #menuLinkActive {
+    border-bottom: 2px solid #ab3234;
     transition-duration: 300ms;
 }
 
@@ -274,7 +281,7 @@ html {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.3);
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 
@@ -291,7 +298,7 @@ html {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.3);
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 
@@ -853,6 +860,10 @@ input[type=checkbox]:checked + .label-for-check img {
         min-width: unset;
         min-height: unset;
     }
+
+    .sideNav {
+        width: 80vw;
+    }
 }
 
 @media screen and (max-width: 400px) {
@@ -860,30 +871,39 @@ input[type=checkbox]:checked + .label-for-check img {
         opacity: 40%;
     }
 
-    .whatsappShareButton {
+    .inlineBlockWhatsapp {
         display: inline-block;
+    }
+
+    .whatsappShareButton {
+        display: flex;
         background-color: #3fb73f;
         border-radius: 4px;
         margin-bottom: 30px;
         width: 70vw;
         color: white;
         text-decoration: none;
-
-    }
-
-    .flexWhatsapp {
-        display: flex;
+        cursor: pointer;
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px;
     }
 
-    .flexWhatsapp div {
-        padding-top: 3.5%;
+
+    .whatsappShareButton div {
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
 
     .whatsappShareButton img {
-        width: 40px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        max-width: 40px;
+        min-width: 40px;
+        min-height: 40px;
+    }
 
+    .sideNav {
+        width: 100vw;
     }
 }

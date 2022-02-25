@@ -45,7 +45,8 @@ if (isset($_POST['submit'])) {
                     'can_visit_reservations' => mysqli_escape_string($db, $user['can_visit_reservations']),
                     'can_visit_daysettings' => mysqli_escape_string($db, $user['can_visit_daysettings']),
                     'can_visit_table' => mysqli_escape_string($db, $user['can_visit_table']),
-                    'can_visit_employees' => mysqli_escape_string($db, $user['can_visit_employees'])
+                    'can_visit_employees' => mysqli_escape_string($db, $user['can_visit_employees']),
+                    'is-admin' => mysqli_escape_string($db, $user['is-admin'])
                 ];
             } else {
                 //error onjuiste inloggegevens
@@ -70,8 +71,6 @@ oneDotOrMoreTopBar('..', '../');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
-
-<div class="overlay"></div>
 
 <div class="page-container">
     <main class="content-wrap">

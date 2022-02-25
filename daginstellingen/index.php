@@ -7,7 +7,7 @@ require_once '../includes/database.php';
 /**@var mysqli $db*/
 
 //May I even visit this page?
-require_once "../includes/logincheck.php";
+require_once "../includes/loginCheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_daysettings');
 
@@ -38,27 +38,11 @@ $deleteReservations = [];
 //if the reservation is set to be deleted (the confirmation mail has been sent) put it in the deletion array
 //else if the delete mail is null then add it to the day-summary
 foreach ($reservations as $reservation) {
-    if ($reservation['delete_mail_sent'] == "true") {
-        $deleteReservations[] = $reservation['reservering_id'];
-    } elseif ($reservation['delete_mail_sent'] == '') {
+    if ($reservation['delete_mail_sent'] == '') {
         if (date("Y-m-d", strtotime($reservation['date'])) == date("Y-m-d", strtotime($date))) {
             $amountReservations++;
             $guestCount += $reservation['amount_people'];
-            if ($reservation['str_all'] !== 'Niet van toepassing.') {
-                $reservationsWithAllergies[] = $reservation['reservering_id'];
-            }
         }
-        if (date("Y-m-d", strtotime($reservation['date_placed_reservation'])) == date("Y-m-d")) {
-            $reservationsPlacedToday++;
-        }
-    }
-
-}
-if (isset($deleteReservations)) {
-    foreach ($deleteReservations as $deleteReservation) {
-        $deleteQuery = "DELETE FROM reserveringen WHERE reservering_id = '$deleteReservation'";
-        mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
-        mysqli_close($db);
     }
 }
 
@@ -72,8 +56,6 @@ oneDotOrMoreTopBar('..', '../medewerkers');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
-
-<div class="overlay"></div>
 
 <div class="page-container">
     <main class="content-wrap">
@@ -100,7 +82,7 @@ oneDotOrMoreNav('..');
                 </div>
                 <div class="flexDetails">
                     <div class="labelDetails">Reservering limiet:</div>
-                    <div><?php //reservationslimittoday ?>(Er zijn vandaag <?= $amountReservations;; ?> reserveringen)
+                    <div><?php //reservationslimittoday ?>(Er zijn vandaag <?= $amountReservations; ?> reserveringen)
                     </div>
                 </div>
                 <div class="flexDetails">

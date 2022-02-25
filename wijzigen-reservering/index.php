@@ -60,8 +60,6 @@ require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
 
-<div class="overlay"></div>
-
 <div class="page-container">
     <main class="content-wrap">
         <header>

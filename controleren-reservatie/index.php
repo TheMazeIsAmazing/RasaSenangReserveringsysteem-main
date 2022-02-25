@@ -23,9 +23,9 @@ if (isset($_POST['submitDeletion'])) {
     $userDelete = "guest";
     $deleteMail = "false";
     $deleteQuery = "UPDATE reserveringen SET  date_updated_reservation = '$currentTime', deleted_by_user = '$userDelete', delete_mail_sent = '$deleteMail' WHERE reservering_id = '$reservationIdQuery'";
-    $result3 = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
+    $resultDelete = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
     mysqli_close($db);
-    if ($result3) {
+    if ($resultDelete) {
         $_SESSION['deletedReservation'] = "true";
         $_SESSION['reservation'] = "true";
         header('Location: ../bevestiging-reservatie');
@@ -336,10 +336,10 @@ if (isset($_POST['submit'])) {
         }
     } else {
         $reservering_id = $_SESSION['canChangeReservation']['reservering_id'];
-        $query = "UPDATE `reserveringen` SET date = '$date', mail_str_date = '$date', start_time = '$time', mail_str_time = '$time', amount_people = '$people', full_name = '$name', emailadres = '$emailadres', phonenumber = '$phonenumber', comments = '$comments', date_updated_reservation = '$currentTime', all_egg = '$allergie_egg', all_gluten = '$allergie_gluten', all_lupine = '$allergie_lupine', all_milk = '$allergie_milk', all_mustard = '$allergie_mustard', all_nuts = '$allergie_nuts', all_peanut = '$allergie_peanut', all_shell = '$allergie_shell', all_celery = '$allergie_celery', all_sesame = '$allergie_celery', all_soja = '$allergie_soja', all_fish = '$allergie_fish', all_mollusks = '$allergie_mollusks', all_sulfur = '$allergie_sulfur', str_all = '$allergie_string' WHERE reservering_id = '$reservering_id'";
-        $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+        $queryUpdate = "UPDATE `reserveringen` SET date = '$date', mail_str_date = '$date', start_time = '$time', mail_str_time = '$time', amount_people = '$people', full_name = '$name', emailadres = '$emailadres', phonenumber = '$phonenumber', comments = '$comments', date_updated_reservation = '$currentTime', all_egg = '$allergie_egg', all_gluten = '$allergie_gluten', all_lupine = '$allergie_lupine', all_milk = '$allergie_milk', all_mustard = '$allergie_mustard', all_nuts = '$allergie_nuts', all_peanut = '$allergie_peanut', all_shell = '$allergie_shell', all_celery = '$allergie_celery', all_sesame = '$allergie_celery', all_soja = '$allergie_soja', all_fish = '$allergie_fish', all_mollusks = '$allergie_mollusks', all_sulfur = '$allergie_sulfur', str_all = '$allergie_string' WHERE reservering_id = '$reservering_id'";
+        $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
         mysqli_close($db);
-        if ($result) {
+        if ($resultUpdate) {
             header('Location: ../bevestiging-reservatie');
             exit;
         } else {
@@ -380,7 +380,6 @@ require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
 
-<div class="overlay"></div>
 <div class="overlaymodal"></div>
 
 <div class="page-container">
