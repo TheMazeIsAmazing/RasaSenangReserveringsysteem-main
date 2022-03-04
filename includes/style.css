@@ -2,8 +2,14 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
+*, *::after, *::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
     font-family: "Roboto", sans-serif;
+}
+
+body {
     font-size: 16px;
     color: #666666;
     background-color: rgb(245, 245, 245);
@@ -66,7 +72,6 @@ label .tooltiptext {
 input, select {
     min-width: 200px;
     font-size: 14px;
-    font-family: "Roboto", sans-serif;
     border-radius: 4px;
     border-width: 1px;
     border-color: black;
@@ -75,7 +80,6 @@ input, select {
 
 textarea {
     font-size: 14px;
-    font-family: "Roboto", sans-serif;
     border-radius: 4px;
     border-width: 1px;
     border-color: black;
@@ -182,16 +186,6 @@ h3 {
     min-width: 120px;
 }
 
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
 .ham {
     position: static;
     width: 35px;
@@ -208,6 +202,7 @@ html {
     margin: 0 auto;
     text-align: center;
     height: 35px;
+    min-width: 35px;
 }
 
 .menuX {
@@ -254,19 +249,23 @@ html {
     padding-top: 5rem;
 }
 
-.sideNav ul li a, .sideNav #menuLinkActive:hover {
+.sideNav ul li a {
     display: block;
     color: white;
     padding-bottom: 10px;
     margin-top: 1rem;
     border-bottom: 2px solid #313131;
     text-decoration: none;
-    font-family: 'Roboto', sans-serif;
     font-size: 1.2rem;
     transition-duration: 300ms;
 }
 
-.sideNav ul li a:hover, .sideNav ul li a:focus, .sideNav #menuLinkActive, .sideNav #menuLinkActive {
+.sideNav ul li a:hover, .sideNav #menuLinkActive:hover {
+    border-bottom: 2px solid white;
+    transition-duration: 300ms;
+}
+
+.sideNav ul li a:focus, .sideNav #menuLinkActive {
     border-bottom: 2px solid #ab3234;
     transition-duration: 300ms;
 }
@@ -360,10 +359,6 @@ td {
     margin: 10px;
 }
 
-*, *::after, *::before {
-    box-sizing: border-box;
-}
-
 .modal {
     position: fixed;
     top: 50%;
@@ -392,7 +387,6 @@ td {
 }
 
 .modal-header .title {
-    font-family: 'Roboto', sans-serif;
     font-size: 1.25rem;
     font-weight: bold;
 }
@@ -702,10 +696,8 @@ input[type=checkbox]:checked + .label-for-check img {
 .flexRequired {
     margin-bottom: 20px;
     display: flex;
-}
-
-.flexRequired div {
-    padding-right: 5px;
+    flex-wrap: wrap;
+    column-gap: 4px;
 }
 
 .flexRequired .errors {
@@ -863,6 +855,12 @@ input[type=checkbox]:checked + .label-for-check img {
 
     .sideNav {
         width: 80vw;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .data-field-allergies .data-field {
+        flex: none;
     }
 }
 

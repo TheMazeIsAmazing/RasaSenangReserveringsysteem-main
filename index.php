@@ -339,13 +339,22 @@ oneDotOrMoreNav('.');
         </header>
         <div class="flexRequired">
             <div>
-                (Velden met een
+                (Velden
+            </div>
+            <div>
+                met
+            </div>
+            <div>
+                een
             </div>
             <div class="errors">
                 *
             </div>
             <div>
-                zijn verplicht.)
+                zijn
+            </div>
+            <div>
+                verplicht.)
             </div>
         </div>
         <section>
