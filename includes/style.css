@@ -99,6 +99,7 @@ textarea {
 
 .tooltip .tooltiptext {
     visibility: hidden;
+    opacity: 0%;
     width: 200px;
     background-color: rgb(245, 245, 245);
     color: black;
@@ -109,7 +110,7 @@ textarea {
     position: absolute;
     z-index: 1;
     text-decoration: unset;
-    transition: ease-in-out 500ms;
+    transition: ease-in-out 300ms;
 }
 
 .tooltip img {
@@ -117,9 +118,14 @@ textarea {
     height: auto;
 }
 
+.tooltip img:hover {
+    cursor: pointer;
+}
+
 .tooltip:hover .tooltiptext {
     visibility: visible;
-    transition: ease-in-out 500ms;
+    opacity: 100%;
+    transition: ease-in-out 300ms;
 }
 
 .data-field {
