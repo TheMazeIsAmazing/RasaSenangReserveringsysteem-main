@@ -19,7 +19,6 @@
     <?php if ($dotsString == '.') { ?><link rel="manifest" href="<?= $dotsString ?>/data/site-icons/indexPHP.webmanifest">
     <?php } else { ?><link rel="manifest" href="<?= $dotsString ?>/data/site-icons/site.webmanifest">
     <?php } ?><script defer src="<?= $dotsString ?>/includes/menu.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
 <body>
     <?php } ?>

@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
 html {
     scroll-behavior: smooth;
 }
@@ -107,6 +109,7 @@ textarea {
     position: absolute;
     z-index: 1;
     text-decoration: unset;
+    transition: ease-in-out 500ms;
 }
 
 .tooltip img {
@@ -116,6 +119,7 @@ textarea {
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+    transition: ease-in-out 500ms;
 }
 
 .data-field {
@@ -718,6 +722,10 @@ input[type=checkbox]:checked + .label-for-check img {
 .flexInputWithErrors {
     display: flex;
     gap: 5px;
+}
+
+.flexInputWithErrors input, .flexInputWithErrors select {
+    padding-left: 3px;
 }
 
 .daySummary .labelDetails {
