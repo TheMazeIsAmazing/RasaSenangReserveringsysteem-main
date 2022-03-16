@@ -317,7 +317,13 @@ require_once "./includes/footer.php";
 require_once "./includes/head.php";
 oneDotOrMoreHead('.', 'Reserveren bij Rasa Senang');
 require_once "./includes/topBar.php";
-oneDotOrMoreTopBar('.', 'https://www.rasasenang.com/nl/');
+if (isset($_SESSION['canChangeReservation']) && isset($_SESSION['loggedInUser'])) {
+    oneDotOrMoreTopBar('.', './overzicht-reserveringen/details.php?id=' . $_SESSION['canChangeReservation']['reservering_id']);
+} elseif (isset($_SESSION['loggedInUser'])) {
+    oneDotOrMoreTopBar('.', './overzicht-reserveringen');
+} else {
+    oneDotOrMoreTopBar('.', 'https://www.rasasenang.com/nl/');
+}
 require_once "./includes/sideNav.php";
 oneDotOrMoreNav('.');
 ?>

@@ -18,12 +18,12 @@ if (isset($_POST['submit'])) {
     if ($_POST['date'] !== '') {
         $date = date("Y-m-d", strtotime($_POST['date']));
         if (date("Y-m-d", strtotime($date)) < date("Y-m-d", strtotime("2021-12-16"))) {
-            $query = "SELECT * FROM `daySettings` ORDER BY `type`, `from_date`";
+            $query = "SELECT * FROM `day-settings` ORDER BY `type`, `from_date`";
         } else {
-            $query = "SELECT * FROM reserveringen WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
+            $query = "SELECT * FROM `day-settings` WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
         }
     } else {
-        $query = "SELECT * FROM `daySettings` ORDER BY `type`, `from_date`";
+        $query = "SELECT * FROM `day-settings` ORDER BY `type`, `from_date`";
     }
     //Get the result set from the database with a SQL query
     $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
@@ -35,9 +35,9 @@ if (isset($_POST['submit'])) {
     //Close connection
     mysqli_close($db);
 } else {
-    $query = "SELECT * FROM `daySettings` ORDER BY `type`, `from_date`";
+    $query = "SELECT * FROM `day-settings` ORDER BY `type`, `from_date`";
     //Get the result set from the database with a SQL query
-    $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+    $result = mysqli_query($db, $query) or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
     //Loop through the result to create a custom array
     $settings = [];
     while ($row = mysqli_fetch_assoc($result)) {
@@ -53,10 +53,54 @@ foreach ($settings as $setting) {
     if ($setting['16:00'] == 'true') {
         $times[] = '16:00';
     }
-    //etc
+    if ($setting['16:30'] == 'true') {
+        $times[] = '16:30';
+    }
+    if ($setting['17:00'] == 'true') {
+        $times[] = '17:00';
+    }
+    if ($setting['17:30'] == 'true') {
+        $times[] = '17:30';
+    }
+    if ($setting['18:00'] == 'true') {
+        $times[] = '18:00';
+    }
+    if ($setting['18:30'] == 'true') {
+        $times[] = '18:30';
+    }
+    if ($setting['19:00'] == 'true') {
+        $times[] = '19:00';
+    }
+    if ($setting['19:30'] == 'true') {
+        $times[] = '19:30';
+    }
+    if ($setting['20:00'] == 'true') {
+        $times[] = '20:00';
+    }
+    if ($setting['20:30'] == 'true') {
+        $times[] = '20:30';
+    }
+    if ($setting['21:00'] == 'true') {
+        $times[] = '21:00';
+    }
 }
 
-$time_string = "-";
+$time_string = "Niet van toepassing";
+
+if (count($times) >= 1) {
+    $time_string = "";
+
+    for ($i = 0; $i < count($times); $i++) {
+        if (($i + 1 == count($times)) && count($times) !== 1) {
+            $time_string = "$time_string en $times[$i]";
+        } elseif (count($times) == 1 || $i == 0) {
+            $time_string = "$time_string $times[$i]";
+        } else {
+            $time_string = "$time_string, $times[$i]";
+        }
+    }
+    $time_string = htmlentities($time_string);
+}
 
 //include basic pages such as navbar and footer.
 require_once "../includes/footer.php";

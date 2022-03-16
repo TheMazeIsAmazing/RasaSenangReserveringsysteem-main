@@ -11,40 +11,33 @@ require_once "../includes/loginCheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_daysettings');
 
-//Get Name user from session
-$name = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
 
 
-$query = "SELECT * FROM reserveringen";
+$queryDaySettings = "SELECT * FROM `day-settings`";
 //Get the result set from the database with a SQL query
-$result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+$resultDaySettings = mysqli_query($db, $queryDaySettings); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryDaySettings);
+
+$date = date('Y-m-d');
+
+$queryReservations = "SELECT * FROM reserveringen WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
+$resultReservations = mysqli_query($db, $queryReservations) or die('Error: ' . mysqli_error($db) . ' with query ' . $queryReservations);
 $reservations = [];
+
+while ($row = mysqli_fetch_assoc($resultReservations)) {
+    $reservations[] = $row;
+}
 
 $guestCount = 0;
 $amountReservations = 0;
-$reservationsPlacedToday = 0;
-$reservationsWithAllergies = [];
 
-while ($row = mysqli_fetch_assoc($result)) {
-    $reservations[] = $row;
+foreach ($reservations as $reservation) {
+    $amountReservations++;
+    $guestCount += $reservation['amount_people'];
 }
 
 mysqli_close($db);
 
-$date = date("Y-m-d");
 
-$deleteReservations = [];
-
-//if the reservation is set to be deleted (the confirmation mail has been sent) put it in the deletion array
-//else if the delete mail is null then add it to the day-summary
-foreach ($reservations as $reservation) {
-    if ($reservation['delete_mail_sent'] == '') {
-        if (date("Y-m-d", strtotime($reservation['date'])) == date("Y-m-d", strtotime($date))) {
-            $amountReservations++;
-            $guestCount += $reservation['amount_people'];
-        }
-    }
-}
 
 //include basic pages such as navbar and footer.
 require_once "../includes/footer.php";

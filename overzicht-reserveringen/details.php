@@ -46,7 +46,6 @@ $resultGuestInfo = mysqli_query($db, $queryGuestInfo); //or die('Error: ' . mysq
 //Loop through the result to create a custom array
 $reservationsGuestInfo = mysqli_fetch_assoc($resultGuestInfo);
 
-mysqli_close($db);
 
 $amountReservationsGuestInfo = $reservationsGuestInfo['COUNT(emailadres)'];
 
