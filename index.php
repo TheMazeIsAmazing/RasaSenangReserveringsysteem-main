@@ -475,10 +475,11 @@ oneDotOrMoreNav('.');
                         <div class="errors"><?= $errors['phonenumber'] ?? '' ?> </div>
                     </div>
                 </div>
-                <label for="allergies"> Allergieën/Voedselwensen
+                <div class="flexLabel">
+                    <label for="allergies"> Allergieën/Voedselwensen</label>
                     <div class="tooltip"><img src="./data/icon-general/information.png"> <span class="tooltiptext">Vul hier mogelijke allergieën in, dan kunnen wij hier direct rekening mee houden. Ook als u voedselwensen heeft, bijvoorbeeld omdat u vegetariër bent, kunt u dit hier doorgeven. </span>
                     </div>
-                </label>
+                </div>
                 <div class="data-field-allergies">
                     <div class="data-field">
                         <input type="checkbox" id="allergie-egg"

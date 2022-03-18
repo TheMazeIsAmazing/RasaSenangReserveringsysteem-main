@@ -96,6 +96,7 @@ textarea {
     position: relative;
     display: inline-block;
     font-weight: unset;
+    overflow-x: unset;
 }
 
 .tooltip .tooltiptext {
@@ -117,6 +118,7 @@ textarea {
 .tooltip img {
     max-width: 15px;
     height: auto;
+    overflow-y: hidden;
 }
 
 .tooltip img:hover {
@@ -132,6 +134,7 @@ textarea {
 .data-field {
     margin-bottom: 15px;
     display: flex;
+    overflow-x: clip;
 }
 
 footer {
@@ -228,6 +231,7 @@ h3 {
     cursor: pointer;
     color: white;
     z-index: 50;
+    overflow-x:unset;
 }
 
 .sideNav {
@@ -236,7 +240,7 @@ h3 {
     left: 0;
     bottom: 0;
     z-index: 101;
-    background: #313131; /* #423f3f */
+    background: #303030;
     width: 350px;
     height: 100vh;
     overflow: hidden;
@@ -260,6 +264,7 @@ h3 {
     flex-flow: column nowrap;
     align-items: center;
     padding-top: 5rem;
+    font-size: 19px;
 }
 
 .sideNav ul li a {
@@ -267,9 +272,8 @@ h3 {
     color: white;
     padding-bottom: 10px;
     margin-top: 1rem;
-    border-bottom: 2px solid #313131;
+    border-bottom: 2px solid #303030;
     text-decoration: none;
-    font-size: 1.2rem;
     transition-duration: 300ms;
 }
 
@@ -543,6 +547,7 @@ table {
     border: 0;
     max-height: unset;
     min-width: unset;
+    font-size: 14px;
 }
 
 .date-submit a {
@@ -696,6 +701,11 @@ input[type=checkbox]:checked + .label-for-check img {
     margin: 0;
     display: flex;
     min-width: 225px;
+    overflow-x:unset;
+}
+
+.flexLabel img {
+    margin-left: 5px;
 }
 
 .employeeRights .flexLabel {
@@ -723,7 +733,6 @@ input[type=checkbox]:checked + .label-for-check img {
 
 .flexLabel .errors {
     font-weight: bold;
-    margin-right: 5px;
 }
 
 .labelDetails {
