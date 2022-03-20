@@ -9,7 +9,7 @@ html {
     margin: 0;
     box-sizing: border-box;
     font-family: "Roboto", sans-serif;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body {
@@ -96,7 +96,6 @@ textarea {
     position: relative;
     display: inline-block;
     font-weight: unset;
-    overflow-x: unset;
 }
 
 .tooltip .tooltiptext {
@@ -134,14 +133,28 @@ textarea {
 .data-field {
     margin-bottom: 15px;
     display: flex;
-    overflow-x: clip;
 }
 
 footer {
     bottom: 0;
     position: absolute;
-    height: 1.5rem;
+    min-height: 1.5rem;
+    max-height: 3.0rem;
     margin-left: 10px;
+}
+
+footer section {
+    position: unset;
+    object-position: unset;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-right: 30px;
+}
+
+footer section div {
+    position: relative;
+    display: inline-block;
 }
 
 .page-container {
@@ -155,15 +168,15 @@ nav .page-container {
 }
 
 .content-wrap {
-    padding-bottom: 2.5rem;
+    padding-bottom: 4.0rem;
 }
 
-footer a {
+footer a, .privacy-page a {
     color: #bf383a;
     text-decoration-line: none;
 }
 
-footer a:hover {
+footer a:hover, .privacy-page a:hover {
     color: #ab3234;
     text-decoration-line: underline;
 }
@@ -184,6 +197,11 @@ h3 {
     font-size: 18px;
     color: #4d4d4d;
     margin-bottom: 20px;
+}
+
+.privacy-page h3 {
+    margin-top: 20px;
+    margin-bottom: 15px;
 }
 
 .topBar {
@@ -231,7 +249,6 @@ h3 {
     cursor: pointer;
     color: white;
     z-index: 50;
-    overflow-x:unset;
 }
 
 .sideNav {
@@ -285,6 +302,15 @@ h3 {
 .sideNav ul li a:focus, .sideNav #menuLinkActive {
     border-bottom: 2px solid #ab3234;
     transition-duration: 300ms;
+}
+
+ul li {
+    list-style-type: disc;
+}
+
+ul li::marker {
+    visibility: visible;
+    display: marker;
 }
 
 
@@ -437,6 +463,7 @@ td {
     display: flex;
     gap: 150px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .modal-body img {
@@ -487,6 +514,7 @@ td {
     display: flex;
     margin-bottom: 20px;
     justify-content: center;
+    text-align: center;
     gap: 50px;
 }
 
@@ -701,7 +729,6 @@ input[type=checkbox]:checked + .label-for-check img {
     margin: 0;
     display: flex;
     min-width: 225px;
-    overflow-x:unset;
 }
 
 .flexLabel img {
@@ -796,7 +823,13 @@ input[type=checkbox]:checked + .label-for-check img {
         margin-top: 5px;
         display: block;
     }
+}
 
+@media screen and (max-width: 800px) {
+    .flexDaySettings {
+        gap: 20px;
+        justify-content: left;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -866,10 +899,6 @@ input[type=checkbox]:checked + .label-for-check img {
         margin-left: 0;
     }
 
-    .content-wrap {
-        padding-bottom: 1.5rem;
-    }
-
     nav .content-wrap {
         padding-bottom: 2.5rem;
     }
@@ -886,11 +915,28 @@ input[type=checkbox]:checked + .label-for-check img {
     .sideNav {
         width: 80vw;
     }
+
+    .search-bar {
+        gap: 20px;
+    }
 }
 
 @media screen and (max-width: 540px) {
     .data-field-allergies .data-field {
         flex: none;
+    }
+
+    .search-bar-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        align-self: center;
+        margin-bottom: 20px;
+        text-align: center;
+        gap: 10px;
     }
 }
 

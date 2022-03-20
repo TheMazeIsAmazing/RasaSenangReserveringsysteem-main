@@ -102,9 +102,7 @@ if (count($times) >= 1) {
     $time_string = htmlentities($time_string);
 }
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header.
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang');
 require_once "../includes/topBar.php";
@@ -118,6 +116,7 @@ oneDotOrMoreNav('..');
         <header>
             <h1>Regels Overzicht</h1>
         </header>
+        <section class="search-bar-container">
         <div class="search-bar">
             <div class="search-bar-item">
                 <a href="">
@@ -139,6 +138,7 @@ oneDotOrMoreNav('..');
                 </form>
             </div>
         </div>
+        </section>
         <section class="align-middle">
             <table class="middle-table">
                 <thead>
@@ -206,9 +206,8 @@ oneDotOrMoreNav('..');
             </table>
         </section>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>

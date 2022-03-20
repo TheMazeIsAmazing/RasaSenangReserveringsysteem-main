@@ -39,8 +39,8 @@ mysqli_close($db);
 
 
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
+//include basic pages such as navbar and header.
+require_once "../includes/head.php";
 /**@var string $footer */
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang');
@@ -55,13 +55,15 @@ oneDotOrMoreNav('..');
         <header>
             <h1>Daginstellingen</h1>
         </header>
-        <div class="search-bar">
-            <a href="../daginstellingen/regels.php">
-            <button class="date-submit">
-                    Regels overzicht
-            </button>
-            </a>
-        </div>
+        <section class="search-bar-container">
+            <div class="search-bar">
+                <a href="../daginstellingen/regels.php">
+                    <button class="date-submit">
+                        Regels overzicht
+                    </button>
+                </a>
+            </div>
+        </section>
         <div class="flexDaySettings">
             <div class="daySummary">
                 <h2>Instellingen voor Vandaag:</h2>
@@ -112,9 +114,8 @@ oneDotOrMoreNav('..');
             </div>
         </div>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>

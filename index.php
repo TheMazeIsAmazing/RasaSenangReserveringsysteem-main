@@ -311,9 +311,7 @@ if (isset($_POST['submit'])) {
     $allergie_sulfur = mysqli_escape_string($db, $_SESSION['canChangeReservation']['all_sulfur']);
 }
 
-//include basic pages such as navbar and footer.
-require_once "./includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header.
 require_once "./includes/head.php";
 oneDotOrMoreHead('.', 'Reserveren bij Rasa Senang');
 require_once "./includes/topBar.php";
@@ -586,9 +584,8 @@ oneDotOrMoreNav('.');
             </form>
         </section>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('./includes/footer.php');
+    oneDotOrMoreFooter('.'); ?>
 </div>
 </body>
 </html>

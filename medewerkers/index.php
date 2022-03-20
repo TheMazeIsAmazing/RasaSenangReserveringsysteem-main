@@ -84,9 +84,7 @@ if (date('H') >= 06 && date('H') <= 11) {
     $dayPart = "Goedenacht, ";
 }
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header.
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Welkom ' . htmlentities($name) . ' bij Rasa Senang');
 require_once "../includes/topBar.php";
@@ -165,9 +163,8 @@ oneDotOrMoreNav('..');
             </div>
         </div>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>

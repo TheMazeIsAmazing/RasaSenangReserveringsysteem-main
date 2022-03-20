@@ -357,9 +357,7 @@ if (isset($_POST['back'])) {
     }
 }
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header.
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Controleren reservering bij Rasa Senang');
 require_once "../includes/topBar.php";
@@ -484,9 +482,8 @@ oneDotOrMoreNav('..');
             </div>
         </form>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>

@@ -64,9 +64,7 @@ foreach ($reservations as $reservation) {
     }
 }
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header.
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Reserveringen van Rasa Senang');
 require_once "../includes/topBar.php";
@@ -80,28 +78,30 @@ oneDotOrMoreNav('..');
         <header>
             <h1>Overzicht Reserveringen</h1>
         </header>
-
-        <div class="search-bar">
-            <div class="search-bar-item">
-                <a href="../">
-                <button class="date-submit">
-                        Nieuwe Reservering
-                </button>
-                </a>
-            </div>
-            <div class="search-bar-item">
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <div class="date-field">
-                        <input class="date-field" id="date" type="date" name="date" value="<?= $date ?? '' ?>"/>
-                    </div>
-            </div>
-            <div class="search-bar-item">
-                <div class="date-submit-div">
-                    <input class="date-submit" type="submit" name="submit" value="Zoeken"/>
+        <section class="search-bar-container">
+            <div class="search-bar">
+                <div class="search-bar-item">
+                    <a href="../">
+                        <button class="date-submit">
+                            Nieuwe Reservering
+                        </button>
+                    </a>
                 </div>
-                </form>
+                <div class="search-bar-item">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <div class="date-field">
+                            <input class="date-field" id="date" type="date" name="date" value="<?= $date ?? '' ?>"/>
+                        </div>
+                </div>
+                <div class="search-bar-item">
+                    <div class="date-submit-div">
+                        <input class="date-submit" type="submit" name="submit" value="Zoeken"/>
+                    </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </section>
+
         <section class="align-middle">
             <?php if (count($reservations) == 0) { ?>
                 <p class="middle-table">Er zijn geen reserveringen gevonden op de opgegeven datum.</p>
@@ -143,9 +143,8 @@ oneDotOrMoreNav('..');
             <?php } ?>
         </section>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>

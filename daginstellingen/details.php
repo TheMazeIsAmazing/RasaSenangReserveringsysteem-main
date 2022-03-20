@@ -173,9 +173,7 @@ print_r($setting);
 
 echo date('N');
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header.
 require_once "../includes/head.php";
 if ($setting['type'] == 'general'){
     oneDotOrMoreHead('..', 'Algemene Daginstellingen bij Rasa Senang');
@@ -293,9 +291,8 @@ oneDotOrMoreNav('..');
             </div>
         </div>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>

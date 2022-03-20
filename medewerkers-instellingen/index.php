@@ -21,9 +21,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 //Close connection
 mysqli_close($db);
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header.
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Medewerkers van Rasa Senang');
 require_once "../includes/topBar.php";
@@ -37,6 +35,7 @@ oneDotOrMoreNav('..');
         <header>
             <h1>Overzicht Medewerkers</h1>
         </header>
+        <section class="search-bar-container">
         <div class="search-bar">
             <a href="nieuwe-gebruiker.php">
                 <button class="date-submit">
@@ -49,6 +48,7 @@ oneDotOrMoreNav('..');
                 </button>
             </a>
         </div>
+        </section>
         <section class="align-middle">
             <table class="middle-table">
                 <thead>
@@ -98,9 +98,8 @@ oneDotOrMoreNav('..');
             </table>
         </section>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>

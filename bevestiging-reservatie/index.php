@@ -9,15 +9,15 @@ require_once '../includes/database.php';
 /** @var mysqli $db */
 
 //May I even visit this page?
-//if (isset($_SESSION['loggedInUser'])) {
-//    header("Location: ../overzicht-reserveringen");
-//    exit;
-//}
-//
-//if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation'])) {
-//    header("Location: ../");
-//    exit;
-//} else {
+if (isset($_SESSION['loggedInUser'])) {
+    header("Location: ../overzicht-reserveringen");
+    exit;
+}
+
+if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation'])) {
+    header("Location: ../");
+    exit;
+} else {
     if (isset($_SESSION['deletedReservation'])) {
         $deleted = true;
         unset($_SESSION['canChangeReservation']);
@@ -33,11 +33,9 @@ require_once '../includes/database.php';
         }
     }
     mysqli_close($db);
-//}
+}
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Bevestiging van reservering bij Rasa Senang');
 require_once "../includes/topBar.php";
@@ -91,9 +89,8 @@ oneDotOrMoreNav('..');
             <?php } ?>
         </div>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>

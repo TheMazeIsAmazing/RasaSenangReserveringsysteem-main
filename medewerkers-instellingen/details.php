@@ -69,9 +69,7 @@ if (isset($_POST['submitDelete'])) {
     }
 }
 
-//include basic pages such as navbar and footer.
-require_once "../includes/footer.php";
-/**@var string $footer */
+//include basic pages such as navbar and header.
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Medewerker ' . htmlentities($employee['username']) . ' bij Rasa Senang');
 require_once "../includes/topBar.php";
@@ -169,9 +167,8 @@ oneDotOrMoreNav('..');
             <?php }?>
         </div>
     </main>
-    <footer>
-        <section> <?= $footer ?>  </section>
-    </footer>
+    <?php require_once('../includes/footer.php');
+    oneDotOrMoreFooter('..'); ?>
 </div>
 </body>
 </html>
