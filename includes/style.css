@@ -1,5 +1,7 @@
+/*Import Roboto*/
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 
+/*basic CSS rules*/
 html {
     scroll-behavior: smooth;
 }
@@ -24,163 +26,6 @@ main {
     margin: 10px;
 }
 
-.topBarLogoRedirect {
-    display: block;
-    position: inherit;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.errors {
-    color: #bf383a;
-}
-
-.errorLoginPositive {
-    background-color: darkseagreen;
-}
-
-.errorLoginNegative {
-    background-color: #bf383a;
-}
-
-.errorLoginPositive, .errorLoginNegative {
-    display: flex;
-    justify-content: left;
-    flex-wrap: wrap;
-    width: 100%;
-    min-height: 30px;
-    height: auto;
-    overflow: auto;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 40px;
-    border-radius: 4px;
-}
-
-.errorLoginPositive .message, .errorLoginNegative .message {
-    margin-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-label {
-    display: inline-block;
-    font-weight: bold;
-}
-
-label .tooltiptext {
-    font-weight: normal;
-}
-
-input, select {
-    min-width: 200px;
-    font-size: 14px;
-    border-radius: 4px;
-    border-width: 1px;
-    border-color: black;
-    max-height: 18.5px;
-}
-
-textarea {
-    font-size: 14px;
-    border-radius: 4px;
-    border-width: 1px;
-    border-color: black;
-    max-width: 60vw;
-    max-height: 200px;
-    min-height: 100px;
-    min-width: 50px;
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-    font-weight: unset;
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    opacity: 0%;
-    width: 200px;
-    background-color: rgb(245, 245, 245);
-    color: black;
-    text-align: center;
-    padding: 5px 5px;
-    border: solid 1px #000000;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-    text-decoration: unset;
-    transition: ease-in-out 300ms;
-}
-
-.tooltip img {
-    max-width: 15px;
-    height: auto;
-    overflow-y: hidden;
-}
-
-.tooltip img:hover {
-    cursor: pointer;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 100%;
-    transition: ease-in-out 300ms;
-}
-
-.data-field {
-    margin-bottom: 15px;
-    display: flex;
-}
-
-footer {
-    bottom: 0;
-    position: absolute;
-    min-height: 1.5rem;
-    max-height: 3.0rem;
-    margin-left: 10px;
-}
-
-footer section {
-    position: unset;
-    object-position: unset;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-right: 30px;
-}
-
-footer section div {
-    position: relative;
-    display: inline-block;
-}
-
-.page-container {
-    position: relative;
-    min-height: 85vh;
-}
-
-nav .page-container {
-    position: relative;
-    min-height: 65vh;
-}
-
-.content-wrap {
-    padding-bottom: 4.0rem;
-}
-
-footer a, .privacy-page a {
-    color: #bf383a;
-    text-decoration-line: none;
-}
-
-footer a:hover, .privacy-page a:hover {
-    color: #ab3234;
-    text-decoration-line: underline;
-}
-
 h1 {
     font-size: 30px;
     color: #4d4d4d;
@@ -199,9 +44,12 @@ h3 {
     margin-bottom: 20px;
 }
 
-.privacy-page h3 {
-    margin-top: 20px;
-    margin-bottom: 15px;
+/*Top bar CSS*/
+.topBarLogoRedirect {
+    display: block;
+    position: inherit;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .topBar {
@@ -218,6 +66,32 @@ h3 {
     min-width: 120px;
 }
 
+.back {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-right: 15px;
+    margin-top: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.back img {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    height: 35px;
+}
+
+/*CSS rules used in multiple cases*/
+.flexButtons {
+    margin-left: 30px;
+    display: flex;
+    gap: 30px;
+}
+
+/* Side Nav CSS*/
 .ham {
     position: static;
     width: 35px;
@@ -304,15 +178,10 @@ h3 {
     transition-duration: 300ms;
 }
 
-ul li {
-    list-style-type: disc;
+nav .page-container {
+    position: relative;
+    min-height: 65vh;
 }
-
-ul li::marker {
-    visibility: visible;
-    display: marker;
-}
-
 
 .overlay {
     position: fixed;
@@ -331,7 +200,246 @@ ul li::marker {
     display: block;
 }
 
-.overlaymodal {
+/* Error "bar", used on login page*/
+.errorLoginPositive {
+    background-color: darkseagreen;
+}
+
+.errorLoginNegative {
+    background-color: #bf383a;
+}
+
+.errorLoginPositive, .errorLoginNegative {
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 30px;
+    height: auto;
+    overflow: auto;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 40px;
+    border-radius: 4px;
+}
+
+.errorLoginPositive .message, .errorLoginNegative .message {
+    margin-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/*Styling Reservation form*/
+label {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.errors {
+    color: #bf383a;
+}
+
+label .tooltiptext {
+    font-weight: normal;
+}
+
+input, select {
+    min-width: 200px;
+    font-size: 14px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: black;
+    max-height: 18.5px;
+}
+
+textarea {
+    font-size: 14px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: black;
+    max-width: 60vw;
+    max-height: 200px;
+    min-height: 100px;
+    min-width: 50px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    font-weight: unset;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    opacity: 0%;
+    width: 200px;
+    background-color: rgb(245, 245, 245);
+    color: black;
+    text-align: center;
+    padding: 5px 5px;
+    border: solid 1px #000000;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    text-decoration: unset;
+    transition: ease-in-out 300ms;
+}
+
+.tooltip img {
+    max-width: 15px;
+    height: auto;
+    overflow-y: hidden;
+}
+
+.tooltip img:hover {
+    cursor: pointer;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 100%;
+    transition: ease-in-out 300ms;
+}
+
+.data-field {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.flexRequired {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 4px;
+}
+
+.flexRequired .errors {
+    font-weight: bold;
+}
+
+.flexLabel .errors {
+    font-weight: bold;
+}
+
+.flexInputWithErrors {
+    display: flex;
+    gap: 5px;
+}
+
+.flexInputWithErrors input, .flexInputWithErrors select {
+    padding-left: 3px;
+}
+
+/*Styling for Allergy icons within reservation page*/
+.label-for-check img {
+    display: block;
+    opacity: 40%;
+    transition-duration: 300ms;
+    width: 70px;
+}
+
+.label-for-check img:hover {
+    opacity: 100%;
+    cursor: pointer;
+    transition-duration: 300ms;
+}
+
+input[type=checkbox]:checked + .label-for-check img {
+    opacity: 100%;;
+    transition-duration: 300ms;
+}
+
+.data-field-allergies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: calc((100% - (220px * 3)));
+}
+
+.data-field-allergies label {
+    width: auto;
+}
+
+.data-field-allergies .data-field {
+    flex: 1 0 14.28571428571429%;
+}
+
+.data-field-allergies .data-field input {
+    display: none;
+}
+
+/*Footer Styling*/
+footer {
+    bottom: 0;
+    position: absolute;
+    min-height: 1.5rem;
+    max-height: 3.0rem;
+    margin-left: 10px;
+    width: 100%;
+    text-align: right;
+}
+
+footer section {
+    position: unset;
+    object-position: unset;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-right: 30px;
+}
+
+footer section div {
+    position: relative;
+    display: inline-block;
+}
+
+footer a, .privacy-page a {
+    color: #bf383a;
+    text-decoration-line: none;
+}
+
+footer a:hover, .privacy-page a:hover {
+    color: #ab3234;
+    text-decoration-line: underline;
+}
+
+/*These rules make sure the Footer always is placed at the bottom*/
+.page-container {
+    position: relative;
+    min-height: 85vh;
+}
+
+.content-wrap {
+    padding-bottom: 4.0rem;
+}
+
+/*Specific Styling for the Privacy Statement page*/
+.privacy-page h3 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.privacy-page ul {
+    list-style-type: disc;
+    padding: revert;
+
+}
+
+.privacy-page ul li {
+    list-style-type: disc;
+    overflow-x: revert;
+
+}
+
+.privacy-page ul li::marker {
+    visibility: visible;
+    display: marker;
+}
+
+/*Pop-up Modal CSS*/
+.overlayModal {
     position: fixed;
     display: none;
     z-index: 9;
@@ -344,62 +452,8 @@ ul li::marker {
     height: 100vh;
 }
 
-.showOverlaymodal {
+.showOverlayModal {
     display: block;
-}
-
-tbody tr:nth-child(odd) {
-    background-color: rgb(225, 225, 225);
-}
-
-.rights th {
-    background-color: rgb(245, 245, 245);
-    padding-bottom: 5px;
-    font-weight: bold;
-    font-style: italic;
-    font-size: 18px;
-}
-
-th {
-    background-color: #eaeaea;
-    color: black;
-    font-weight: bold;
-}
-
-tfoot td {
-    text-align: center;
-    font-weight: bold;
-}
-
-td {
-    padding: 0 10px;
-}
-
-.back {
-    position: relative;
-    width: 35px;
-    height: 35px;
-    margin-right: 15px;
-    margin-top: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.back img {
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-    height: 35px;
-}
-
-.details-button {
-    height: 20px;
-}
-
-.details {
-    padding: 5px;
-    margin: 10px;
 }
 
 .modal {
@@ -415,6 +469,7 @@ td {
     width: 50%;
     height: 50%;
     min-height: 370px;
+    overflow-x: unset;
 }
 
 .modal.active {
@@ -459,13 +514,6 @@ td {
     min-width: unset;
 }
 
-.flexDaySettings {
-    display: flex;
-    gap: 150px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
 .modal-body img {
     width: 120px;
     display: inline-block;
@@ -493,6 +541,69 @@ td {
     min-width: unset;
 }
 
+.modalAlignCenter .flexLabel {
+    width: 85px;
+    min-width: unset;
+}
+
+/*Styling for Tables used on overview pages*/
+.middle-table {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    border: 0;
+}
+
+.align-middle {
+    display: flex;
+    align-content: center;
+    margin-bottom: 20px;
+}
+
+table {
+    overflow-x: auto;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: rgb(225, 225, 225);
+}
+
+.rights th {
+    background-color: rgb(245, 245, 245);
+    padding-bottom: 5px;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 18px;
+}
+
+th {
+    background-color: #eaeaea;
+    color: black;
+    font-weight: bold;
+}
+
+tfoot td {
+    text-align: center;
+    font-weight: bold;
+}
+
+td {
+    padding: 0 10px;
+}
+
+.details-button {
+    height: 20px;
+}
+
+/*Specific Styling for the day settings page*/
+.flexDaySettings {
+    display: flex;
+    gap: 150px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/*Specific Styling for the confirmation page*/
 .confirmation-page {
     display: flex;
     align-content: center;
@@ -504,12 +615,17 @@ td {
     text-align: center;
 }
 
-.align-middle {
-    display: flex;
-    align-content: center;
-    margin-bottom: 20px;
+.thanks-img {
+    margin-top: 50px;
+    width: 200px;
+    margin-bottom: 50px;
 }
 
+.confirmation-page h1 {
+    margin-bottom: 50px;
+}
+
+/*Styling for search bar of overview page*/
 .search-bar {
     display: flex;
     margin-bottom: 20px;
@@ -538,17 +654,6 @@ td {
 .search-bar input {
     max-height: unset;
     min-width: unset;
-}
-
-.middle-table {
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-    border: 0;
-}
-
-table {
-    overflow-x: scroll;
 }
 
 .date-field {
@@ -610,6 +715,8 @@ table {
     transition-duration: 300ms;
 }
 
+
+/*Styling used for landing page after logging in as Employee*/
 .navEmployeesButton {
     min-width: 200px;
     min-height: 50px;
@@ -654,61 +761,14 @@ table {
     flex: 1 0 50%;
 }
 
-.flexButtons {
-    margin-left: 30px;
-    display: flex;
-    gap: 30px;
-}
-
-.thanks-img {
-    margin-top: 50px;
-    width: 200px;
-    margin-bottom: 50px;
-}
-
-.confirmation-page h1 {
-    margin-bottom: 50px;
-}
-
-.label-for-check img {
+.daySummary .labelDetails {
     display: block;
-    opacity: 40%;
-    transition-duration: 300ms;
-    width: 70px;
-}
-
-.label-for-check img:hover {
-    opacity: 100%;
-    cursor: pointer;
-    transition-duration: 300ms;
-}
-
-input[type=checkbox]:checked + .label-for-check img {
-    opacity: 100%;;
-    transition-duration: 300ms;
-}
-
-.data-field-allergies {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-right: calc((100% - (220px * 3)));
-}
-
-.data-field-allergies label {
     width: auto;
+    margin-right: 5px;
+    font-weight: bold;
 }
 
-.data-field-allergies .data-field {
-    flex: 1 0 14.28571428571429%;
-}
-
-.data-field-allergies .data-field input {
-    display: none;
-}
-
+/*Styling for details pages (reservation, employee, day settings*/
 .flexDetails {
     display: flex;
     margin-bottom: 10px;
@@ -742,45 +802,9 @@ input[type=checkbox]:checked + .label-for-check img {
     min-width: 200px;
 }
 
-.modalAlignCenter .flexLabel {
-    width: 85px;
-    min-width: unset;
-}
-
-.flexRequired {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 4px;
-}
-
-.flexRequired .errors {
-    font-weight: bold;
-}
-
-.flexLabel .errors {
-    font-weight: bold;
-}
-
 .labelDetails {
     display: block;
     width: 250px;
-    font-weight: bold;
-}
-
-.flexInputWithErrors {
-    display: flex;
-    gap: 5px;
-}
-
-.flexInputWithErrors input, .flexInputWithErrors select {
-    padding-left: 3px;
-}
-
-.daySummary .labelDetails {
-    display: block;
-    width: auto;
-    margin-right: 5px;
     font-weight: bold;
 }
 
@@ -789,6 +813,12 @@ input[type=checkbox]:checked + .label-for-check img {
     margin-top: 20px;
 }
 
+.details {
+    padding: 5px;
+    margin: 10px;
+}
+
+/*Styling for Whatsapp Button, makes sure it's not displayed op pc*/
 .whatsappShareButton {
     display: none;
 }
@@ -917,15 +947,17 @@ input[type=checkbox]:checked + .label-for-check img {
     }
 
     .search-bar {
-        gap: 20px;
+        gap: 30px;
     }
 }
 
 @media screen and (max-width: 540px) {
+    /*Styling for Allergy icons on mobile*/
     .data-field-allergies .data-field {
         flex: none;
     }
 
+    /*Styling for search bar on mobile*/
     .search-bar-container {
         display: flex;
         justify-content: center;
@@ -941,10 +973,12 @@ input[type=checkbox]:checked + .label-for-check img {
 }
 
 @media screen and (max-width: 400px) {
+    /*Make sure on mobile the allergy icon is still visible after pressing*/
     .label-for-check img:hover {
         opacity: 40%;
     }
 
+    /*Styling for Whatsapp Button*/
     .inlineBlockWhatsapp {
         display: inline-block;
     }
@@ -977,6 +1011,7 @@ input[type=checkbox]:checked + .label-for-check img {
         min-height: 40px;
     }
 
+    /*Side nav bar takes up full width of screen on mobile*/
     .sideNav {
         width: 100vw;
     }

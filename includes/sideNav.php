@@ -44,7 +44,7 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
                     <li><a <?php if ($link == '/medewerkers/index.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/medewerkers">Beginpagina</a></li>
                     <li><a <?php if ($link == '/overzicht-reserveringen/index.php' || $link == '/overzicht-reserveringen/details.php' || ($link == '/index.php' && isset($_GET['edit'])) || ($link  == '/controleren-reservatie/index.php' && isset($_SESSION['canChangeReservation']))) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/overzicht-reserveringen">Overzicht Reserveringen</a></li>
                     <li><a <?php if ($link == '/index.php'  && !isset($_GET['edit']) || ($link == '/controleren-reservatie/index.php' && !isset($_SESSION['canChangeReservation']))) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/">Nieuwe Reservering</a></li>
-                    <li><a <?php if ($link == '/daginstellingen/index.php' || $link == '/daginstellingen/regels.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/daginstellingen">Daginstellingen</a></li>
+                    <li><a <?php if ($link == '/daginstellingen/index.php' || $link == '/daginstellingen/regels.php' || $link == '/daginstellingen/details.php' || $link == '/daginstellingen/new-rule.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/daginstellingen">Daginstellingen</a></li>
                     <?php /*
                     <li><a class="menuLink" href="./">Tafelindeling</a></li> */ ?>
 

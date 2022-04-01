@@ -134,15 +134,12 @@ if (isset($_POST['submitDelete'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Reservering ' . htmlentities($reservation['reservering_id']) . ' bij Rasa Senang');
+oneDotOrMoreHead('..', 'Reservering ' . htmlentities($reservation['reservering_id']) . ' bij Rasa Senang', true);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', './');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
-
-<div class="overlaymodal"></div>
-
 <div class="page-container">
     <main class="content-wrap">
         <header>

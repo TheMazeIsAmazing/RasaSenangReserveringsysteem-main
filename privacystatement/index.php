@@ -1,7 +1,7 @@
 <?php
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Privacystatement van Rasa Senang');
+oneDotOrMoreHead('..', 'Privacystatement van Rasa Senang', false);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', '../');
 require_once "../includes/sideNav.php";
@@ -45,7 +45,7 @@ oneDotOrMoreNav('..');
                 de database van Rasa Senang.
                 <h3>Delen van persoonsgegevens met derden</h3>
                 Rasa Senang deelt op dit moment geen persoonsgegevens met derden, wij zullen in de toekomst dit nooit
-                zonder toestemming doen.<br/>
+                zonder toestemming doen.
                 <h3>Cookies, of vergelijkbare technieken, die wij gebruiken</h3>
                 Rasa Senang gebruikt alleen technische en functionele cookies. En analytische cookies die geen inbreuk
                 maken op uw privacy. Een cookie is een klein tekstbestand dat bij het eerste bezoek aan deze website

@@ -313,7 +313,7 @@ if (isset($_POST['submit'])) {
 
 //include basic pages such as navbar and header.
 require_once "./includes/head.php";
-oneDotOrMoreHead('.', 'Reserveren bij Rasa Senang');
+oneDotOrMoreHead('.', 'Reserveren bij Rasa Senang', false);
 require_once "./includes/topBar.php";
 if (isset($_SESSION['canChangeReservation']) && isset($_SESSION['loggedInUser'])) {
     oneDotOrMoreTopBar('.', './overzicht-reserveringen/details.php?id=' . $_SESSION['canChangeReservation']['reservering_id']);

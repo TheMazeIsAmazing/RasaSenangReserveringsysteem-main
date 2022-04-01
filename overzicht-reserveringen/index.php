@@ -66,7 +66,7 @@ foreach ($reservations as $reservation) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Reserveringen van Rasa Senang');
+oneDotOrMoreHead('..', 'Reserveringen van Rasa Senang', false);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', '../medewerkers');
 require_once "../includes/sideNav.php";

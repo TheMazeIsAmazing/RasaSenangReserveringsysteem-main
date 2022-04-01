@@ -33,13 +33,14 @@ $query = "SELECT * FROM `day-settings` WHERE id = '$settingID'";
 $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
 if (mysqli_num_rows($result) !== 1) {
     // redirect when db returns no result
-    header('Location: ./');
+    header('Location: ./regels.php');
     exit;
 }
 
 $setting = mysqli_fetch_assoc($result);
 
-mysqli_close($db);
+
+//construct time string
 
 $times = [];
 
@@ -93,6 +94,48 @@ if (count($times) >= 1) {
     }
 }
 
+//construct days string
+
+$times = [];
+
+if ($setting['monday'] == 'open') {
+    $days[] = 'Maandag';
+}
+if ($setting['tuesday'] == 'open') {
+    $days[] = 'Dinsdag';
+}
+if ($setting['wednesday'] == 'open') {
+    $days[] = 'Woensdag';
+}
+if ($setting['thursday'] == 'open') {
+    $days[] = 'Donderdag';
+}
+if ($setting['friday'] == 'open') {
+    $days[] = 'Vrijdag';
+}
+if ($setting['saturday'] == 'open') {
+    $days[] = 'Zaterdag';
+}
+if ($setting['sunday'] == 'open') {
+    $days[] = 'Zondag';
+}
+
+$date_string = "Niet van toepassing";
+
+
+if (count($days) >= 1) {
+    $date_string = "";
+
+    for ($i = 0; $i < count($days); $i++) {
+        if (($i + 1 == count($days)) && count($days) !== 1) {
+            $date_string = "$date_string en $days[$i]";
+        } elseif (count($days) == 1 || $i == 0) {
+            $date_string = "$date_string $days[$i]";
+        } else {
+            $date_string = "$date_string, $days[$i]";
+        }
+    }
+}
 
 
 //if (isset($_POST['change'])) {
@@ -146,53 +189,41 @@ if (count($times) >= 1) {
 //}
 //
 //
-//if (isset($_POST['submitDelete'])) {
-//    if (isset($_POST['reason']) && $_POST['reason'] !== '') {
-//        $reservationIdQuery = mysqli_escape_string($db, $reservation['reservering_id']);
-//        $reason = mysqli_escape_string($db, $_POST['reason']);
-//        $currentTime = date("Y-m-d H:i:s");
-//        $userDelete = "employee";
-//        $deleteMail = "false";
-//        $deleteQuery = "UPDATE reserveringen SET  date_updated_reservation = '$currentTime', deleted_by_user = '$userDelete', reason_of_deletion = '$reason', delete_mail_sent = '$deleteMail' WHERE reservering_id = '$reservationIdQuery'";
-//        $resultDelete = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
-//        mysqli_close($db);
-//        if ($resultDelete) {
-//            header('Location: ./');
-//            exit;
-//        } else {
-//            header('Location: ./details.php?id=' . $reservation['reservering_id'] . '&error=dbError#open');
-//            exit;
-//        }
-//    } else {
-//        header('Location: ./details.php?id=' . $reservation['reservering_id'] . '&error=noReason#open');
-//        exit;
-//    }
-//}
+if (isset($_POST['submitDelete'])) {
+    $settingIdQuery = mysqli_escape_string($db, $setting['id']);
+    $deleteQuery = "DELETE FROM `day-settings` WHERE id = '$settingIdQuery'";
+    $resultDeletion = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
+    mysqli_close($db);
+    if ($resultDeletion) {
+        header('Location: ./regels.php');
+        exit;
+    } else {
+        header('Location: ./details.php?id=' . $setting['id'] . '&error=dbError#open');
+        exit;
+    }
+}
 
-print_r($setting);
+//print_r($setting);
 
-echo date('N');
+//echo date('N'); //Day of the week
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-if ($setting['type'] == 'general'){
-    oneDotOrMoreHead('..', 'Algemene Daginstellingen bij Rasa Senang');
+if ($setting['type'] == 'general') {
+    oneDotOrMoreHead('..', 'Algemene Daginstellingen bij Rasa Senang', true);
 } else {
-    oneDotOrMoreHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang');
+    oneDotOrMoreHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang', true);
 }
 require_once "../includes/topBar.php";
-oneDotOrMoreTopBar('..', './');
+oneDotOrMoreTopBar('..', './regels.php');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
-
-<div class="overlaymodal"></div>
-
 <div class="page-container">
     <main class="content-wrap">
         <header>
             <h1>Details</h1>
-            <h3><?php if ($setting['type'] == 'general'){
+            <h3><?php if ($setting['type'] == 'general') {
                     echo 'Algemene Daginstellingen';
                 } else {
                     echo 'Daginstelling ' . htmlentities($setting['id']);
@@ -238,18 +269,24 @@ oneDotOrMoreNav('..');
                 <div class="labelDetails">Aanvangstijden:</div>
                 <div> <?= htmlentities($time_string) ?></div>
             </div>
+            <div class="flexDetails">
+                <div class="labelDetails">Dagen Geopend:</div>
+                <div> <?= htmlentities($date_string) ?></div>
+            </div>
         </div>
         <div class="detailsPageButtons">
             <div class="flexButtons">
                 <form action="" method="post">
                     <input class="date-submit" type="submit" name="change" value="Wijzigen"/>
                 </form>
+        <?php if ($setting['type'] !== 'general') { ?>
                 <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
             </div>
         </div>
-        <div class="modal" id="modal" <?php if (isset($_GET['error']) && $_GET['error'] !== '') {?>style="transition: none" <?php }?>>
+        <div class="modal" id="modal"
+             <?php if (isset($_GET['error']) && $_GET['error'] !== '') { ?>style="transition: none" <?php } ?>>
             <div class="modal-header">
-                <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
+                <div class="title"> Weet u zeker dat u deze instelling wilt verwijderen?</div>
                 <button data-close-button class="close-button">&times;</button>
             </div>
             <div class="modal-body">
@@ -269,25 +306,15 @@ oneDotOrMoreNav('..');
                             echo "Let op: deze actie is permanent!";
                         } ?></p>
                 </div>
-                <form action="<?php echo ($_SERVER["PHP_SELF"]) . '?id=' . $setting['id']; ?>"
-                      method="post">
-                    <div class="modalAlignCenter">
-                        <div class="modalAlignCenterDeletionReason">
-                            <div class="flexLabel">
-                                <label for="reason">Reden:</label>
-                                <div class="errors">
-                                    *
-                                </div>
-                            </div>
-                            <input class="delete-reason" type="text" name="reason" value=""/>
-                        </div>
-                    </div>
-                    <div class="modalAlignCenter">
+                <div class="modalAlignCenter">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $settingID; ?>"
+                          method="post">
                         <div class="date-submit-div">
                             <input class="date-submit" type="submit" name="submitDelete" value="Verwijderen"/>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+        <?php } ?>
             </div>
         </div>
     </main>

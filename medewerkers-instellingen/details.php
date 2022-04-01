@@ -26,7 +26,7 @@ $employeeID = mysqli_escape_string($db, $_GET['id']);
 //Get the record from the database result
 $query = "SELECT * FROM users WHERE id = '$employeeID'";
 $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query)
-mysqli_close($db);
+
 if (mysqli_num_rows($result) !== 1) {
     // redirect when db returns no result
     header('Location: ./');
@@ -65,21 +65,19 @@ if (isset($_POST['submitDelete'])) {
         header('Location: ./');
         exit;
     } else {
-        $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
+        header('Location: ./details.php?id=' . $employee['id'] . '&error=dbError#open');
+        exit;
     }
 }
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Medewerker ' . htmlentities($employee['username']) . ' bij Rasa Senang');
+oneDotOrMoreHead('..', 'Medewerker ' . htmlentities($employee['username']) . ' bij Rasa Senang', true);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', './');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
-
-<div class="overlaymodal"></div>
-
 <div class="page-container">
     <main class="content-wrap">
         <header>
@@ -148,7 +146,17 @@ oneDotOrMoreNav('..');
                     <img src="../data/icon-general/bin-red.png">
                 </div>
                 <div class="modalAlignCenter">
-                    <p class="errors">Let op: deze actie is permanent!</p>
+                    <p class="errors"> <?php if (isset($_GET['error']) && $_GET['error'] !== '') {
+                            if ($_GET['error'] == 'dbError') {
+                                echo "Er is helaas iets fout gegaan, probeer het later opnieuw.";
+                            } elseif ($_GET['error'] == 'noReason') {
+                                echo "Het veld: Reden is verplicht.";
+                            } else {
+                                echo "Let op: deze actie is permanent!";
+                            }
+                        } else {
+                            echo "Let op: deze actie is permanent!";
+                        } ?></p>
                 </div>
                 <div class="modalAlignCenter">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $employeeID; ?>"

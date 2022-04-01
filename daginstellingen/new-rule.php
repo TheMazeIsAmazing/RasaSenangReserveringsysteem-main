@@ -1,13 +1,18 @@
 <?php
 session_start();
 
+/*
+if (isset($_SESSION['canChangeEmployee']) && !isset($_GET)) {
+    unset($_SESSION['canChangeEmployee']);
+    header('Location: ./nieuwe-gebruiker.php');
+    exit;
+}
 
 if (!isset($_SESSION['canChangeEmployee']) && isset($_GET)) {
-        unset($_GET);
-//        header('Location: ./');
-//        exit;
-        echo "kut";
-}
+    unset($_GET);
+    header('Location: ./nieuwe-gebruiker.php');
+    exit;
+} */
 
 $can_visit_reservations = "false";
 $can_visit_employees = "false";
@@ -37,6 +42,7 @@ if (isset($_SESSION['canChangeEmployee']) && $_GET['edit'] == '1') {
     $can_visit_employees = $employee['can_visit_employees'];
     $can_visit_daysettings = $employee['can_visit_daysettings'];
     $can_visit_table = $employee['can_visit_table'];
+    mysqli_close($db);
 } else {
     unset($_GET);
     unset($_SESSION['canChangeEmployee']);
@@ -135,13 +141,13 @@ if (isset($_POST['submit'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-if (isset($_SESSION['canChangeEmployee'])) {
-    oneDotOrMoreHead('..', 'Medewerker wijzigen bij Rasa Senang', false);
+if (isset($_SESSION['canChangeSetting'])) {
+    oneDotOrMoreHead('..', 'Daginstelling wijzigen bij Rasa Senang', false);
 } else {
-    oneDotOrMoreHead('..', 'Medewerker registreren bij Rasa Senan', false);
+    oneDotOrMoreHead('..', 'Nieuwe Daginstelling voor Rasa Senan', false);
 }
 require_once "../includes/topBar.php";
-oneDotOrMoreTopBar('..', './');
+oneDotOrMoreTopBar('..', './regels.php');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
@@ -149,10 +155,10 @@ oneDotOrMoreNav('..');
 <div class="page-container">
     <main class="content-wrap">
         <header>
-            <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
-                <h1>Medewerker aanpassen</h1>
+            <?php if (isset($_SESSION['canChangeSetting'])) { ?>
+                <h1>Daginstelling wijzigen</h1>
             <?php } else { ?>
-                <h1>Nieuwe medewerker registeren</h1>
+                <h1>Nieuwe Daginstelling maken</h1>
             <?php } ?>
         </header>
         <form action="" method="post">
