@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Privacystatement van Rasa Senang', false);
