@@ -37,7 +37,7 @@ if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation']
 
 //include basic pages such as navbar and header
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Bevestiging van reservering bij Rasa Senang', false,false);
+oneDotOrMoreHead('..', 'Bevestiging van reservering bij Rasa Senang', false, false);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', '../');
 require_once "../includes/sideNav.php";

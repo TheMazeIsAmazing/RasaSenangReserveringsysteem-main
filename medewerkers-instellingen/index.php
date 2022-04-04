@@ -27,7 +27,7 @@ oneDotOrMoreHead('..', 'Medewerkers van Rasa Senang', false, true);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', '../medewerkers');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..',true);
+oneDotOrMoreNav('..', true);
 ?>
 
 <div class="page-container">

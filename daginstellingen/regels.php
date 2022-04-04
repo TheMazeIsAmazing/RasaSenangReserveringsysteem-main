@@ -142,10 +142,6 @@ oneDotOrMoreNav('..', true);
                 <tbody>
                 <?php if (isset($_POST['submit'])) {
                     foreach ($settings as $setting) {
-
-                        echo 'from ' . strtotime($setting['from_date']) . '<br>';
-                        echo 'to '. strtotime($setting['until_date']) . '<br>';
-                        echo 'input ' .strtotime($date) . '<br>';
                         if (((strtotime($setting['until_date']) >= strtotime($date)) && (strtotime($setting['from_date']) <= strtotime($date))) || $setting['type'] == 'general') {?>
                             <tr>
                                 <td><?php if (htmlentities($setting['type']) == 'general') {
@@ -245,7 +241,6 @@ oneDotOrMoreNav('..', true);
                 </tbody>
             </table>
         </section>
-        <div style="margin-top: 30000px"
     </main>
     <?php require_once('../includes/footer.php');
     oneDotOrMoreFooter('..'); ?>
