@@ -41,11 +41,11 @@ mysqli_close($db);
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false);
+oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false, false);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', '../medewerkers');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+oneDotOrMoreNav('..', false);
 ?>
 
 <div class="page-container">

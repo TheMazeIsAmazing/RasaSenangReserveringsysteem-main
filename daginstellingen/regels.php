@@ -89,11 +89,11 @@ print_r($settings);
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false);
+oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false, true);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', './');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+oneDotOrMoreNav('..', true);
 ?>
 
 <div class="page-container">
@@ -142,7 +142,11 @@ oneDotOrMoreNav('..');
                 <tbody>
                 <?php if (isset($_POST['submit'])) {
                     foreach ($settings as $setting) {
-                        if (((date("Y m d", strtotime($setting['until_date'])) <= date("Y m d", strtotime($date))) && (date("Y m d", strtotime($setting['from_date'])) >= date("Y m d" , strtotime($date)))) || $setting['type'] == 'general') {?>
+
+                        echo 'from ' . strtotime($setting['from_date']) . '<br>';
+                        echo 'to '. strtotime($setting['until_date']) . '<br>';
+                        echo 'input ' .strtotime($date) . '<br>';
+                        if (((strtotime($setting['until_date']) >= strtotime($date)) && (strtotime($setting['from_date']) <= strtotime($date))) || $setting['type'] == 'general') {?>
                             <tr>
                                 <td><?php if (htmlentities($setting['type']) == 'general') {
                                         echo 'Algemeen';
@@ -241,6 +245,7 @@ oneDotOrMoreNav('..');
                 </tbody>
             </table>
         </section>
+        <div style="margin-top: 30000px"
     </main>
     <?php require_once('../includes/footer.php');
     oneDotOrMoreFooter('..'); ?>

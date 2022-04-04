@@ -63,7 +63,7 @@ if (isset($_POST['change'])) {
         'reservering_id' => $reservationID,
     ];
     $reservering_id = mysqli_escape_string($db, $_SESSION['canChangeReservation']['reservering_id']);
-    $queryChange = "SELECT * FROM reserveringen WHERE reservering_id = '$reservering_id'";
+    $queryChange = "SELECT * FROM reserhggveringen WHERE reservering_id = '$reservering_id'";
     $resultChange = mysqli_query($db, $queryChange); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
     $reservation = mysqli_fetch_assoc($resultChange);
 
@@ -134,11 +134,11 @@ if (isset($_POST['submitDelete'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Reservering ' . htmlentities($reservation['reservering_id']) . ' bij Rasa Senang', true);
+oneDotOrMoreHead('..', 'Reservering ' . htmlentities($reservation['reservering_id']) . ' bij Rasa Senang', true, false);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', './');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+oneDotOrMoreNav('..', false);
 ?>
 <div class="page-container">
     <main class="content-wrap">

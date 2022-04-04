@@ -142,14 +142,14 @@ if (isset($_POST['submit'])) {
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
 if (isset($_SESSION['canChangeSetting'])) {
-    oneDotOrMoreHead('..', 'Daginstelling wijzigen bij Rasa Senang', false);
+    oneDotOrMoreHead('..', 'Daginstelling wijzigen bij Rasa Senang', false, false);
 } else {
-    oneDotOrMoreHead('..', 'Nieuwe Daginstelling voor Rasa Senan', false);
+    oneDotOrMoreHead('..', 'Nieuwe Daginstelling voor Rasa Senan', false, false);
 }
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', './regels.php');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+oneDotOrMoreNav('..', false);
 ?>
 
 <div class="page-container">

@@ -210,14 +210,14 @@ if (isset($_POST['submitDelete'])) {
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
 if ($setting['type'] == 'general') {
-    oneDotOrMoreHead('..', 'Algemene Daginstellingen bij Rasa Senang', true);
+    oneDotOrMoreHead('..', 'Algemene Daginstellingen bij Rasa Senang', true, false);
 } else {
-    oneDotOrMoreHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang', true);
+    oneDotOrMoreHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang', true, false);
 }
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', './regels.php');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+oneDotOrMoreNav('..', false);
 ?>
 <div class="page-container">
     <main class="content-wrap">

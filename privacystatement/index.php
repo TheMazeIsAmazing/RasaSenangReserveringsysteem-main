@@ -3,11 +3,11 @@ session_start();
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Privacystatement van Rasa Senang', false);
+oneDotOrMoreHead('..', 'Privacystatement van Rasa Senang', false, true);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', '../');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+oneDotOrMoreNav('..', true);
 ?>
 
 <div class="page-container">

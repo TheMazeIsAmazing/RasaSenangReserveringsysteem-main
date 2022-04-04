@@ -63,11 +63,11 @@ if (isset($_POST['submit'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Inloggen bij Rasa Senang', false);
+oneDotOrMoreHead('..', 'Inloggen bij Rasa Senang', false, false);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', '../');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+oneDotOrMoreNav('..', false);
 ?>
 
 <div class="page-container">

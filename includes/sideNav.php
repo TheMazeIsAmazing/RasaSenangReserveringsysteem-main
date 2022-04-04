@@ -1,5 +1,5 @@
 <?php
-function oneDotOrMoreNav($dotsString)
+function oneDotOrMoreNav($dotsString, $topArrow)
 {
 $link = '/';
 if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php') {
@@ -57,5 +57,9 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
         </div>
 
     <?php }
-    ?></nav> <?php
+    ?></nav>
+    <?php if ($topArrow == true) { ?>
+    <div id="top"><i>˄</i></div>
+<?php } ?>
+    <?php
 } ?>

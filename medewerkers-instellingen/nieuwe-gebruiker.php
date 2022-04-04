@@ -136,9 +136,9 @@ if (isset($_POST['submit'])) {
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
 if (isset($_SESSION['canChangeEmployee'])) {
-    oneDotOrMoreHead('..', 'Medewerker wijzigen bij Rasa Senang', false);
+    oneDotOrMoreHead('..', 'Medewerker wijzigen bij Rasa Senang', false, false);
 } else {
-    oneDotOrMoreHead('..', 'Medewerker registreren bij Rasa Senan', false);
+    oneDotOrMoreHead('..', 'Medewerker registreren bij Rasa Senan', false, false);
 }
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', './');

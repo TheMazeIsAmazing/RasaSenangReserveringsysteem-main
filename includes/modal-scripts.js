@@ -1,15 +1,15 @@
 window.addEventListener('load', init)
 
+const openModalButtons = document.querySelectorAll('[data-modal-target]')
+const closeModalButtons = document.querySelectorAll('[data-close-button]')
+const overlayModal = document.querySelector(".overlayModal")
+
 function init() {
     if (document.location.hash === '#open') {
         const modalInit = document.getElementById('modal')
         openModal(modalInit)
     }
 }
-
-const openModalButtons = document.querySelectorAll('[data-modal-target]')
-const closeModalButtons = document.querySelectorAll('[data-close-button]')
-const overlayModal = document.querySelector(".overlayModal")
 
 openModalButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -36,6 +36,9 @@ function openModal(modal) {
     if (modal == null) return
     modal.classList.add('active')
     overlayModal.classList.add('showOverlayModal')
+    setTimeout(() => {
+        modal.style = '';
+    },1000);
     document.location.hash = 'open'
 }
 

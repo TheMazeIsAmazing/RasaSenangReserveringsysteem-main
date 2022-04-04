@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="nl">
 <head>
-<?php function oneDotOrMoreHead($dotsString, $title, $modalScript)
+<?php function oneDotOrMoreHead($dotsString, $title, $modalScript, $topArrow)
     { ?>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,6 +25,9 @@
     <script defer src="<?= $dotsString ?>/includes/side-menu-scripts.js"></script>
     <?php if ($modalScript == true) { ?>
             <script defer src="<?= $dotsString ?>/includes/modal-scripts.js"></script>
+    <?php } ?>
+    <?php if ($topArrow == true) { ?>
+        <script defer src="<?= $dotsString ?>/includes/top-arrow-scripts.js"></script>
     <?php } ?>
 </head>
 <body>
