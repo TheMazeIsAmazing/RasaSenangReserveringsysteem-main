@@ -437,7 +437,7 @@ oneDotOrMoreNav('.', false);
                         </div>
                     </div>
                     <div class="flexInputWithErrors">
-                        <input type="text" name="name" value="<?= $name ?? '' ?>" placeholder="Jan Alleman"/>
+                        <input type="text" name="name" value="<?= $name ?? '' ?>" placeholder="Jan van Alleman"/>
                         <span class="errors"><?= $errors['name'] ?? '' ?></span>
                     </div>
                 </div>

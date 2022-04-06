@@ -30,6 +30,7 @@ if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation']
         unset($_SESSION['reservation']);
         if (isset($_SESSION['canChangeReservation'])) {
             unset($_SESSION['canChangeReservation']);
+            $changed = true;
         }
     }
     mysqli_close($db);

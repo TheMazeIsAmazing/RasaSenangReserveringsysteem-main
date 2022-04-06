@@ -24,7 +24,7 @@ loginCheckPageSpecific('can_visit_daysettings');
 
 $query = "SELECT * FROM `day-settings` ORDER BY `type`, `from_date`";
 //Get the result set from the database with a SQL query
-$result = mysqli_query($db, $query) or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+$result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
 //Loop through the result to create a custom array
 $settings = [];
 while ($row = mysqli_fetch_assoc($result)) {

@@ -1,19 +1,6 @@
 <?php
 session_start();
 
-/*
-if (isset($_SESSION['canChangeEmployee']) && !isset($_GET)) {
-    unset($_SESSION['canChangeEmployee']);
-    header('Location: ./nieuwe-gebruiker.php');
-    exit;
-}
-
-if (!isset($_SESSION['canChangeEmployee']) && isset($_GET)) {
-    unset($_GET);
-    header('Location: ./nieuwe-gebruiker.php');
-    exit;
-} */
-
 $can_visit_reservations = "false";
 $can_visit_employees = "false";
 $can_visit_daysettings = "false";
@@ -26,7 +13,7 @@ require_once '../includes/database.php';
 //May I even visit this page?
 require_once "../includes/loginCheck.php";
 loginCheck();
-loginCheckPageSpecific('can_visit_employees');
+loginCheckPageSpecific('can_visit_daysettings');
 
 if (isset($_SESSION['canChangeEmployee']) && $_GET['edit'] == '1') {
     $employeeID = $_SESSION['canChangeEmployee']['employee_id'];

@@ -395,12 +395,12 @@ footer section div {
     display: inline-block;
 }
 
-footer a, .privacy-page a {
+footer a, .privacy-page a, .daySummary a {
     color: #bf383a;
     text-decoration-line: none;
 }
 
-footer a:hover, .privacy-page a:hover {
+footer a:hover, .privacy-page a:hover, .daySummary a:hover {
     color: #ab3234;
     text-decoration-line: underline;
 }
@@ -633,10 +633,29 @@ td {
 /*Specific Styling for the day settings page*/
 .flexDaySettings {
     display: flex;
-    gap: 150px;
+    gap: 100px;
     justify-content: center;
     flex-wrap: wrap;
 }
+
+.flexDaySettings .daySummary {
+    max-width: 450px;
+}
+
+.daySummary .timesLabel {
+    min-width: 141px;
+}
+
+.daySummaryFlexListItem {
+    display: flex;
+    gap: 10px;
+}
+
+.daySummaryFlexListItem div{
+    color: #505050;
+    font-style: italic;
+}
+
 
 /*Specific Styling for the confirmation page*/
 .confirmation-page {
@@ -890,7 +909,12 @@ td {
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1050px) {
+    /*Specific Styling for the day settings page*/
+    .flexDaySettings .daySummary {
+        max-width: unset;
+    }
+
     .flexDaySettings {
         gap: 20px;
         justify-content: left;

@@ -140,22 +140,24 @@ oneDotOrMoreNav('..', false);
                 </div>
                 <div><?php if (count($reservationsWithAllergies) > 1) { ?>
                         Ja bij reserveringen: <?php
-//                        for ($i = 0; $i < count($reservationsWithAllergies); $i++) {
-//                            if (($i + 1 == count($reservationsWithAllergies)) && count($reservationsWithAllergies) !== 1) {
-//                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string en $reservationsWithAllergies[$i]";
-//                            } elseif (count($reservationsWithAllergies) == 1 || $i == 0) {
-//                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string $reservationsWithAllergies[$i]";
-//                            } else {
-//                                $reservationsWithAllergies_string = "$reservationsWithAllergies_string, $reservationsWithAllergies[$i]";
-//                            }
-//                        }
-                    } else if (count($reservationsWithAllergies) == 1) {
                         for ($i = 0; $i < count($reservationsWithAllergies); $i++) {
-                            $reservationWithAllergy = $reservationsWithAllergies[$i];
+                            if (($i + 1 == count($reservationsWithAllergies)) && count($reservationsWithAllergies) !== 1) {?>
+                                en
+                                <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
+                                <?php
+                            } elseif ($i + 2 !== count($reservationsWithAllergies)) {
+                                ?>
+                                <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>,
+                                <?php
+                            } else {?>
+                    <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
+                    <?php
                         }
-                        ?>
-                        Ja bij reservering: <a
-                                href="../overzicht-reserveringen/details.php?id=<?= $reservationWithAllergy ?>"><?= $reservationWithAllergy ?></a>
+                    } } else if (count($reservationsWithAllergies) == 1) {
+                        for ($i = 0; $i < count($reservationsWithAllergies); $i++) { ?>
+                            Ja bij reservering: <a
+                                    href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
+                        <?php } ?>
                     <?php } else { ?>
                         Niet van toepassing.
                     <?php } ?>

@@ -136,7 +136,7 @@ oneDotOrMoreNav('..', false);
                 <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
             </div>
         </div>
-        <div class="modal" id="modal">
+        <div class="modal" id="modal" <?php if (isset($_GET['error']) && $_GET['error'] !== '') {?>style="transition: none" <?php }?>>
             <div class="modal-header">
                 <div class="title"> Weet u zeker dat u deze Medewerker wilt verwijderen?</div>
                 <button data-close-button class="close-button">&times;</button>
@@ -149,8 +149,6 @@ oneDotOrMoreNav('..', false);
                     <p class="errors"> <?php if (isset($_GET['error']) && $_GET['error'] !== '') {
                             if ($_GET['error'] == 'dbError') {
                                 echo "Er is helaas iets fout gegaan, probeer het later opnieuw.";
-                            } elseif ($_GET['error'] == 'noReason') {
-                                echo "Het veld: Reden is verplicht.";
                             } else {
                                 echo "Let op: deze actie is permanent!";
                             }

@@ -96,7 +96,7 @@ if (count($times) >= 1) {
 
 //construct days string
 
-$times = [];
+$days = [];
 
 if ($setting['monday'] == 'open') {
     $days[] = 'Maandag';
@@ -297,8 +297,6 @@ oneDotOrMoreNav('..', false);
                     <p class="errors"> <?php if (isset($_GET['error']) && $_GET['error'] !== '') {
                             if ($_GET['error'] == 'dbError') {
                                 echo "Er is helaas iets fout gegaan, probeer het later opnieuw.";
-                            } elseif ($_GET['error'] == 'noReason') {
-                                echo "Het veld: Reden is verplicht.";
                             } else {
                                 echo "Let op: deze actie is permanent!";
                             }

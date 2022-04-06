@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
     if (empty($errors)) {
 //Get record from DB based on first name
         $query = "SELECT * FROM reserveringen WHERE reservering_id='$reservering_id' AND deleted_by_user IS NULL";
-        $result = mysqli_query($db, $query); // or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+        $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
         if (mysqli_num_rows($result) == 1) {
             $reservation = mysqli_fetch_assoc($result);
             mysqli_close($db);
@@ -51,11 +51,11 @@ if (isset($_POST['submit'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
-oneDotOrMoreHead('..', 'Wijzigen Reservering bij Rasa Senang');
+oneDotOrMoreHead('..', 'Wijzigen Reservering bij Rasa Senang', false, false);
 require_once "../includes/topBar.php";
 oneDotOrMoreTopBar('..', '../');
 require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+oneDotOrMoreNav('..', false);
 ?>
 
 <div class="page-container">
