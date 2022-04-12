@@ -22,11 +22,11 @@ while ($row = mysqli_fetch_assoc($result)) {
 mysqli_close($db);
 
 //include basic pages such as navbar and header.
-require_once "../includes/head.php";
+require_once "../includes/basic-elements/head.php";
 oneDotOrMoreHead('..', 'Medewerkers van Rasa Senang', false, true);
-require_once "../includes/topBar.php";
+require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', '../medewerkers');
-require_once "../includes/sideNav.php";
+require_once "../includes/basic-elements/sideNav.php";
 oneDotOrMoreNav('..', true);
 ?>
     <main class="content-wrap">
@@ -96,5 +96,5 @@ oneDotOrMoreNav('..', true);
             </table>
         </section>
     </main>
-    <?php require_once('../includes/footer.php');
+    <?php require_once('../includes/basic-elements/footer.php');
     oneDotOrMoreFooter('..'); ?>

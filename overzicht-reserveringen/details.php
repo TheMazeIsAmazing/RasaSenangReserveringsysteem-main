@@ -133,11 +133,11 @@ if (isset($_POST['submitDelete'])) {
 }
 
 //include basic pages such as navbar and header.
-require_once "../includes/head.php";
+require_once "../includes/basic-elements/head.php";
 oneDotOrMoreHead('..', 'Reservering ' . htmlentities($reservation['reservering_id']) . ' bij Rasa Senang', true, false);
-require_once "../includes/topBar.php";
+require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', './');
-require_once "../includes/sideNav.php";
+require_once "../includes/basic-elements/sideNav.php";
 oneDotOrMoreNav('..', false);
 ?>
     <main class="content-wrap">
@@ -248,5 +248,5 @@ oneDotOrMoreNav('..', false);
             </div>
         </div>
     </main>
-    <?php require_once('../includes/footer.php');
+    <?php require_once('../includes/basic-elements/footer.php');
     oneDotOrMoreFooter('..'); ?>

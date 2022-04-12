@@ -19,6 +19,9 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
 //echo $link; ?>
 
 <nav class="sideNav">
+    <button id="menuDarkModeToggle">
+        <img src="<?= $dotsString ?>/data/icon-general/dark-mode-toggle.png">
+    </button>
     <button class="menuX">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>

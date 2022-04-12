@@ -37,11 +37,11 @@ if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation']
 }
 
 //include basic pages such as navbar and header
-require_once "../includes/head.php";
+require_once "../includes/basic-elements/head.php";
 oneDotOrMoreHead('..', 'Bevestiging van reservering bij Rasa Senang', false, false);
-require_once "../includes/topBar.php";
+require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', '../');
-require_once "../includes/sideNav.php";
+require_once "../includes/basic-elements/sideNav.php";
 oneDotOrMoreNav('..', false);
 ?>
         <div class="confirmation-page">
@@ -87,5 +87,5 @@ oneDotOrMoreNav('..', false);
             <?php } ?>
         </div>
     </main>
-    <?php require_once('../includes/footer.php');
+    <?php require_once('../includes/basic-elements/footer.php');
     oneDotOrMoreFooter('..'); ?>

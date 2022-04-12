@@ -137,58 +137,15 @@ if (count($days) >= 1) {
     }
 }
 
+if (isset($_POST['change'])) {
+    $_SESSION['daySettingChange'] = [
+        'setting_id' => mysqli_escape_string($db, $settingID),
+    ];
+    header('Location: ./new-rule.php?edit=1');
+    exit;
+}
 
-//if (isset($_POST['change'])) {
-//    $_SESSION['daySettingChange'] = [
-//        'setting_id' => $reservationID,
-//    ];
-//    $reservering_id = mysqli_escape_string($db, $_SESSION['canChangeReservation']['reservering_id']);
-//    $queryChange = "SELECT * FROM reserveringen WHERE reservering_id = '$reservering_id'";
-//    $resultChange = mysqli_query($db, $queryChange); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
-//    $reservation = mysqli_fetch_assoc($resultChange);
-//
-//    mysqli_close($db);
-//
-//    $_SESSION['canChangeReservation']['date'] = test_input($reservation['date']);
-//    $_SESSION['canChangeReservation']['start_time'] = test_input(date("H:i", strtotime($reservation['start_time'])));
-//    $_SESSION['canChangeReservation']['amount_people'] = test_input($reservation['amount_people']);
-//    $_SESSION['canChangeReservation']['full_name'] = test_input($reservation['full_name']);
-//    $_SESSION['canChangeReservation']['emailadres'] = test_input($reservation['emailadres']);
-//    $_SESSION['canChangeReservation']['phonenumber'] = test_input($reservation['phonenumber']);
-//    $_SESSION['canChangeReservation']['comments'] = test_input($reservation['comments']);
-//
-//    $_SESSION['canChangeReservation']['all_egg'] = $reservation['all_egg'];
-//    $_SESSION['canChangeReservation']['all_gluten'] = $reservation['all_gluten'];
-//    $_SESSION['canChangeReservation']['all_lupine'] = $reservation['all_lupine'];
-//    $_SESSION['canChangeReservation']['all_milk'] = $reservation['all_milk'];
-//    $_SESSION['canChangeReservation']['all_mustard'] = $reservation['all_mustard'];
-//    $_SESSION['canChangeReservation']['all_nuts'] = $reservation['all_nuts'];
-//    $_SESSION['canChangeReservation']['all_peanut'] = $reservation['all_peanut'];
-//    $_SESSION['canChangeReservation']['all_shell'] = $reservation['all_shell'];
-//    $_SESSION['canChangeReservation']['all_celery'] = $reservation['all_celery'];
-//    $_SESSION['canChangeReservation']['all_sesame'] = $reservation['all_sesame'];
-//    $_SESSION['canChangeReservation']['all_soja'] = $reservation['all_soja'];
-//    $_SESSION['canChangeReservation']['all_fish'] = $reservation['all_fish'];
-//    $_SESSION['canChangeReservation']['all_mollusks'] = $reservation['all_mollusks'];
-//    $_SESSION['canChangeReservation']['all_sulfur'] = $reservation['all_sulfur'];
-//
-//    $date = $_SESSION['canChangeReservation']['date'];
-//    $time = $_SESSION['canChangeReservation']['start_time'];
-//    $people = $_SESSION['canChangeReservation']['amount_people'];
-//    $name = $_SESSION['canChangeReservation']['full_name'];
-//    $emailadres = $_SESSION['canChangeReservation']['emailadres'];
-//    $phonenumber = $_SESSION['canChangeReservation']['phonenumber'];
-//    $comments = $_SESSION['canChangeReservation']['comments'];
-//    $allergie_string = $reservation['str_all'];
-//
-//    $_SESSION['canChangeReservation']['time'] = $time;
-//    $_SESSION['canChangeReservation']['people'] = $people;
-//    $_SESSION['canChangeReservation']['name'] = $name;
-//    header('Location: ../index.php?edit=1');
-//    exit;
-//}
-//
-//
+
 if (isset($_POST['submitDelete'])) {
     $settingIdQuery = mysqli_escape_string($db, $setting['id']);
     $deleteQuery = "DELETE FROM `day-settings` WHERE id = '$settingIdQuery'";
@@ -208,15 +165,15 @@ if (isset($_POST['submitDelete'])) {
 //echo date('N'); //Day of the week
 
 //include basic pages such as navbar and header.
-require_once "../includes/head.php";
+require_once "../includes/basic-elements/head.php";
 if ($setting['type'] == 'general') {
     oneDotOrMoreHead('..', 'Algemene Daginstellingen bij Rasa Senang', true, false);
 } else {
     oneDotOrMoreHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang', true, false);
 }
-require_once "../includes/topBar.php";
+require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', './regels.php');
-require_once "../includes/sideNav.php";
+require_once "../includes/basic-elements/sideNav.php";
 oneDotOrMoreNav('..', false);
 ?>
     <main class="content-wrap">
@@ -315,5 +272,5 @@ oneDotOrMoreNav('..', false);
             </div>
         </div>
     </main>
-    <?php require_once('../includes/footer.php');
+    <?php require_once('../includes/basic-elements/footer.php');
     oneDotOrMoreFooter('..'); ?>

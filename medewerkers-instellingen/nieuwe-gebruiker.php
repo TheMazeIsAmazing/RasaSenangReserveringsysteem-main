@@ -40,8 +40,6 @@ if (isset($_SESSION['canChangeEmployee']) && $_GET['edit'] == '1') {
 } else {
     unset($_GET);
     unset($_SESSION['canChangeEmployee']);
-    //header('Location: ./nieuwe-gebruiker.php');
-    //exit;
 }
 
 
@@ -134,16 +132,16 @@ if (isset($_POST['submit'])) {
 }
 
 //include basic pages such as navbar and header.
-require_once "../includes/head.php";
+require_once "../includes/basic-elements/head.php";
 if (isset($_SESSION['canChangeEmployee'])) {
     oneDotOrMoreHead('..', 'Medewerker wijzigen bij Rasa Senang', false, false);
 } else {
     oneDotOrMoreHead('..', 'Medewerker registreren bij Rasa Senan', false, false);
 }
-require_once "../includes/topBar.php";
+require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', './');
-require_once "../includes/sideNav.php";
-oneDotOrMoreNav('..');
+require_once "../includes/basic-elements/sideNav.php";
+oneDotOrMoreNav('..', false);
 ?>
     <main class="content-wrap">
         <header>
@@ -192,7 +190,7 @@ oneDotOrMoreNav('..');
                     </div>
                 </div>
             <?php } ?>
-            <h3 class="h3detailsEmp">Rechten:</h3>
+            <h3 class="h3detailsEmp">Deze gebruiker mag naar de volgende pagina's:</h3>
             <div class="employeeRights">
                 <div class="data-field">
                     <div class="flexLabel">
@@ -232,5 +230,5 @@ oneDotOrMoreNav('..');
             </div>
         </form>
     </main>
-    <?php require_once('../includes/footer.php');
+    <?php require_once('../includes/basic-elements/footer.php');
     oneDotOrMoreFooter('..'); ?>

@@ -1,10 +1,21 @@
 <?php
 session_start();
 
-$can_visit_reservations = "false";
-$can_visit_employees = "false";
-$can_visit_daysettings = "false";
-$can_visit_table = "false";
+$type = "rules";
+$accept_reservations = "true";
+$open_closed = "open";
+$times_or_timeslots = "times";
+$t_1600 = "true";
+$t_1630 = "true";
+$t_1700 = "true";
+$t_1730 = "true";
+$t_1800 = "true";
+$t_1830 = "true";
+$t_1900 = "true";
+$t_1930 = "true";
+$t_2000 = "true";
+$t_2030 = "true";
+$t_2100 = "true";
 
 //Require database in this file
 require_once '../includes/database.php';
@@ -15,31 +26,36 @@ require_once "../includes/loginCheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_daysettings');
 
-if (isset($_SESSION['canChangeEmployee']) && $_GET['edit'] == '1') {
-    $employeeID = $_SESSION['canChangeEmployee']['employee_id'];
+if (isset($_SESSION['daySettingChange']) && $_GET['edit'] == '1') {
+    $settingID = $_SESSION['daySettingChange']['setting_id'];
 
-    $queryPull = "SELECT * FROM users WHERE id = '$employeeID'";
+    $queryPull = "SELECT * FROM `day-settings` WHERE id = '$settingID'";
 
-    $resultPull = mysqli_query($db, $queryPull); //or die('Db Error: '.mysqli_error($db).' with query: '.$query);
+    $resultPull = mysqli_query($db, $queryPull); //or die('Db Error: '.mysqli_error($db).' with query: '.$queryPull);
 
-    $employee = mysqli_fetch_assoc($resultPull);
-    $user = $employee['username'];
-    $name = $employee['name'];
-    $can_visit_reservations = $employee['can_visit_reservations'];
-    $can_visit_employees = $employee['can_visit_employees'];
-    $can_visit_daysettings = $employee['can_visit_daysettings'];
-    $can_visit_table = $employee['can_visit_table'];
-    mysqli_close($db);
+    $daySetting = mysqli_fetch_assoc($resultPull);
+
+    if ($daySetting['from_date'] !== '') {
+        $from_date = $daySetting['from_date'];
+    }
+    if ($daySetting['until_date'] !== '') {
+        $until_date = $daySetting['until_date'];
+    }
+
+    $type = $daySetting['type'];
+    $accept_reservations = $daySetting['accept_reservations'];
+    $open_closed = $daySetting['open_closed'];
+    $guest_limit = $daySetting['guest_limit'];
+    $reservations_limit = $daySetting['reservations_limit'];
+
 } else {
     unset($_GET);
     unset($_SESSION['canChangeEmployee']);
-    //header('Location: ./nieuwe-gebruiker.php');
-    //exit;
 }
 
 
 if (isset($_POST['submit'])) {
-    if (isset($_SESSION['canChangeEmployee']) && $_GET['edit'] == '1') {
+    if (isset($_SESSION['daySettingChange']) && $_GET['edit'] == '1') {
         $user = mysqli_escape_string($db, $_POST['username']);
         $name = mysqli_escape_string($db, $_POST['name']);
 
@@ -80,7 +96,7 @@ if (isset($_POST['submit'])) {
 
             $queryUpdate = "UPDATE `users` SET username = '$user', name = '$name', can_visit_reservations = '$can_visit_reservations', can_visit_daysettings = '$can_visit_daysettings', can_visit_table = '$can_visit_table', can_visit_employees = '$can_visit_employees' WHERE id = '$employeeID'";
 
-            $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Db Error: '.mysqli_error($db).' with query: '.$query);
+            $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Db Error: '.mysqli_error($db).' with query: '.$queryUpdate);
             mysqli_close($db);
             if ($resultUpdate) {
                 header('Location: ../medewerkers-instellingen/details.php?id=' . $employeeID);
@@ -126,104 +142,103 @@ if (isset($_POST['submit'])) {
     }
 }
 
+print_r($daySetting);
+
 //include basic pages such as navbar and header.
-require_once "../includes/head.php";
-if (isset($_SESSION['canChangeSetting'])) {
+require_once "../includes/basic-elements/head.php";
+if (isset($_SESSION['daySettingChange'])) {
     oneDotOrMoreHead('..', 'Daginstelling wijzigen bij Rasa Senang', false, false);
 } else {
     oneDotOrMoreHead('..', 'Nieuwe Daginstelling voor Rasa Senan', false, false);
 }
-require_once "../includes/topBar.php";
+require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', './regels.php');
-require_once "../includes/sideNav.php";
+require_once "../includes/basic-elements/sideNav.php";
 oneDotOrMoreNav('..', false);
 ?>
-    <main class="content-wrap">
-        <header>
-            <?php if (isset($_SESSION['canChangeSetting'])) { ?>
-                <h1>Daginstelling wijzigen</h1>
+<main class="content-wrap">
+    <header>
+        <?php if (isset($_SESSION['daySettingChange'])) { ?>
+            <h1>Daginstelling wijzigen</h1>
+        <?php } else { ?>
+            <h1>Nieuwe Daginstelling maken</h1>
+        <?php } ?>
+    </header>
+    <form action="" method="post">
+        <?php if ($type !== 'general') { ?>
+            <div class="data-field">
+                <div class="flexLabel" id ="daySettingsCreate">
+                    <label for="from_date" class="loginLabel">Vanaf Datum:</label>
+                </div>
+                <div class="flexInputWithErrors">
+                    <input type="date" name="from_date" value="<?= $from_date ?? '' ?>"/>
+                    <span class="errors"><?= $errors['from_date'] ?? '' ?></span>
+                </div>
+            </div>
+            <div class="data-field">
+                <div class="flexLabel" id ="daySettingsCreate">
+                    <label for="from_date" class="loginLabel">Tot en Met Datum:</label>
+                </div>
+                <div class="flexInputWithErrors">
+                    <input type="date" name="from_date" value="<?= $until_date ?? '' ?>"/>
+                    <span class="errors"><?= $errors['until_date'] ?? '' ?></span>
+                </div>
+            </div>
+        <?php } ?>
+        <div class="data-field">
+            <div class="flexLabel" id ="daySettingsCreate">
+                <label for="accept_reservations">Restaurant Geopend:</label>
+            </div>
+            <input type="checkbox"
+                   name="accept_reservations" <?php if ($open_closed == "open") { ?> checked <?php } ?> />
+        </div>
+        <div class="hide-if-restaurant-closed">
+            <div class="data-field">
+                <div class="flexLabel" id ="daySettingsCreate">
+                    <label for="accept_reservations">Accepteer Reserveringen:</label>
+                </div>
+                <input type="checkbox"
+                       name="accept_reservations" <?php if ($accept_reservations == "true") { ?> checked <?php } ?> />
+            </div>
+            <div class="data-field">
+                <div class="flexLabel" id ="daySettingsCreate">
+                    <label for="guest_limit" class="loginLabel">Maximaal aantal gasten:</label>
+                </div>
+                <input type="number" name="guest_limit" value="<?= $guest_limit ?? '' ?>"/>
+            </div>
+            <div class="data-field">
+                <div class="flexLabel" id ="daySettingsCreate">
+                    <label for="reservations_limit" class="loginLabel">Maximaal aantal reserveringen:</label>
+                </div>
+                <input type="number" name="reservations_limit" value="<?= $reservations_limit ?? '' ?>"/>
+            </div>
+            <div>
+                <div class="data-field">
+                    <div class="flexLabel" id ="daySettingsCreate">
+                        <label for="times_or_timeslots">Aanvangstijden of Tijdsloten:</label>
+                    </div>
+                    <select name="times_or_timeslots">
+                        <option value="times" <?php if ($times_or_timeslots == "times") { ?> selected <?php } ?>>Aanvangstijden</option>
+                        <option value="timeslots" <?php if ($times_or_timeslots == "timeslots") { ?> selected <?php } ?>>Tijdsloten</option>
+                    </select>
+                </div>
+            </div>
+            <div class="data-field">
+                <div class="flexLabel" id ="daySettingsCreate">
+                    <label for="accept_reservations">Aanvangstijden:</label>
+                </div>
+                <input type="checkbox"
+                       name="16:00" <?php if ($t_1600 == "true") { ?> checked <?php } ?> />
+            </div>
+        </div>
+        <div class="data-submit">
+            <?php if (isset($_SESSION['daySettingChange'])) { ?>
+                <input type="submit" name="submit" value="Bevestigen"/>
             <?php } else { ?>
-                <h1>Nieuwe Daginstelling maken</h1>
+                <input type="submit" name="submit" value="Registreren"/>
             <?php } ?>
-        </header>
-        <form action="" method="post">
-            <div class="data-field">
-                <div class="flexLabel">
-                    <label for="name" class="loginLabel">Naam</label>
-                </div>
-                <div class="flexInputWithErrors">
-                    <input type="text" name="name" value="<?= $name ?? '' ?>"/>
-                    <span class="errors"><?= $errors['name'] ?? '' ?></span>
-                </div>
-            </div>
-            <div class="data-field">
-                <div class="flexLabel">
-                    <label for="username" class="loginLabel">Gebruikersnaam</label>
-                </div>
-                <div class="flexInputWithErrors">
-                    <input type="text" name="username" value="<?= $user ?? '' ?>"/>
-                    <span class="errors"><?= $errors['username'] ?? '' ?></span>
-                </div>
-            </div>
-            <?php if (!isset($_SESSION['canChangeEmployee']) && !isset($_GET['edit'])) { ?>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="password">Wachtwoord</label>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="password" name="password" value="<?= $passwordEmployee ?? '' ?>"/>
-                        <span class="errors"><?= $errors['password'] ?? '' ?></span>
-                    </div>
-                </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="passwordConfirm">Wachtwoord Bevestigen</label>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="password" name="passwordConfirm" value="<?= $passwordConfirm ?? '' ?>"/>
-                        <span class="errors"><?= $errors['passwordConfirm'] ?? '' ?></span>
-                    </div>
-                </div>
-            <?php } ?>
-            <h3 class="h3detailsEmp">Rechten:</h3>
-            <div class="employeeRights">
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="can_visit_reservations">Overzicht Reserveringen:</label>
-                    </div>
-                    <input type="checkbox"
-                           name="can_visit_reservations" <?php if ($can_visit_reservations == "true") { ?> checked <?php } ?> />
-                </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="can_visit_employees">Overzicht Medewerkers:</label>
-                    </div>
-                    <input type="checkbox"
-                           name="can_visit_employees" <?php if ($can_visit_employees == "true") { ?> checked <?php } ?> />
-                </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="can_visit_daysettings">Daginstellingen:</label>
-                    </div>
-                    <input type="checkbox"
-                           name="can_visit_daysettings" <?php if ($can_visit_daysettings == "true") { ?> checked <?php } ?> />
-                </div>
-                <div class="data-field" style="display: none;">
-                    <div class="flexLabel">
-                        <label for="can_visit_table">Tafelindeling:</label>
-                    </div>
-                    <input type="checkbox"
-                           name="can_visit_table" <?php if ($can_visit_table == "true") { ?> checked <?php } ?> />
-                </div>
-            </div>
-            <div class="data-submit">
-                <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
-                    <input type="submit" name="submit" value="Bevestigen"/>
-                <?php } else { ?>
-                    <input type="submit" name="submit" value="Registreren"/>
-                <?php } ?>
-            </div>
-        </form>
-    </main>
-    <?php require_once('../includes/footer.php');
-    oneDotOrMoreFooter('..'); ?>
+        </div>
+    </form>
+</main>
+<?php require_once('../includes/basic-elements/footer.php');
+oneDotOrMoreFooter('..'); ?>

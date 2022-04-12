@@ -10,7 +10,7 @@
             <a href="<?= $dotsString ?>/medewerkers" class="topBarLogoRedirect">
                 <img class="logo" src="<?= $dotsString ?>/data/logo-half-transparent.png" alt="Logo Rasa Senang">
             </a>
-            <div id="timedate">
+            <div id="timeDate">
                 <a id="d"><?= date('d') ?></a>
                 <a id="mon"><?= date('F') ?></a>,
                 <a id="y"><?= date('Y') ?></a><br />
@@ -19,7 +19,7 @@
         </div>
     <a href="<?= $backRedirect ?>">
          <button class="back">
-            <?php if ($backRedirect == '../inloggen/logout.php') { ?><img src="../data/icon-general/log-out.png" alt="Uitloggen">
+            <?php if ($backRedirect == '../inloggen/logout.php') { ?><img src="<?= $dotsString ?>/data/icon-general/log-out.png" alt="Uitloggen">
             <?php } else { ?><img src="<?= $dotsString ?>/data/icon-general/back.png" alt="Terug naar Beginpagina"><?php } ?>
         </button>
     </a>
@@ -34,7 +34,7 @@
             </a>
         <a href="<?= $backRedirect ?>">
             <button class="back">
-                <?php if ($backRedirect == '../inloggen/logout.php') { ?><img src="../data/icon-general/log-out.png" alt="Uitloggen">
+                <?php if ($backRedirect == '../inloggen/logout.php') { ?><img src="<?=$dotsString?>/data/icon-general/log-out.png" alt="Uitloggen">
                 <?php } else { ?><img src="<?= $dotsString ?>/data/icon-general/back.png" alt="Terug naar Beginpagina"><?php } ?>
             </button>
         </a>
