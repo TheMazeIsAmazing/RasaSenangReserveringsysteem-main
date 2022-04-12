@@ -219,7 +219,6 @@ oneDotOrMoreTopBar('..', './regels.php');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..', false);
 ?>
-<div class="page-container">
     <main class="content-wrap">
         <header>
             <h1>Details</h1>
@@ -318,6 +317,3 @@ oneDotOrMoreNav('..', false);
     </main>
     <?php require_once('../includes/footer.php');
     oneDotOrMoreFooter('..'); ?>
-</div>
-</body>
-</html>

@@ -72,8 +72,6 @@ oneDotOrMoreTopBar('..', '../medewerkers');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..', true);
 ?>
-
-<div class="page-container">
     <main class="content-wrap">
         <header>
             <h1>Overzicht Reserveringen</h1>
@@ -145,6 +143,3 @@ oneDotOrMoreNav('..', true);
     </main>
     <?php require_once('../includes/footer.php');
     oneDotOrMoreFooter('..'); ?>
-</div>
-</body>
-</html>

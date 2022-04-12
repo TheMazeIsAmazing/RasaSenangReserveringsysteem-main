@@ -61,5 +61,8 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
     <?php if ($topArrow == true) { ?>
     <div id="top"><i>˄</i></div>
 <?php } ?>
-    <?php
-} ?>
+<?php if (isset($_SESSION['loggedInUser'])) { ?>
+    <div class="page-container" id="employeeTopBar">
+<?php } else { ?>
+    <div class="page-container" id="customerTopBar">
+<?php } }?>

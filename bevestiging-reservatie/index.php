@@ -44,9 +44,6 @@ oneDotOrMoreTopBar('..', '../');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..', false);
 ?>
-
-<div class="page-container">
-    <main class="content-wrap">
         <div class="confirmation-page">
             <?php if ($deleted == true) { ?>
                 <section>
@@ -92,6 +89,3 @@ oneDotOrMoreNav('..', false);
     </main>
     <?php require_once('../includes/footer.php');
     oneDotOrMoreFooter('..'); ?>
-</div>
-</body>
-</html>

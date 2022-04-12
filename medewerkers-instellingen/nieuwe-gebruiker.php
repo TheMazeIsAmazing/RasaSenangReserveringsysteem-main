@@ -145,8 +145,6 @@ oneDotOrMoreTopBar('..', './');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..');
 ?>
-
-<div class="page-container">
     <main class="content-wrap">
         <header>
             <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
@@ -236,6 +234,3 @@ oneDotOrMoreNav('..');
     </main>
     <?php require_once('../includes/footer.php');
     oneDotOrMoreFooter('..'); ?>
-</div>
-</body>
-</html>

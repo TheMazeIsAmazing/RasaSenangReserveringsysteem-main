@@ -6,5 +6,7 @@
         <div> <a href="<?= $dotsString ?>/privacystatement"> Privacystatement </a> </div>
     </section>
 </footer>
-
+    </div>
+    </body>
+    </html>
 <?php } ?>

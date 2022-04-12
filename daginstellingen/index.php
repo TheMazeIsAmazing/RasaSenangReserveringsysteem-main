@@ -4,13 +4,12 @@ session_start();
 
 //Require database in this file
 require_once '../includes/database.php';
-/**@var mysqli $db*/
+/**@var mysqli $db */
 
 //May I even visit this page?
 require_once "../includes/loginCheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_daysettings');
-
 
 
 $queryDaySettings = "SELECT * FROM `day-settings`";
@@ -71,45 +70,45 @@ foreach ($settings as $key => $setting) {
         }
     }
 
-        $days = [];
+    $days = [];
 
-if ($setting['monday'] == 'open') {
-    $days[] = 'Maandag';
-}
-if ($setting['tuesday'] == 'open') {
-    $days[] = 'Dinsdag';
-}
-if ($setting['wednesday'] == 'open') {
-    $days[] = 'Woensdag';
-}
-if ($setting['thursday'] == 'open') {
-    $days[] = 'Donderdag';
-}
-if ($setting['friday'] == 'open') {
-    $days[] = 'Vrijdag';
-}
-if ($setting['saturday'] == 'open') {
-    $days[] = 'Zaterdag';
-}
-if ($setting['sunday'] == 'open') {
-    $days[] = 'Zondag';
-}
+    if ($setting['monday'] == 'open') {
+        $days[] = 'Maandag';
+    }
+    if ($setting['tuesday'] == 'open') {
+        $days[] = 'Dinsdag';
+    }
+    if ($setting['wednesday'] == 'open') {
+        $days[] = 'Woensdag';
+    }
+    if ($setting['thursday'] == 'open') {
+        $days[] = 'Donderdag';
+    }
+    if ($setting['friday'] == 'open') {
+        $days[] = 'Vrijdag';
+    }
+    if ($setting['saturday'] == 'open') {
+        $days[] = 'Zaterdag';
+    }
+    if ($setting['sunday'] == 'open') {
+        $days[] = 'Zondag';
+    }
 
-$date_string = "Niet van toepassing";
+    $date_string = "Niet van toepassing";
 
 
-if (count($days) >= 1) {
-    $settings[$key]['date-str'] = '';
-    for ($i = 0; $i < count($days); $i++) {
-        if (($i + 1 == count($days)) && count($days) !== 1) {
-            $settings[$key]['date-str'] = "{$settings[$key]['date-str']} en $days[$i]";
-        } elseif (count($days) == 1 || $i == 0) {
-            $settings[$key]['date-str'] = "{$settings[$key]['date-str']} $days[$i]";
-        } else {
-            $settings[$key]['date-str'] = "{$settings[$key]['date-str']}, $days[$i]";
+    if (count($days) >= 1) {
+        $settings[$key]['date-str'] = '';
+        for ($i = 0; $i < count($days); $i++) {
+            if (($i + 1 == count($days)) && count($days) !== 1) {
+                $settings[$key]['date-str'] = "{$settings[$key]['date-str']} en $days[$i]";
+            } elseif (count($days) == 1 || $i == 0) {
+                $settings[$key]['date-str'] = "{$settings[$key]['date-str']} $days[$i]";
+            } else {
+                $settings[$key]['date-str'] = "{$settings[$key]['date-str']}, $days[$i]";
+            }
         }
     }
-}
 }
 
 $daysMatchQuery = 0;
@@ -137,7 +136,6 @@ foreach ($reservations as $reservation) {
 mysqli_close($db);
 
 
-
 //include basic pages such as navbar and header.
 require_once "../includes/head.php";
 oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false, false);
@@ -146,8 +144,6 @@ oneDotOrMoreTopBar('..', '../medewerkers');
 require_once "../includes/sideNav.php";
 oneDotOrMoreNav('..', false);
 ?>
-
-<div class="page-container">
     <main class="content-wrap">
         <header>
             <h1>Daginstellingen</h1>
@@ -162,99 +158,141 @@ oneDotOrMoreNav('..', false);
             </div>
         </section>
         <div class="flexDaySettings">
-            <div class="daySummary">
-                <h2>Instellingen voor Vandaag:</h2>
-                <?php foreach ($settings as $setting) {
+            <?php  //code to initialize the setting for current day section
+            foreach ($settings as $setting) {
                 if ((strtotime($setting['until_date']) >= strtotime($date)) && (strtotime($setting['from_date']) <= strtotime($date))) {
                     $daysMatchQuery++;
-                if ($setting[strtolower(date('l'))] == 'open') {;
-                ?>
-                <div class="flexDetails">
-                    <div class="labelDetails">Accepteer Reserveringen:</div>
-                    <div><?php if (htmlentities($setting['accept_reservations']) == 'true') {
-                            echo 'Ja';
-                        } else {
-                            echo 'Nee';
-                        } ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Restaurant open/dicht:</div>
-                    <div><?php if (htmlentities($setting['open_closed']) == 'open') {
-                            echo 'Geopend';
-                        } else {
-                            echo 'Gesloten';
-                        } ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Gasten limiet:</div>
-                    <div class="daySummaryFlexListItem"><?= htmlentities($setting['guest_limit']) ?> <div>(Er komen vandaag <?= $guestCount; ?> gasten)</div></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Reservering limiet:</div>
-                    <div class="daySummaryFlexListItem"><?= htmlentities($setting['reservations_limit']) ?> <div>(Er zijn vandaag <?= $amountReservations; ?> reserveringen)</div></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                    <div><?= $setting['time-str']; ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Beschikbare tijdsloten:</div>
-                    <div></div>
-                </div>
-            </div>
-            <?php } else { ?>
-                <div class="flexDetails">
-                    <div class="labelDetails">Restaurant open/dicht:</div>
-                    <div>Gesloten</div>
-                </div>
-        </div>
-            <?php }  } }
-            if ($daysMatchQuery == 0) {
-                foreach ($settings as $setting) {
-                    if ($setting['type'] == 'general') {
-                        if ($setting[strtolower(date('l'))] == 'open' && $setting['open_closed'] == 'open') {?>
-            <div class="flexDetails">
-                <div class="labelDetails">Accepteer Reserveringen:</div>
-                <div><?php if (htmlentities($setting['accept_reservations']) == 'true') {
-                        echo 'Ja';
-                    } else {
-                        echo 'Nee';
-                    } ?></div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails">Restaurant open/dicht:</div>
-                <div>Geopend</div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails">Gasten limiet:</div>
-                <div><?= htmlentities($setting['guest_limit']) ?> (Er komen vandaag <?= $guestCount; ?> gasten)</div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails">Reservering limiet:</div>
-                <div><?= htmlentities($setting['reservations_limit']) ?> (Er zijn vandaag <?= $amountReservations; ?> reserveringen)
-                </div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                <div><?= $setting['time-str']; ?></div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails">Beschikbare tijdsloten:</div>
-                <div></div>
-            </div>
-                                        </div>
-            <?php } else { ?>
+                    if ($setting[strtolower(date('l'))] == 'open' && $setting['open_closed'] == 'open') {
+                        ?>
+                        <div class="daySummary">
+                            <h2>Instellingen voor Vandaag:</h2>
+                            <div class="flexDetails">
+                                <div class="labelDetails">Accepteer Reserveringen:</div>
+                                <div><?php if (htmlentities($setting['accept_reservations']) == 'true') {
+                                        echo 'Ja';
+                                    } else {
+                                        echo 'Nee';
+                                    } ?></div>
+                            </div>
+                            <div class="flexDetails">
+                                <div class="labelDetails">Restaurant open/dicht:</div>
+                                <div>Geopend</div>
+                            </div>
+                            <div class="flexDetails">
+                                <div class="labelDetails">Gasten limiet:</div>
+                                <div class="daySummaryFlexListItem"><?= htmlentities($setting['guest_limit']) ?>
+                                    <div>(Er komen vandaag <?= $guestCount; ?> gasten)</div>
+                                </div>
+                            </div>
+                            <div class="flexDetails">
+                                <div class="labelDetails">Reservering limiet:</div>
+                                <div class="daySummaryFlexListItem"><?= htmlentities($setting['reservations_limit']) ?>
+                                    <div>(Er zijn vandaag <?= $amountReservations; ?> reserveringen)</div>
+                                </div>
+                            </div>
+                            <div class="flexDetails">
+                                <div class="labelDetails timesLabel">Beschikbare tijden:</div>
+                                <div><?= $setting['time-str']; ?></div>
+                            </div>
+                        </div>
+                    <?php } else { ?>
+                        <div class="daySummary">
+                            <h2>Instellingen voor Vandaag:</h2>
                             <div class="flexDetails">
                                 <div class="labelDetails">Restaurant open/dicht:</div>
                                 <div>Gesloten</div>
                             </div>
-                                        </div>
-            <?php        }}}} ?>
+                        </div>
+                    <?php }
+                }
+            }
+            if ($daysMatchQuery == 0) {
+                foreach ($settings as $setting) {
+                    if ($setting['type'] == 'general') {
+                        $daysMatchQuery++;
+                        if ($setting[strtolower(date('l'))] == 'open' && $setting['open_closed'] == 'open') { ?>
+                            <div class="daySummary">
+                                <h2>Instellingen voor Vandaag:</h2>
+                                <div class="flexDetails">
+                                    <div class="labelDetails">Accepteer Reserveringen:</div>
+                                    <div><?php if (htmlentities($setting['accept_reservations']) == 'true') {
+                                            echo 'Ja';
+                                        } else {
+                                            echo 'Nee';
+                                        } ?></div>
+                                </div>
+                                <div class="flexDetails">
+                                    <div class="labelDetails">Restaurant open/dicht:</div>
+                                    <div><?php if (htmlentities($setting['open_closed']) == 'closed' || $setting[strtolower(date('l'))] == 'closed') {
+                                            echo 'Gesloten';
+                                        } else {
+                                            echo 'Geopend';
+                                        } ?></div>
+                                </div>
+                                <div class="flexDetails">
+                                    <div class="labelDetails">Gasten limiet:</div>
+                                    <div><?= htmlentities($setting['guest_limit']) ?> (Er komen
+                                        vandaag <?= $guestCount; ?> gasten)
+                                    </div>
+                                </div>
+                                <div class="flexDetails">
+                                    <div class="labelDetails">Reservering limiet:</div>
+                                    <div><?= htmlentities($setting['reservations_limit']) ?> (Er zijn
+                                        vandaag <?= $amountReservations; ?> reserveringen)
+                                    </div>
+                                </div>
+                                <div class="flexDetails">
+                                    <div class="labelDetails timesLabel">Beschikbare tijden:</div>
+                                    <div><?= $setting['time-str']; ?></div>
+                                </div>
+                            </div>
+                        <?php } else { ?>
+                            <div class="daySummary">
+                                <h2>Instellingen voor Vandaag:</h2>
+                                <div class="flexDetails">
+                                    <div class="labelDetails">Restaurant open/dicht:</div>
+                                    <div>Gesloten</div>
+                                </div>
+                            </div>
+                        <?php }
+                    }
+                }
+            }
+
+            //code to initialize the current rule section
+            foreach ($settings as $setting) {
+            if ((strtotime($setting['until_date']) >= strtotime($date)) && (strtotime($setting['from_date']) <= strtotime($date))) {
+            if ($setting[strtolower(date('l'))] == 'open' && $setting['open_closed'] == 'open') { ?>
+                ?>
+                <div class="daySummary">
+                    <h2>Huidige Regel:</h2>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Regel vanaf:</div>
+                        <div><?= date('d-m-Y', strtotime($setting['from_date'])) ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Tot en met:</div>
+                        <div><?= date('d-m-Y', strtotime($setting['until_date'])) ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails timesLabel">Geopende dagen:</div>
+                        <div><?= $setting['date-str']; ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <a href="./details.php?id=<?= $setting['id'] ?>">Details</a>
+                    </div>
+                </div>
+            <?php } else if ($setting['open_closed'] == 'open') { ?>
             <div class="daySummary">
-                <h2>Algemene Instellingen:</h2>
-                <?php foreach ($settings as $setting) {
-                if ($setting['type'] == 'general') {
-                    if (htmlentities($setting['open_closed']) == 'open') { ?>
+                <h2>Huidige Regel:</h2>
+                <div class="flexDetails">
+                    <div class="labelDetails">Regel vanaf:</div>
+                    <div><?= date('d-m-Y', strtotime($setting['from_date'])) ?></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Tot en met:</div>
+                    <div><?= date('d-m-Y', strtotime($setting['until_date'])) ?></div>
+                </div>
                 <div class="flexDetails">
                     <div class="labelDetails">Accepteer Reserveringen:</div>
                     <div><?php if (htmlentities($setting['accept_reservations']) == 'true') {
@@ -263,43 +301,61 @@ oneDotOrMoreNav('..', false);
                             echo 'Nee';
                         } ?></div>
                 </div>
-                    <?php } ?>
-                <div class="flexDetails">
-                    <div class="labelDetails">Restaurant open/dicht:</div>
-                    <div><?php if (htmlentities($setting['open_closed']) == 'open') {
-                            echo 'Geopend';
-                        } else {
-                            echo 'Gesloten';
-                        } ?></div>
+        <div class="flexDetails">
+            <div class="labelDetails">Restaurant open/dicht:</div>
+            <div>Geopend</div>
+        </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Gasten limiet:</div>
+                        <div><?= htmlentities($setting['guest_limit']) ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Reservering limiet:</div>
+                        <div><?= htmlentities($setting['reservations_limit']) ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>
+                        <div><?= $setting['time-str']; ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails timesLabel">Geopende dagen:</div>
+                        <div><?= $setting['date-str']; ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <a href="./details.php?id=<?= $setting['id'] ?>">Details</a>
+                    </div>
+            </div>
+                <?php } else { ?>
+                <div class="daySummary">
+                    <h2>Huidige Regel:</h2>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Regel vanaf:</div>
+                        <div><?= date('d-m-Y', strtotime($setting['from_date'])) ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Tot en met:</div>
+                        <div><?= date('d-m-Y', strtotime($setting['until_date'])) ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Restaurant open/dicht:</div>
+                        <div>Gesloten</div>
+                    </div>
+                    <div class="flexDetails">
+                        <a href="./details.php?id=<?= $setting['id'] ?>">Details</a>
+                    </div>
                 </div>
-                    <?php if (htmlentities($setting['open_closed']) == 'open') { ?>
-                        <div class="flexDetails">
-                            <div class="labelDetails">Gasten limiet:</div>
-                            <div><?= htmlentities($setting['guest_limit']) ?></div>
-                        </div>
-                        <div class="flexDetails">
-                            <div class="labelDetails">Reservering limiet:</div>
-                            <div><?= htmlentities($setting['reservations_limit']) ?></div>
-                        </div>
-                        <div class="flexDetails">
-                            <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                            <div><?= $setting['time-str']; ?></div>
-                        </div>
-                        <div class="flexDetails">
-                            <div class="labelDetails timesLabel">Geopende dagen:</div>
-                            <div><?= $setting['date-str']; ?></div>
-                        </div>
-                        <div class="flexDetails">
-                            <div class="labelDetails">Beschikbare tijdsloten:</div>
-                            <div></div>
-                        </div>
-                    <?php } ?>
-                <?php }} ?>
+                <?php }
+                } }
+//                if ($daysMatchQuery == 0) {
+//                foreach ($settings
+//
+//                as $setting) {
+//                if ($setting['type'] == 'general') {
+//                    if ($setting[strtolower(date('l'))] == 'open') { ?><!--?>-->
+<!--                    --><?php //}
+//                } ?>
             </div>
         </div>
     </main>
     <?php require_once('../includes/footer.php');
     oneDotOrMoreFooter('..'); ?>
-</div>
-</body>
-</html>

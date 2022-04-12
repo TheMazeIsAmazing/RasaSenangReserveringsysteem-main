@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="nl">
 <head>
-<?php function oneDotOrMoreHead($dotsString, $title, $modalScript, $topArrow)
-    { ?>
+<?php function oneDotOrMoreHead($dotsString, $title, $modalScript, $topArrow){ ?>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,12 +22,15 @@
     <link rel="stylesheet" href="<?= $dotsString ?>/includes/style.css">
     <title><?= $title ?></title>
     <script defer src="<?= $dotsString ?>/includes/side-menu-scripts.js"></script>
-    <?php if ($modalScript == true) { ?>
-            <script defer src="<?= $dotsString ?>/includes/modal-scripts.js"></script>
-    <?php } ?>
-    <?php if ($topArrow == true) { ?>
-        <script defer src="<?= $dotsString ?>/includes/top-arrow-scripts.js"></script>
-    <?php } ?>
+<?php if ($modalScript == true) { ?>
+    <script defer src="<?= $dotsString ?>/includes/modal-scripts.js"></script>
+<?php } ?>
+<?php if ($topArrow == true) { ?>
+     <script defer src="<?= $dotsString ?>/includes/top-arrow-scripts.js"></script>
+<?php } ?>
+<?php if (isset($_SESSION['loggedInUser'])) { ?>
+      <script defer src="<?= $dotsString ?>/includes/top-bar-clock-scripts.js"></script>
+<?php } ?>
 </head>
 <body>
 <?php if ($modalScript == true) { ?>
