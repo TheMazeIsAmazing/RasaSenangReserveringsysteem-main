@@ -23,7 +23,7 @@ mysqli_close($db);
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Medewerkers van Rasa Senang', false, true);
+oneDotOrMoreHead('..', 'Medewerkers van Rasa Senang', false, true, false);
 require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', '../medewerkers');
 require_once "../includes/basic-elements/sideNav.php";

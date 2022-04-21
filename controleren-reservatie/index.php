@@ -357,7 +357,7 @@ if (isset($_POST['back'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Controleren reservering bij Rasa Senang', true, false);
+oneDotOrMoreHead('..', 'Controleren reservering bij Rasa Senang', true, false, false);
 require_once "../includes/basic-elements/topBar.php";
 
 if (isset($_GET) && isset($_SESSION['canChangeReservation'])) {

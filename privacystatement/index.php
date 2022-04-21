@@ -3,7 +3,7 @@ session_start();
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Privacystatement van Rasa Senang', false, true);
+oneDotOrMoreHead('..', 'Privacystatement van Rasa Senang', false, true, false);
 require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', '../');
 require_once "../includes/basic-elements/sideNav.php";
@@ -36,8 +36,6 @@ oneDotOrMoreNav('..', true);
                     <li>U de mogelijkheid te bieden om te reserveren</li>
                     <li>Om inzicht te krijgen in gedrag van onze gasten</li>
                 </ul>
-                Dit laatste is niet, en zal nooit, met uitzondering van basisinformatie zoals de hoeveelheid geplaatste
-                reserveringen, terug te herleiden zijn naar de individuele gebruiker.
                 <h3>Hoe lang we persoonsgegevens bewaren</h3>
                 Rasa Senang bewaart uw persoonsgegevens zolang u een actieve gebruiker bent van de website. Als 2 jaar
                 geen reservering geplaatst hebt zullen al uw gegevens automatisch verwijderd worden.<br/>

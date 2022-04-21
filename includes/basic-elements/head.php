@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="nl">
-<head>
-<?php function oneDotOrMoreHead($dotsString, $title, $modalScript, $topArrow){ ?>
+<head id="head">
+<?php function oneDotOrMoreHead($dotsString, $title, $modalScript, $topArrow, $createDaySettingScript) { ?>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +26,9 @@
     <script async src="<?= $dotsString ?>/includes/scripts/dark-mode-scripts.js"></script>
 <?php if ($modalScript == true) { ?>
     <script defer src="<?= $dotsString ?>/includes/scripts/modal-scripts.js"></script>
+<?php } ?>
+<?php if ($createDaySettingScript == true) { ?>
+    <script defer src="<?= $dotsString ?>/includes/scripts/day-settings-create-edit-page-scripts.js"></script>
 <?php } ?>
 <?php if ($topArrow == true) { ?>
      <script defer src="<?= $dotsString ?>/includes/scripts/top-arrow-scripts.js"></script>

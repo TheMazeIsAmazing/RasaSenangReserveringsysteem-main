@@ -13,6 +13,10 @@ if ($date < date("Y-m-d", strtotime('12 december 2021'))) {
     $date = date("Y-m-d");
 }
 
+if (isset($_SESSION['daySettingChange'])) {
+    unset($_SESSION['daySettingChange']);
+}
+
 //Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
@@ -87,7 +91,7 @@ foreach ($settings as $key => $setting) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false, true);
+oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false, true, false);
 require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', './');
 require_once "../includes/basic-elements/sideNav.php";
@@ -127,8 +131,8 @@ oneDotOrMoreNav('..', true);
                     <th>Type</th>
                     <th>Vanaf</th>
                     <th>Tot en Met</th>
-                    <th>Accepteer Reserveringen</th>
                     <th>Open?</th>
+                    <th>Accepteer Reserveringen</th>
                     <th>Limiet Gasten</th>
                     <th>Limiet Reserveringen</th>
                     <th>Aanvangstijden of Tijdslots</th>
@@ -155,16 +159,13 @@ oneDotOrMoreNav('..', true);
                                     } else {
                                         echo '-';
                                     } ?></td>
-                                <td><?php if (htmlentities($setting['accept_reservations']) == 'true') {
-                                        echo 'Ja';
-                                    } else {
-                                        echo 'Nee';
-                                    } ?></td>
-                                <td><?php if (htmlentities($setting['open_closed']) == 'open') {
-                                        echo 'Geopend';
-                                    } else {
-                                        echo 'Gesloten';
-                                    } ?></td>
+                                <?php if (htmlentities($setting['open_closed']) == 'open') { ?>
+                                <td>Geopend</td>
+                                    <td><?php if (htmlentities($setting['accept_reservations']) == 'true') {
+                                            echo 'Ja';
+                                        } else {
+                                            echo 'Nee';
+                                        } ?></td>
                                 <td><?php if (isset($setting['guest_limit']) && $setting['guest_limit'] !== '') {
                                         echo $setting['guest_limit'];
                                     } else {
@@ -175,7 +176,18 @@ oneDotOrMoreNav('..', true);
                                     } else {
                                         echo '-';
                                     } ?></td>
-                                <td><?= $setting['time-str']; ?></td>
+                                <td><?php if ($setting['times_or_timeslots'] == 'times') {
+                                    echo $setting['time-str'];
+                                    } else {
+                                    echo 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to'];
+                                    }?></td>
+                                <?php } else { ?>
+                                    <td>Gesloten</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                <?php } ?>
                                 <td>
                                     <a href="details.php?id=<?= htmlentities($setting['id']) ?>"><img
                                                 class="details-button" src="../data/icon-general/information.png"
@@ -203,27 +215,35 @@ oneDotOrMoreNav('..', true);
                                     } else {
                                         echo '-';
                                     } ?></td>
-                                <td><?php if (htmlentities($setting['accept_reservations']) == 'true') {
-                                        echo 'Ja';
-                                    } else {
-                                        echo 'Nee';
-                                    } ?></td>
-                                <td><?php if (htmlentities($setting['open_closed']) == 'open') {
-                                        echo 'Geopend';
-                                    } else {
-                                        echo 'Gesloten';
-                                    } ?></td>
-                                <td><?php if (isset($setting['guest_limit']) && $setting['guest_limit'] !== '') {
-                                        echo $setting['guest_limit'];
-                                    } else {
-                                        echo '-';
-                                    } ?></td>
-                                <td><?php if (isset($setting['reservations_limit']) && $setting['reservations_limit'] !== '') {
-                                        echo $setting['reservations_limit'];
-                                    } else {
-                                        echo '-';
-                                    } ?></td>
-                                <td><?= $setting['time-str']; ?></td>
+                                <?php if (htmlentities($setting['open_closed']) == 'open') { ?>
+                                    <td>Geopend</td>
+                                    <td><?php if (htmlentities($setting['accept_reservations']) == 'true') {
+                                            echo 'Ja';
+                                        } else {
+                                            echo 'Nee';
+                                        } ?></td>
+                                    <td><?php if (isset($setting['guest_limit']) && $setting['guest_limit'] !== '') {
+                                            echo $setting['guest_limit'];
+                                        } else {
+                                            echo '-';
+                                        } ?></td>
+                                    <td><?php if (isset($setting['reservations_limit']) && $setting['reservations_limit'] !== '') {
+                                            echo $setting['reservations_limit'];
+                                        } else {
+                                            echo '-';
+                                        } ?></td>
+                                    <td><?php if ($setting['times_or_timeslots'] == 'times') {
+                                            echo $setting['time-str'];
+                                        } else {
+                                            echo 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to'];
+                                        }?></td>
+                                <?php } else { ?>
+                                    <td>Gesloten</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                <?php } ?>
                                 <td>
                                     <a href="details.php?id=<?= htmlentities($setting['id']) ?>"><img
                                                 class="details-button" src="../data/icon-general/information.png"

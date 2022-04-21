@@ -9,6 +9,10 @@ if (isset($_SESSION['canChangeReservation'])) {
     unset($_SESSION['canChangeReservation']);
 }
 
+if (isset($_SESSION['daySettingChange'])) {
+    unset($_SESSION['daySettingChange']);
+}
+
 // redirect when uri does not contain a id
 if (!isset($_GET['id']) || $_GET['id'] == '') {
     // redirect to index.php
@@ -162,14 +166,12 @@ if (isset($_POST['submitDelete'])) {
 
 //print_r($setting);
 
-//echo date('N'); //Day of the week
-
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
 if ($setting['type'] == 'general') {
-    oneDotOrMoreHead('..', 'Algemene Daginstellingen bij Rasa Senang', true, false);
+    oneDotOrMoreHead('..', 'Algemene Daginstellingen bij Rasa Senang', true, false, false);
 } else {
-    oneDotOrMoreHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang', true, false);
+    oneDotOrMoreHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang', true, false, false);
 }
 require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', './regels.php');
@@ -187,55 +189,65 @@ oneDotOrMoreNav('..', false);
         </header>
 
         <div class="details">
-            <div class="flexDetails">
-                <div class="labelDetails">Accepteer reserveringen:</div>
-                <div> <?php if ($setting['accept_reservations'] == 'true') {
-                        echo 'Ja';
-                    } else {
-                        echo 'Nee';
-                    } ?></div>
-            </div>
+            <?php if ($setting['open_closed'] == 'open') { ?>
+                <div class="flexDetails">
+                    <div class="labelDetails">Restaurant geopend:</div>
+                    <div>Geopend</div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Accepteer reserveringen:</div>
+                    <div> <?php if ($setting['accept_reservations'] == 'true') {
+                            echo 'Ja';
+                        } else {
+                            echo 'Nee';
+                        } ?></div>
+                </div>
+                <?php if ($setting['type'] !== 'general') { ?>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Deze regel geldt vanaf:</div>
+                        <div><?= date("d/m/Y", strtotime($setting['from_date'])); ?></div>
+                    </div>
+                    <div class="flexDetails">
+                        <div class="labelDetails">Tot en met:</div>
+                        <div><?= date("d/m/Y", strtotime($setting['until_date'])); ?></div>
+                    </div>
+                <?php } ?>
+                <div class="flexDetails">
+                    <div class="labelDetails">Maximaal aantal gasten:</div>
+                    <div> <?= htmlentities($setting['guest_limit']) ?></div>
+                </div>
+                <div class="flexDetails">
+                    <div class="labelDetails">Maximaal aantal reserveringen:</div>
+                    <div> <?= htmlentities($setting['reservations_limit']) ?></div>
+                </div>
+                <?php if ($setting['times_or_timeslots'] == 'times') { ?>
+                    <div class="flexDetails">
+                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>
+                        <div><?= htmlentities($time_string) ?></div>
+                    </div>
+                <?php } else { ?>
+                    <div class="flexDetails">
+                        <div class="labelDetails timesLabel">Tijdsloten:</div>
+                        <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
+                    </div>
+                <?php } ?>
+                <div class="flexDetails">
+                    <div class="labelDetails">Dagen Geopend:</div>
+                    <div> <?= htmlentities($date_string) ?></div>
+                </div>
+            <?php } else { ?>
             <div class="flexDetails">
                 <div class="labelDetails">Restaurant geopend:</div>
-                <div> <?php if ($setting['open_closed'] == 'open') {
-                        echo 'Geopend';
-                    } else {
-                        echo 'Gesloten';
-                    } ?></div>
+                <div> Gesloten </div>
             </div>
-            <?php if ($setting['type'] !== 'general') { ?>
-                <div class="flexDetails">
-                    <div class="labelDetails">Deze regel geldt vanaf:</div>
-                    <div><?= date("d/m/Y", strtotime($setting['from_date'])); ?></div>
-                </div>
-                <div class="flexDetails">
-                    <div class="labelDetails">Tot en met:</div>
-                    <div><?= date("d/m/Y", strtotime($setting['until_date'])); ?></div>
-                </div>
-            <?php } ?>
-            <div class="flexDetails">
-                <div class="labelDetails">Maximaal aantal gasten:</div>
-                <div> <?= htmlentities($setting['guest_limit']) ?></div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails">Maximaal aantal reserveringen:</div>
-                <div> <?= htmlentities($setting['reservations_limit']) ?></div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails">Aanvangstijden:</div>
-                <div> <?= htmlentities($time_string) ?></div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails">Dagen Geopend:</div>
-                <div> <?= htmlentities($date_string) ?></div>
-            </div>
+        <?php } ?>
         </div>
         <div class="detailsPageButtons">
             <div class="flexButtons">
                 <form action="" method="post">
                     <input class="date-submit" type="submit" name="change" value="Wijzigen"/>
                 </form>
-        <?php if ($setting['type'] !== 'general') { ?>
+                <?php if ($setting['type'] !== 'general') { ?>
                 <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
             </div>
         </div>
@@ -268,9 +280,9 @@ oneDotOrMoreNav('..', false);
                         </div>
                     </form>
                 </div>
-        <?php } ?>
+                <?php } ?>
             </div>
         </div>
     </main>
-    <?php require_once('../includes/basic-elements/footer.php');
-    oneDotOrMoreFooter('..'); ?>
+<?php require_once('../includes/basic-elements/footer.php');
+oneDotOrMoreFooter('..'); ?>

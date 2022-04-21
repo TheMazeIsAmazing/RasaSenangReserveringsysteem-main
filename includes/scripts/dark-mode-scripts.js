@@ -13,7 +13,7 @@ function init() {
         page.classList.remove("dark-mode");
     }
     let styleLink = document.getElementById('style-rel-head')
-    styleLink.href += '/includes/style.css'
+    styleLink.href += 'includes/style.css'
 }
 
 function toggleDarkMode() {

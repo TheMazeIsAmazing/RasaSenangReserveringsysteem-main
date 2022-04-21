@@ -213,6 +213,10 @@
     transition-duration: 300ms;
 }
 
+.dark-mode .sideNav ul li a {
+    border-bottom: 2px solid rgb(26, 26, 26);;
+}
+
 .sideNav ul li a:hover, .sideNav #menuLinkActive:hover {
     border-bottom: 2px solid white;
     transition-duration: 300ms;

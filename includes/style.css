@@ -427,6 +427,10 @@ td {
     font-style: italic;
 }
 
+.dark-mode .daySummaryFlexListItem div{
+    color: #cecece;
+}
+
 
 /*Specific Styling for the confirmation page*/
 .confirmation-page {
@@ -612,8 +616,8 @@ td {
 
 .daySummary .labelDetails {
     display: block;
-    width: auto;
-    margin-right: 5px;
+    width: 200px;
+    min-width: 200px;
     font-weight: bold;
 }
 
@@ -668,12 +672,28 @@ td {
 }
 
 /*Styling for Day settings create page*/
-.flexLabel {
+.daySettingsCreate .flexLabel {
     margin: 0;
     display: flex;
     min-width: 250px;
 }
 
+.daySettingsCreate input[type=checkbox]:checked + .hide-if-restaurant-closed {
+display: none;
+}
+
+.verticalFlex {
+    flex-direction: column;
+    display: flex;
+}
+
+.verticalFlex label {
+    min-width: 100px;
+}
+
+input[type=checkbox] {
+    min-width: unset;
+}
 /*Styling for Whatsapp Button, makes sure it's not displayed op pc*/
 .whatsappShareButton {
     display: none;
@@ -724,6 +744,10 @@ td {
 }
 
 @media screen and (max-width: 600px) {
+    .verticalFlexItem {
+        display: flex;
+    }
+
     .flexButtons {
         display: inline-block;
     }
@@ -826,6 +850,10 @@ td {
 
     #employeeTopBar {
         min-height: 85vh;
+    }
+
+    input[type=checkbox] {
+        width: unset;
     }
 }
 

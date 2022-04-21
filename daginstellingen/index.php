@@ -11,6 +11,9 @@ require_once "../includes/loginCheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_daysettings');
 
+if (isset($_SESSION['daySettingChange'])) {
+    unset($_SESSION['daySettingChange']);
+}
 
 $queryDaySettings = "SELECT * FROM `day-settings`";
 //Get the result set from the database with a SQL query
@@ -138,7 +141,7 @@ mysqli_close($db);
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false, false);
+oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', '../medewerkers');
 require_once "../includes/basic-elements/sideNav.php";
@@ -190,10 +193,17 @@ oneDotOrMoreNav('..', false);
                                     <div>(Er zijn vandaag <?= $amountReservations; ?> reserveringen)</div>
                                 </div>
                             </div>
+                            <?php if ($setting['times_or_timeslots'] == 'times') { ?>
                             <div class="flexDetails">
                                 <div class="labelDetails timesLabel">Beschikbare tijden:</div>
                                 <div><?= $setting['time-str']; ?></div>
                             </div>
+                            <?php } else { ?>
+                            <div class="flexDetails">
+                                <div class="labelDetails timesLabel">Tijdsloten:</div>
+                                <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
+                            </div>
+<?php } ?>
                         </div>
                     <?php } else { ?>
                         <div class="daySummary">
@@ -240,10 +250,17 @@ oneDotOrMoreNav('..', false);
                                         vandaag <?= $amountReservations; ?> reserveringen)
                                     </div>
                                 </div>
-                                <div class="flexDetails">
-                                    <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                                    <div><?= $setting['time-str']; ?></div>
-                                </div>
+                                <?php if ($setting['times_or_timeslots'] == 'times') { ?>
+                                    <div class="flexDetails">
+                                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>
+                                        <div><?= $setting['time-str']; ?></div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="flexDetails">
+                                        <div class="labelDetails timesLabel">Tijdsloten:</div>
+                                        <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
+                                    </div>
+                                <?php } ?>
                             </div>
                         <?php } else { ?>
                             <div class="daySummary">
@@ -265,7 +282,7 @@ oneDotOrMoreNav('..', false);
                         <div class="daySummary">
                             <h2>Huidige Regel:</h2>
                             <div class="flexDetails">
-                                <div class="labelDetails">Regel vanaf:</div>
+                                <div class="labelDetails">Geldt vanaf:</div>
                                 <div><?= date('d-m-Y', strtotime($setting['from_date'])) ?></div>
                             </div>
                             <div class="flexDetails">
@@ -284,7 +301,7 @@ oneDotOrMoreNav('..', false);
                         <div class="daySummary">
                             <h2>Huidige Regel:</h2>
                             <div class="flexDetails">
-                                <div class="labelDetails">Regel vanaf:</div>
+                                <div class="labelDetails">Geldt vanaf:</div>
                                 <div><?= date('d-m-Y', strtotime($setting['from_date'])) ?></div>
                             </div>
                             <div class="flexDetails">
@@ -311,10 +328,17 @@ oneDotOrMoreNav('..', false);
                                 <div class="labelDetails">Reservering limiet:</div>
                                 <div><?= htmlentities($setting['reservations_limit']) ?></div>
                             </div>
-                            <div class="flexDetails">
-                                <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                                <div><?= $setting['time-str']; ?></div>
-                            </div>
+                            <?php if ($setting['times_or_timeslots'] == 'times') { ?>
+                                <div class="flexDetails">
+                                    <div class="labelDetails timesLabel">Beschikbare tijden:</div>
+                                    <div><?= $setting['time-str']; ?></div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="flexDetails">
+                                    <div class="labelDetails timesLabel">Tijdsloten:</div>
+                                    <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
+                                </div>
+                            <?php } ?>
                             <div class="flexDetails">
                                 <div class="labelDetails timesLabel">Geopende dagen:</div>
                                 <div><?= $setting['date-str']; ?></div>
@@ -327,7 +351,7 @@ oneDotOrMoreNav('..', false);
                         <div class="daySummary">
                             <h2>Huidige Regel:</h2>
                             <div class="flexDetails">
-                                <div class="labelDetails">Regel vanaf:</div>
+                                <div class="labelDetails">Geldt vanaf:</div>
                                 <div><?= date('d-m-Y', strtotime($setting['from_date'])) ?></div>
                             </div>
                             <div class="flexDetails">
@@ -382,10 +406,17 @@ oneDotOrMoreNav('..', false);
                                     <div class="labelDetails">Reservering limiet:</div>
                                     <div><?= htmlentities($setting['reservations_limit']) ?></div>
                                 </div>
-                                <div class="flexDetails">
-                                    <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                                    <div><?= $setting['time-str']; ?></div>
-                                </div>
+                                <?php if ($setting['times_or_timeslots'] == 'times') { ?>
+                                    <div class="flexDetails">
+                                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>
+                                        <div><?= $setting['time-str']; ?></div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="flexDetails">
+                                        <div class="labelDetails timesLabel">Tijdsloten:</div>
+                                        <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
+                                    </div>
+                                <?php } ?>
                                 <div class="flexDetails">
                                     <div class="labelDetails timesLabel">Geopende dagen:</div>
                                     <div><?= $setting['date-str']; ?></div>

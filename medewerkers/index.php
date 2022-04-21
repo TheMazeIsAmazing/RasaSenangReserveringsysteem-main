@@ -86,7 +86,7 @@ if (date('H') >= 06 && date('H') <= 11) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Welkom ' . htmlentities($name) . ' bij Rasa Senang', false, false);
+oneDotOrMoreHead('..', 'Welkom ' . htmlentities($name) . ' bij Rasa Senang', false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 oneDotOrMoreTopBar('..', '../inloggen/logout.php');
 require_once "../includes/basic-elements/sideNav.php";
