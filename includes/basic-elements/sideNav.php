@@ -19,7 +19,7 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
 //echo $link; ?>
 
 <nav class="sideNav">
-    <button id="menuDarkModeToggle">
+    <button id="menuDarkModeToggle" <?php if (!isset($_SESSION['loggedInUser'])) {?> class="menuToggleHidden" <?php } ?>>
         <img src="<?= $dotsString ?>/data/icon-general/dark-mode-toggle.png">
     </button>
     <button class="menuX">

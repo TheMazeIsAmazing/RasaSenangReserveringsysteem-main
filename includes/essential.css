@@ -148,6 +148,11 @@
     z-index: 50;
 }
 
+.menuToggleHidden {
+    display: none;
+    display: none;
+}
+
 #menuDarkModeToggle {
     position: absolute;
     top: 2rem;

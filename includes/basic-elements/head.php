@@ -9,7 +9,7 @@
     <meta property="og:url" content="https://stud.hosted.hr.nl/1028473/RasaSenangReserveringsysteem-main/"/>
     <meta property="og:title" content="Reserveren bij Rasa Senang"/>
     <meta property="og:description" content="Via deze website kunt u gemakkelijk reserveren bij de Rasa Senang."/>
-    <meta property="og:image" content="https://stud.hosted.hr.nl/1028473/RasaSenangReserveringsysteem-main/data/logo.jpg"/>
+    <meta property="og:image" content="https://stud.hosted.hr.nl/1028473/RasaSenangReserveringsysteem-main/data/logo-hi-rez.jpg"/>
     <link rel="apple-touch-icon" sizes="180x180" href="<?= $dotsString ?>/data/site-icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= $dotsString ?>/data/site-icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="<?= $dotsString ?>/data/site-icons/favicon-16x16.png">
