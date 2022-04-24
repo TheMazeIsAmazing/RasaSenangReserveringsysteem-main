@@ -122,18 +122,12 @@ oneDotOrMoreNav('..', false);
                 <div class="labelDetails">Aantal Reserveringen:</div>
                 <div><?= $amountReservations; ?></div>
             </div>
-<?php if ($_SESSION['loggedInUser']['is-admin'] == 'true') { ?>
-                            <div class="flexDetails">
-                                <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>
-                                <div><?= $reservationsPlacedToday; ?></div>
-                            </div>
-            <?php } ?>
             <?php //in the future display how many tables are occupied
             //<div class="daySummaryItem">
             //Tafels Bezet:
             //</div>?>
             <div class="flexDetails">
-                <div class="labelDetails"> Gasten met
+                <div class="labelDetails">Gasten met
                     Allergieën:
                 </div>
                 <div><?php if (count($reservationsWithAllergies) > 1) { ?>
@@ -161,6 +155,12 @@ oneDotOrMoreNav('..', false);
                     <?php } ?>
                 </div>
             </div>
+            <?php if ($_SESSION['loggedInUser']['is-admin'] == 'true') { ?>
+            <div class="flexDetails" id="reservationsPlacedToday">
+                <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>
+                <div><?= $reservationsPlacedToday; ?></div>
+            </div>
+            <?php } ?>
         </div>
     </main>
     <?php require_once('../includes/basic-elements/footer.php');

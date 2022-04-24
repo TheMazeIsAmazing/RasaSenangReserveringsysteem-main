@@ -15,6 +15,8 @@ function init() {
         }
     } else {
         page.classList.remove("dark-mode");
+        const logo = document.getElementById('logo')
+        logo.src = 'https://stud.hosted.hr.nl/1028473/RasaSenangReserveringsysteem-main/data/logo-light-mode.png'
     }
     let styleLink = document.getElementById('style-rel-head')
     styleLink.href += 'includes/style.css'
