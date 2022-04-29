@@ -256,7 +256,8 @@ if (isset($_POST['submit'])) {
 
                             if (!isset($errors['date'])) {
                                 if (($guestCount + intval($people)) > $setting['guest_limit']) {
-                                    $errors['date'] = 'Op de gekozen datum is het niet meer mogelijk om voor ' . $people . ' personen te reserveren. Er is nog maar plek voor ' . $setting['guest_limit'] - $guestCount . ' personen.';
+                                    $guestAvailability = intval($setting['guest_limit']) - intval($guestCount);
+                                    $errors['date'] = 'Op de gekozen datum is het niet meer mogelijk om voor ' . $people . ' personen te reserveren. Er is nog maar plek voor ' . $guestAvailability. ' personen.';
                                 }
 
                             }

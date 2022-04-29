@@ -111,7 +111,6 @@ foreach ($settings as $setting) {
 if ($daysMatchQuery == 0) {
     foreach ($settings as $setting) {
         if ($setting['type'] == 'general') {
-            echo $setting[strtolower(date('l'))];
             if ($setting[strtolower(date('l'))] == 'open' && $setting['open_closed'] == 'open') {
                 $restaurantClosed = 'false';
                 $guestLimit = $setting['guest_limit'];
