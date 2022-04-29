@@ -95,6 +95,7 @@ if (isset($_SESSION['daySettingChange']) && $_GET['edit'] == '1') {
 
 
 if (isset($_POST['submit'])) {
+
     if (isset($_POST['from_date'])) {
         $from_date = $_POST['from_date'];
     }
@@ -102,6 +103,7 @@ if (isset($_POST['submit'])) {
     if (isset($_POST['until_date'])) {
         $until_date = $_POST['until_date'];
     }
+
 
     if (isset($_POST['open_closed'])) {
         $open_closed = 'open';
@@ -225,6 +227,8 @@ if (isset($_POST['submit'])) {
     }
 
     $errors = [];
+
+if (!isset($_SESSION['daySettingChange'])) {
     if (!isset($_POST['from_date']) || $_POST['from_date'] == '') {
         $errors['from_date'] = 'Voer de datum in vanaf wanneer deze regel in gaat.';
     }
@@ -232,6 +236,7 @@ if (isset($_POST['submit'])) {
     if (!isset($_POST['until_date']) || $_POST['until_date'] == '') {
         $errors['until_date'] = 'Voer de datum in tot wanneer deze regel geldt.';
     }
+}
 
     if (isset($_POST['open_closed'])) {
         if (!isset($_POST['guest_limit']) || $_POST['guest_limit'] == '') {
@@ -263,9 +268,13 @@ if (isset($_POST['submit'])) {
 
     if (empty($errors)) {
         if (isset($_SESSION['daySettingChange']) && $_GET['edit'] == '1') {
-            $queryUpdate = "UPDATE `day-settings` SET `accept_reservations` = '$accept_reservations', `open_closed` = '$open_closed', `from_date` = '$from_date', `until_date` = '$until_date', `guest_limit` = '$guest_limit', `reservations_limit` = '$reservations_limit', `times_or_timeslots` = '$times_or_timeslots', `16:00` = '$t_1600', `16:30` = '$t_1630', `17:00` = '$t_1700', `17:30` = '$t_1730', `18:00` = '$t_1800', `18:30` = '$t_1830', `19:00` = '$t_1900', `19:30` = '$t_1930', `20:00` = '$t_2000', `20:30` = '$t_2030', `21:00` = '$t_2100', `timeslot_1_from` = '$timeslot_1_from', `timeslot_1_to` = '$timeslot_1_to', `timeslot_2_from` = '$timeslot_2_from', `timeslot_2_to` = '$timeslot_2_to', `monday` = '$monday', `tuesday` = '$tuesday', `wednesday` = '$wednesday', `thursday` = '$thursday', `friday` = '$friday', `saturday` = '$saturday', `sunday` = '$sunday' WHERE `id` = '$settingID';";
+            if ($daySetting['from_date'] == '' && $daySetting['until_date'] == '') {
+                $queryUpdate = "UPDATE `day-settings` SET `accept_reservations` = '$accept_reservations', `open_closed` = '$open_closed', `guest_limit` = '$guest_limit', `reservations_limit` = '$reservations_limit', `times_or_timeslots` = '$times_or_timeslots', `16:00` = '$t_1600', `16:30` = '$t_1630', `17:00` = '$t_1700', `17:30` = '$t_1730', `18:00` = '$t_1800', `18:30` = '$t_1830', `19:00` = '$t_1900', `19:30` = '$t_1930', `20:00` = '$t_2000', `20:30` = '$t_2030', `21:00` = '$t_2100', `timeslot_1_from` = '$timeslot_1_from', `timeslot_1_to` = '$timeslot_1_to', `timeslot_2_from` = '$timeslot_2_from', `timeslot_2_to` = '$timeslot_2_to', `monday` = '$monday', `tuesday` = '$tuesday', `wednesday` = '$wednesday', `thursday` = '$thursday', `friday` = '$friday', `saturday` = '$saturday', `sunday` = '$sunday' WHERE `id` = '$settingID';";
+            } else {
+                $queryUpdate = "UPDATE `day-settings` SET `accept_reservations` = '$accept_reservations', `open_closed` = '$open_closed', `from_date` = '$from_date', `until_date` = '$until_date', `guest_limit` = '$guest_limit', `reservations_limit` = '$reservations_limit', `times_or_timeslots` = '$times_or_timeslots', `16:00` = '$t_1600', `16:30` = '$t_1630', `17:00` = '$t_1700', `17:30` = '$t_1730', `18:00` = '$t_1800', `18:30` = '$t_1830', `19:00` = '$t_1900', `19:30` = '$t_1930', `20:00` = '$t_2000', `20:30` = '$t_2030', `21:00` = '$t_2100', `timeslot_1_from` = '$timeslot_1_from', `timeslot_1_to` = '$timeslot_1_to', `timeslot_2_from` = '$timeslot_2_from', `timeslot_2_to` = '$timeslot_2_to', `monday` = '$monday', `tuesday` = '$tuesday', `wednesday` = '$wednesday', `thursday` = '$thursday', `friday` = '$friday', `saturday` = '$saturday', `sunday` = '$sunday' WHERE `id` = '$settingID';";
+            }
 
-            $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Db Error: '.mysqli_error($db).' with query: '.$queryUpdate);
+            $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Db Error: ' . mysqli_error($db) . ' with query: ' . $queryUpdate);
             mysqli_close($db);
             if ($resultUpdate) {
                 header('Location: ./details.php?id=' . $settingID);

@@ -1,12 +1,15 @@
 <?php
 session_start();
 
-
-if (!isset($_SESSION['canChangeEmployee']) && isset($_GET)) {
-        unset($_GET);
-//        header('Location: ./');
-//        exit;
-        echo "kut";
+if ((isset($_GET['edit']) && $_GET['edit'] !== '1') || (isset($_GET['edit']) && !isset($_SESSION['canChangeEmployee'])) || (!isset($_GET['edit']) && isset($_SESSION['canChangeEmployee']))) {
+    if (isset($_SESSION['canChangeEmployee'])) {
+        unset($_SESSION['canChangeEmployee']);
+    }
+    if (isset($_GET['edit'])) {
+        unset($_GET['edit']);
+    }
+    header('location: ./');
+    exit;
 }
 
 $can_visit_reservations = "false";
@@ -98,6 +101,30 @@ if (isset($_POST['submit'])) {
         $passwordEmployee = $_POST['password'];
         $passwordConfirm = $_POST['passwordConfirm'];
 
+        if (isset($_POST['can_visit_reservations'])) {
+            $can_visit_reservations = 'true';
+        } else {
+            $can_visit_reservations = 'false';
+        }
+
+        if (isset($_POST['can_visit_employees'])) {
+            $can_visit_employees = 'true';
+        } else {
+            $can_visit_employees = 'false';
+        }
+
+        if (isset($_POST['can_visit_daysettings'])) {
+            $can_visit_daysettings = 'true';
+        } else {
+            $can_visit_daysettings = 'false';
+        }
+
+        if (isset($_POST['can_visit_table'])) {
+            $can_visit_table = 'true';
+        } else {
+            $can_visit_table = 'false';
+        }
+
         $errors = [];
         if ($name == '') {
             $errors['name'] = 'Voer een Naam in';
@@ -117,15 +144,32 @@ if (isset($_POST['submit'])) {
         }
 
         if (empty($errors)) {
-            $passwordEmployee = password_hash($passwordEmployee, PASSWORD_DEFAULT);
+            //check if there is another user with the same username, if the case give error message
+            $queryPullEmployees = "SELECT * FROM users";
+            //Get the result set from the database with a SQL query
+            $resultPullEmployees = mysqli_query($db, $queryPullEmployees); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+            //Loop through the result to create a custom array
+            $employeesRegistered = [];
+            while ($row = mysqli_fetch_assoc($resultPullEmployees)) {
+                $employeesRegistered[] = $row;
+            }
 
-            $queryRegister = "INSERT INTO users (username, password, name ) VALUES ('$user', '$passwordEmployee', '$name')";
+            foreach ($employeesRegistered as $employeeRegistered) {
+                if ($employeeRegistered['username'] == $user) {
+                    $errors['username'] = 'Er is een andere medewerker met dezelfde gebruikersnaam, kies een andere.';
+                }
+            }
 
-            $resultRegister = mysqli_query($db, $queryRegister); //or die('Db Error: '.mysqli_error($db).' with query: '.$query);
-            mysqli_close($db);
-            if ($resultRegister) {
-                header('Location: ../medewerkers-instellingen/index.php');
-                exit;
+            if (empty($errors)) {
+                $passwordEmployee = password_hash($passwordEmployee, PASSWORD_DEFAULT);
+
+                $queryRegister = "INSERT INTO `users` (`username`, `password`, `name`, `can_visit_reservations`, `can_visit_daysettings`, `can_visit_table`, `can_visit_employees`) VALUES ('$user', '$passwordEmployee', '$name', '$can_visit_reservations', '$can_visit_daysettings', '$can_visit_table', '$can_visit_employees');";
+                $resultRegister = mysqli_query($db, $queryRegister); //or die('Db Error: '.mysqli_error($db).' with query: '.$query);
+                mysqli_close($db);
+                if ($resultRegister) {
+                    header('Location: ../medewerkers-instellingen/index.php');
+                    exit;
+                }
             }
         }
     }
@@ -143,92 +187,92 @@ oneDotOrMoreTopBar('..', './');
 require_once "../includes/basic-elements/sideNav.php";
 oneDotOrMoreNav('..', false);
 ?>
-    <main class="content-wrap">
-        <header>
+<main class="content-wrap">
+    <header>
+        <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
+            <h1>Medewerker aanpassen</h1>
+        <?php } else { ?>
+            <h1>Nieuwe medewerker registeren</h1>
+        <?php } ?>
+    </header>
+    <form action="" method="post">
+        <div class="data-field">
+            <div class="flexLabel">
+                <label for="name" class="loginLabel">Naam</label>
+            </div>
+            <div class="flexInputWithErrors">
+                <input type="text" name="name" value="<?= $name ?? '' ?>"/>
+                <span class="errors"><?= $errors['name'] ?? '' ?></span>
+            </div>
+        </div>
+        <div class="data-field">
+            <div class="flexLabel">
+                <label for="username" class="loginLabel">Gebruikersnaam</label>
+            </div>
+            <div class="flexInputWithErrors">
+                <input type="text" name="username" value="<?= $user ?? '' ?>"/>
+                <span class="errors"><?= $errors['username'] ?? '' ?></span>
+            </div>
+        </div>
+        <?php if (!isset($_SESSION['canChangeEmployee']) && !isset($_GET['edit'])) { ?>
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="password">Wachtwoord</label>
+                </div>
+                <div class="flexInputWithErrors">
+                    <input type="password" name="password" value="<?= $passwordEmployee ?? '' ?>"/>
+                    <span class="errors"><?= $errors['password'] ?? '' ?></span>
+                </div>
+            </div>
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="passwordConfirm">Wachtwoord Bevestigen</label>
+                </div>
+                <div class="flexInputWithErrors">
+                    <input type="password" name="passwordConfirm" value="<?= $passwordConfirm ?? '' ?>"/>
+                    <span class="errors"><?= $errors['passwordConfirm'] ?? '' ?></span>
+                </div>
+            </div>
+        <?php } ?>
+        <h3 class="h3detailsEmp">Deze gebruiker mag naar de volgende pagina's:</h3>
+        <div class="employeeRights">
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="can_visit_reservations">Overzicht Reserveringen:</label>
+                </div>
+                <input type="checkbox"
+                       name="can_visit_reservations" <?php if ($can_visit_reservations == "true") { ?> checked <?php } ?> />
+            </div>
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="can_visit_employees">Overzicht Medewerkers:</label>
+                </div>
+                <input type="checkbox"
+                       name="can_visit_employees" <?php if ($can_visit_employees == "true") { ?> checked <?php } ?> />
+            </div>
+            <div class="data-field">
+                <div class="flexLabel">
+                    <label for="can_visit_daysettings">Daginstellingen:</label>
+                </div>
+                <input type="checkbox"
+                       name="can_visit_daysettings" <?php if ($can_visit_daysettings == "true") { ?> checked <?php } ?> />
+            </div>
+            <div class="data-field" style="display: none;">
+                <div class="flexLabel">
+                    <label for="can_visit_table">Tafelindeling:</label>
+                </div>
+                <input type="checkbox"
+                       name="can_visit_table" <?php if ($can_visit_table == "true") { ?> checked <?php } ?> />
+            </div>
+        </div>
+        <div class="data-submit">
             <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
-                <h1>Medewerker aanpassen</h1>
+                <input type="submit" name="submit" value="Bevestigen"/>
             <?php } else { ?>
-                <h1>Nieuwe medewerker registeren</h1>
+                <input type="submit" name="submit" value="Registreren"/>
             <?php } ?>
-        </header>
-        <form action="" method="post">
-            <div class="data-field">
-                <div class="flexLabel">
-                    <label for="name" class="loginLabel">Naam</label>
-                </div>
-                <div class="flexInputWithErrors">
-                    <input type="text" name="name" value="<?= $name ?? '' ?>"/>
-                    <span class="errors"><?= $errors['name'] ?? '' ?></span>
-                </div>
-            </div>
-            <div class="data-field">
-                <div class="flexLabel">
-                    <label for="username" class="loginLabel">Gebruikersnaam</label>
-                </div>
-                <div class="flexInputWithErrors">
-                    <input type="text" name="username" value="<?= $user ?? '' ?>"/>
-                    <span class="errors"><?= $errors['username'] ?? '' ?></span>
-                </div>
-            </div>
-            <?php if (!isset($_SESSION['canChangeEmployee']) && !isset($_GET['edit'])) { ?>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="password">Wachtwoord</label>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="password" name="password" value="<?= $passwordEmployee ?? '' ?>"/>
-                        <span class="errors"><?= $errors['password'] ?? '' ?></span>
-                    </div>
-                </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="passwordConfirm">Wachtwoord Bevestigen</label>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="password" name="passwordConfirm" value="<?= $passwordConfirm ?? '' ?>"/>
-                        <span class="errors"><?= $errors['passwordConfirm'] ?? '' ?></span>
-                    </div>
-                </div>
-            <?php } ?>
-            <h3 class="h3detailsEmp">Deze gebruiker mag naar de volgende pagina's:</h3>
-            <div class="employeeRights">
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="can_visit_reservations">Overzicht Reserveringen:</label>
-                    </div>
-                    <input type="checkbox"
-                           name="can_visit_reservations" <?php if ($can_visit_reservations == "true") { ?> checked <?php } ?> />
-                </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="can_visit_employees">Overzicht Medewerkers:</label>
-                    </div>
-                    <input type="checkbox"
-                           name="can_visit_employees" <?php if ($can_visit_employees == "true") { ?> checked <?php } ?> />
-                </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="can_visit_daysettings">Daginstellingen:</label>
-                    </div>
-                    <input type="checkbox"
-                           name="can_visit_daysettings" <?php if ($can_visit_daysettings == "true") { ?> checked <?php } ?> />
-                </div>
-                <div class="data-field" style="display: none;">
-                    <div class="flexLabel">
-                        <label for="can_visit_table">Tafelindeling:</label>
-                    </div>
-                    <input type="checkbox"
-                           name="can_visit_table" <?php if ($can_visit_table == "true") { ?> checked <?php } ?> />
-                </div>
-            </div>
-            <div class="data-submit">
-                <?php if (isset($_SESSION['canChangeEmployee'])) { ?>
-                    <input type="submit" name="submit" value="Bevestigen"/>
-                <?php } else { ?>
-                    <input type="submit" name="submit" value="Registreren"/>
-                <?php } ?>
-            </div>
-        </form>
-    </main>
-    <?php require_once('../includes/basic-elements/footer.php');
-    oneDotOrMoreFooter('..'); ?>
+        </div>
+    </form>
+</main>
+<?php require_once('../includes/basic-elements/footer.php');
+oneDotOrMoreFooter('..'); ?>

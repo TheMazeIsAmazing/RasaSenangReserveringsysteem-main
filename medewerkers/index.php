@@ -44,15 +44,19 @@ foreach ($reservations as $reservation) {
     if ($reservation['delete_mail_sent'] == 'true') {
         $deleteReservations[] = $reservation['reservering_id'];
     } elseif ($reservation['delete_mail_sent'] == '') {
-        if (date("Y-m-d", strtotime($reservation['date'])) == date("Y-m-d", strtotime($date))) {
-            $amountReservations++;
-            $guestCount += $reservation['amount_people'];
-            if ($reservation['str_all'] !== 'Niet van toepassing.') {
-                $reservationsWithAllergies[] = $reservation['reservering_id'];
+        if (strtotime($reservation['date']) <= strtotime('-2 years')) {
+            $deleteReservations[] = $reservation['reservering_id'];
+        } else {
+            if (date("Y-m-d", strtotime($reservation['date'])) == date("Y-m-d", strtotime($date))) {
+                $amountReservations++;
+                $guestCount += $reservation['amount_people'];
+                if ($reservation['str_all'] !== 'Niet van toepassing.') {
+                    $reservationsWithAllergies[] = $reservation['reservering_id'];
+                }
             }
-        }
-        if (date("Y-m-d", strtotime($reservation['date_placed_reservation'])) == date("Y-m-d")) {
-            $reservationsPlacedToday++;
+            if (date("Y-m-d", strtotime($reservation['date_placed_reservation'])) == date("Y-m-d")) {
+                $reservationsPlacedToday++;
+            }
         }
     }
 
@@ -62,9 +66,6 @@ if (isset($deleteReservations)) {
         $deleteQuery = "DELETE FROM reserveringen WHERE reservering_id = '$deleteReservation'";
         mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
     }
-    mysqli_close($db);
-} else {
-    mysqli_close($db);
 }
 
 //function to find hour and display correct message based on it.
@@ -84,6 +85,42 @@ if (date('H') >= 06 && date('H') <= 11) {
     $dayPart = "Goedenacht, ";
 }
 
+$settings = [];
+$daysMatchQuery = 0;
+
+$queryDaySettings = "SELECT * FROM `day-settings`";
+//Get the result set from the database with a SQL query
+$resultDaySettings = mysqli_query($db, $queryDaySettings); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryDaySettings);
+
+while ($row = mysqli_fetch_assoc($resultDaySettings)) {
+    $settings[] = $row;
+}
+mysqli_close($db);
+
+$restaurantClosed = 'true';
+foreach ($settings as $setting) {
+    if ((strtotime($setting['until_date']) >= strtotime($date)) && (strtotime($setting['from_date']) <= strtotime($date))) {
+        $daysMatchQuery++;
+        if ($setting[strtolower(date('l'))] == 'open' && $setting['open_closed'] == 'open') {
+            $restaurantClosed = 'false';
+            $guestLimit = $setting['guest_limit'];
+            $reservationLimit = $setting['reservations_limit'];
+        }
+    }
+}
+if ($daysMatchQuery == 0) {
+    foreach ($settings as $setting) {
+        if ($setting['type'] == 'general') {
+            echo $setting[strtolower(date('l'))];
+            if ($setting[strtolower(date('l'))] == 'open' && $setting['open_closed'] == 'open') {
+                $restaurantClosed = 'false';
+                $guestLimit = $setting['guest_limit'];
+                $reservationLimit = $setting['reservations_limit'];
+            }
+        }
+    }
+}
+
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
 oneDotOrMoreHead('..', 'Welkom ' . htmlentities($name) . ' bij Rasa Senang', false, false, false);
@@ -97,9 +134,13 @@ oneDotOrMoreNav('..', false);
             <h1> <?= $dayPart . htmlentities($name) ?>!</h1>
         </header>
         <nav class="navEmployees">
-            <a class="navEmployeesButton" href="../overzicht-reserveringen">Overzicht Reserveringen</a>
             <a class="navEmployeesButton" href="../">Nieuwe Reservering</a>
-            <a class="navEmployeesButton" href="../daginstellingen">Daginstellingen
+<?php if ($_SESSION['loggedInUser']['can_visit_reservations'] == 'true') { ?>
+            <a class="navEmployeesButton" href="../overzicht-reserveringen">Overzicht Reserveringen</a>
+<?php } ?>
+<?php if ($_SESSION['loggedInUser']['can_visit_daysettings'] == 'true') { ?>
+    <a class="navEmployeesButton" href="../daginstellingen">Daginstellingen</a>
+<?php } ?>
                 <?php
                 /*                 <a class="navEmployeesButton" href="./">Tafelindeling</a>
                 <a class="navEmployeesButton" href="./">Statistieken</a>
@@ -114,13 +155,16 @@ oneDotOrMoreNav('..', false);
         </nav>
         <div class="daySummary">
             <h2>Dagsamenvatting</h2>
+            <?php if ($restaurantClosed === 'false') {?>
             <div class="flexDetails">
                 <div class="labelDetails">Aantal Gasten:</div>
-                <div><?= $guestCount; ?></div>
+                <div><?= $guestCount?></div>
+                <div>(Er is vandaag een limiet van <?= $guestLimit; ?> gasten)</div>
             </div>
             <div class="flexDetails">
                 <div class="labelDetails">Aantal Reserveringen:</div>
                 <div><?= $amountReservations; ?></div>
+                <div>(Er is vandaag een limiet van <?= $reservationLimit; ?> reserveringen)</div>
             </div>
             <?php //in the future display how many tables are occupied
             //<div class="daySummaryItem">
@@ -160,6 +204,11 @@ oneDotOrMoreNav('..', false);
                 <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>
                 <div><?= $reservationsPlacedToday; ?></div>
             </div>
+            <?php } ?>
+            <?php } else { ?>
+                <div class="flexDetails">
+                    <div>Restaurant Gesloten.</div>
+                </div>
             <?php } ?>
         </div>
     </main>

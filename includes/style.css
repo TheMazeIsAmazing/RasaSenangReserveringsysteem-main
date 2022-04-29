@@ -414,6 +414,10 @@ td {
     max-width: 450px;
 }
 
+.daySummary .flexDetails {
+    gap: 5px;
+}
+
 .daySummary .timesLabel {
     min-width: 145px;
 }

@@ -164,7 +164,6 @@ if (isset($_POST['submitDelete'])) {
     }
 }
 
-//print_r($setting);
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";

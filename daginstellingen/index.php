@@ -116,7 +116,6 @@ foreach ($settings as $key => $setting) {
 
 $daysMatchQuery = 0;
 
-//print_r($settings);
 
 $date = date('Y-m-d');
 

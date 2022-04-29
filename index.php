@@ -36,6 +36,18 @@ $allergie_sulfur = "off";
 
 //set default value of time to be 17:00
 $time = "17:00";
+//$date = date('d-m-Y');
+
+//On load, fetch all day settings;
+$queryDaySettings = "SELECT * FROM `day-settings`";
+$resultDaySettings = mysqli_query($db, $queryDaySettings); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+//Loop through the result to create a custom array
+$settings = [];
+while ($row = mysqli_fetch_assoc($resultDaySettings)) {
+    $settings[] = $row;
+}
+$daysMatchQuery = 0;
+$reservationsDaySettings = [];
 
 if (isset($_POST['submit'])) {
     // 'Post back' with the data from the form.
@@ -62,6 +74,7 @@ if (isset($_POST['submit'])) {
     if (isset($_POST['allergie-milk'])) {
         $allergie_milk = "on";
     }
+
     if (isset($_POST['allergie-mustard'])) {
         $allergie_mustard = "on";
     }
@@ -164,75 +177,165 @@ if (isset($_POST['submit'])) {
     }
 
     if (empty($errors)) {
-        $_SESSION['reservation'] = [
-            'date' => mysqli_escape_string($db, test_input($_POST['date'])),
-            'time' => mysqli_escape_string($db, test_input($_POST['time'])),
-            'people' => mysqli_escape_string($db, test_input($_POST['people'])),
-            'name' => mysqli_escape_string($db, test_input($_POST['name'])),
-            'emailadres' => test_input($_POST['emailadres']),
-            'phonenumber' => mysqli_escape_string($db, test_input($_POST['phonenumber'])),
-            'comments' => mysqli_escape_string($db, test_input($_POST['comments']))
-        ];
+        foreach ($settings as $setting) {
+            if ((strtotime($setting['until_date']) >= strtotime($date)) && (strtotime($setting['from_date']) <= strtotime($date))) {
+                $daysMatchQuery++;
+                if ($setting[strtolower(date('l', strtotime($date)))] !== 'open' || $setting['open_closed'] !== 'open') {
+                    $errors['date'] = 'Op de gekozen datum is het restaurant helaas gesloten, kies een andere.';
+                }
+                if (!isset($errors['date'])) {
+                    if ($setting['accept_reservations'] !== 'true') {
+                        $errors['date'] = 'Op de gekozen datum is het restaurant helaas volgeboekt, kies een andere.';
+                    }
+                    if (!isset($errors['date'])) {
+                        $queryReservationsDaySettings = "SELECT * FROM reserveringen WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
+                        //Get the result set from the database with a SQL query
+                        $resultReservationsDaySettings = mysqli_query($db, $queryReservationsDaySettings); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryReservationsDaySettings);
 
-        if (isset($_POST['allergie-egg'])) {
-            $_SESSION['reservation']['all_egg'] = mysqli_escape_string($db, test_input($_POST['allergie-egg']));
-        }
+                        $guestCount = 0;
+                        $amountReservations = 0;
 
-        if (isset($_POST['allergie-gluten'])) {
-            $_SESSION['reservation']['all_gluten'] = mysqli_escape_string($db, test_input($_POST['allergie-gluten']));
-        }
+                        while ($row = mysqli_fetch_assoc($resultReservationsDaySettings)) {
+                            $reservationsDaySettings[] = $row;
+                        }
 
-        if (isset($_POST['allergie-lupine'])) {
-            $_SESSION['reservation']['all_lupine'] = mysqli_escape_string($db, test_input($_POST['allergie-lupine']));
-        }
+                        foreach ($reservationsDaySettings as $reservationDaySettings) {
+                            if (date("Y-m-d", strtotime($reservationDaySettings['date'])) == $date) {
+                                $amountReservations++;
+                                $guestCount += $reservationDaySettings['amount_people'];
+                            }
+                        }
 
-        if (isset($_POST['allergie-milk'])) {
-            $_SESSION['reservation']['all_milk'] = mysqli_escape_string($db, test_input($_POST['allergie-milk']));
-        }
-        if (isset($_POST['allergie-mustard'])) {
-            $_SESSION['reservation']['all_mustard'] = mysqli_escape_string($db, test_input($_POST['allergie-mustard']));
-        }
+                        if ($amountReservations >= $setting['reservations_limit'] || $guestCount >= $setting['guest_limit']) {
+                            $errors['date'] = 'Op de gekozen datum is het restaurant helaas volgeboekt, kies een andere.';
+                        }
 
-        if (isset($_POST['allergie-nuts'])) {
-            $_SESSION['reservation']['all_nuts'] = mysqli_escape_string($db, test_input($_POST['allergie-nuts']));
-        }
+                        if (!isset($errors['date'])) {
+                            if (($guestCount + intval($people)) > $setting['guest_limit']) {
+                                $errors['date'] = 'Op de gekozen datum is het niet meer mogelijk om voor ' . $people . ' personen te reserveren. Er is nog maar plek voor ' . $setting['guest_limit'] - $guestCount . ' personen.';
+                            }
 
-        if (isset($_POST['allergie-peanut'])) {
-            $_SESSION['reservation']['all_peanut'] = mysqli_escape_string($db, test_input($_POST['allergie-peanut']));
-        }
-
-        if (isset($_POST['allergie-shell'])) {
-            $_SESSION['reservation']['all_shell'] = mysqli_escape_string($db, test_input($_POST['allergie-shell']));
-        }
-
-        if (isset($_POST['allergie-celery'])) {
-            $_SESSION['reservation']['all_celery'] = mysqli_escape_string($db, test_input($_POST['allergie-celery']));
-        }
-
-        if (isset($_POST['allergie-sesame'])) {
-            $_SESSION['reservation']['all_sesame'] = mysqli_escape_string($db, test_input($_POST['allergie-sesame']));
+                        }
+                    }
+                }
+            }
         }
 
-        if (isset($_POST['allergie-soja'])) {
-            $_SESSION['reservation']['all_soja'] = mysqli_escape_string($db, test_input($_POST['allergie-soja']));
-        }
+        if ($daysMatchQuery == 0) {
+            foreach ($settings as $setting) {
+                if ($setting['type'] == 'general') {
+                    if ($setting[strtolower(date('l', strtotime($date)))] !== 'open' || $setting['open_closed'] !== 'open') {
+                        $errors['date'] = 'Op de gekozen datum is het restaurant helaas gesloten, kies een andere.';
+                    }
+                    if (!isset($errors['date'])) {
+                        if ($setting['accept_reservations'] !== 'true') {
+                            $errors['date'] = 'Op de gekozen datum is het restaurant helaas volgeboekt, kies een andere.';
+                        }
+                        if (!isset($errors['date'])) {
+                            $queryReservationsDaySettings = "SELECT * FROM reserveringen WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
+                            //Get the result set from the database with a SQL query
+                            $resultReservationsDaySettings = mysqli_query($db, $queryReservationsDaySettings); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryReservationsDaySettings);
 
-        if (isset($_POST['allergie-fish'])) {
-            $_SESSION['reservation']['all_fish'] = mysqli_escape_string($db, test_input($_POST['allergie-fish']));
-        }
+                            $guestCount = 0;
+                            $amountReservations = 0;
 
-        if (isset($_POST['allergie-mollusks'])) {
-            $_SESSION['reservation']['all_mollusks'] = mysqli_escape_string($db, test_input($_POST['allergie-mollusks']));
-        }
+                            while ($row = mysqli_fetch_assoc($resultReservationsDaySettings)) {
+                                $reservationsDaySettings[] = $row;
+                            }
 
-        if (isset($_POST['allergie-sulfur'])) {
-            $_SESSION['reservation']['all_sulfur'] = mysqli_escape_string($db, test_input($_POST['allergie-sulfur']));
+                            foreach ($reservationsDaySettings as $reservationDaySettings) {
+                                if (date("Y-m-d", strtotime($reservationDaySettings['date'])) == $date) {
+                                    $amountReservations++;
+                                    $guestCount += $reservationDaySettings['amount_people'];
+                                }
+                            }
+
+                            if ($amountReservations >= $setting['reservations_limit'] || $guestCount >= $setting['guest_limit']) {
+                                $errors['date'] = 'Op de gekozen datum is het restaurant helaas volgeboekt, kies een andere.';
+                            }
+
+                            if (!isset($errors['date'])) {
+                                if (($guestCount + intval($people)) > $setting['guest_limit']) {
+                                    $errors['date'] = 'Op de gekozen datum is het niet meer mogelijk om voor ' . $people . ' personen te reserveren. Er is nog maar plek voor ' . $setting['guest_limit'] - $guestCount . ' personen.';
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
         }
-        if (isset($_SESSION['canChangeReservation'])) {
-            $_SESSION['canChangeReservation']['load_check_page'] = "true";
+        if (empty($errors)) {
+            $_SESSION['reservation'] = [
+                'date' => mysqli_escape_string($db, test_input($_POST['date'])),
+                'time' => mysqli_escape_string($db, test_input($_POST['time'])),
+                'people' => mysqli_escape_string($db, test_input($_POST['people'])),
+                'name' => mysqli_escape_string($db, test_input($_POST['name'])),
+                'emailadres' => test_input($_POST['emailadres']),
+                'phonenumber' => mysqli_escape_string($db, test_input($_POST['phonenumber'])),
+                'comments' => mysqli_escape_string($db, test_input($_POST['comments']))
+            ];
+
+            if (isset($_POST['allergie-egg'])) {
+                $_SESSION['reservation']['all_egg'] = mysqli_escape_string($db, test_input($_POST['allergie-egg']));
+            }
+
+            if (isset($_POST['allergie-gluten'])) {
+                $_SESSION['reservation']['all_gluten'] = mysqli_escape_string($db, test_input($_POST['allergie-gluten']));
+            }
+
+            if (isset($_POST['allergie-lupine'])) {
+                $_SESSION['reservation']['all_lupine'] = mysqli_escape_string($db, test_input($_POST['allergie-lupine']));
+            }
+
+            if (isset($_POST['allergie-milk'])) {
+                $_SESSION['reservation']['all_milk'] = mysqli_escape_string($db, test_input($_POST['allergie-milk']));
+            }
+            if (isset($_POST['allergie-mustard'])) {
+                $_SESSION['reservation']['all_mustard'] = mysqli_escape_string($db, test_input($_POST['allergie-mustard']));
+            }
+
+            if (isset($_POST['allergie-nuts'])) {
+                $_SESSION['reservation']['all_nuts'] = mysqli_escape_string($db, test_input($_POST['allergie-nuts']));
+            }
+
+            if (isset($_POST['allergie-peanut'])) {
+                $_SESSION['reservation']['all_peanut'] = mysqli_escape_string($db, test_input($_POST['allergie-peanut']));
+            }
+
+            if (isset($_POST['allergie-shell'])) {
+                $_SESSION['reservation']['all_shell'] = mysqli_escape_string($db, test_input($_POST['allergie-shell']));
+            }
+
+            if (isset($_POST['allergie-celery'])) {
+                $_SESSION['reservation']['all_celery'] = mysqli_escape_string($db, test_input($_POST['allergie-celery']));
+            }
+
+            if (isset($_POST['allergie-sesame'])) {
+                $_SESSION['reservation']['all_sesame'] = mysqli_escape_string($db, test_input($_POST['allergie-sesame']));
+            }
+
+            if (isset($_POST['allergie-soja'])) {
+                $_SESSION['reservation']['all_soja'] = mysqli_escape_string($db, test_input($_POST['allergie-soja']));
+            }
+
+            if (isset($_POST['allergie-fish'])) {
+                $_SESSION['reservation']['all_fish'] = mysqli_escape_string($db, test_input($_POST['allergie-fish']));
+            }
+
+            if (isset($_POST['allergie-mollusks'])) {
+                $_SESSION['reservation']['all_mollusks'] = mysqli_escape_string($db, test_input($_POST['allergie-mollusks']));
+            }
+
+            if (isset($_POST['allergie-sulfur'])) {
+                $_SESSION['reservation']['all_sulfur'] = mysqli_escape_string($db, test_input($_POST['allergie-sulfur']));
+            }
+            if (isset($_SESSION['canChangeReservation'])) {
+                $_SESSION['canChangeReservation']['load_check_page'] = "true";
+            }
+            header('Location: ./controleren-reservatie');
+            exit;
         }
-        header('Location: ./controleren-reservatie');
-        exit;
     }
 
 } elseif (isset($_SESSION['reservation'])) {
@@ -451,7 +554,7 @@ oneDotOrMoreNav('.', false);
                     </div>
                     <div class="flexInputWithErrors">
                         <input type="email" name="emailadres" maxlength="255"
-                               value="<?= $emailadres ?? '' ?>" placeholder="jan-en-alleman@mail.nl"/>
+                               value="<?= $emailadres ?? '' ?>" placeholder="jan-en-alleman@voorbeeld.nl"/>
                         <span class="errors"><?= $errors['emailadres'] ?? '' ?></span>
                     </div>
                 </div>
@@ -473,7 +576,8 @@ oneDotOrMoreNav('.', false);
                 </div>
                 <div class="flexLabel">
                     <label for="allergies"> Allergieën/Voedselwensen</label>
-                    <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span class="tooltiptext">Vul hier mogelijke allergieën in, dan kunnen wij hier direct rekening mee houden. Ook als u voedselwensen heeft, bijvoorbeeld omdat u vegetariër bent, kunt u dit hier doorgeven. </span>
+                    <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
+                                class="tooltiptext">Vul hier mogelijke allergieën in, dan kunnen wij hier direct rekening mee houden. Ook als u voedselwensen heeft, bijvoorbeeld omdat u vegetariër bent, kunt u dit hier doorgeven. </span>
                     </div>
                 </div>
                 <div class="data-field-allergies">
@@ -582,5 +686,5 @@ oneDotOrMoreNav('.', false);
             </form>
         </section>
     </main>
-    <?php require_once('./includes/basic-elements/footer.php');
-    oneDotOrMoreFooter('.'); ?>
+<?php require_once('./includes/basic-elements/footer.php');
+oneDotOrMoreFooter('.'); ?>
