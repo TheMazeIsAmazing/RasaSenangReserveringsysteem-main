@@ -95,7 +95,7 @@ label {
     color: #bf383a;
 }
 
-label .tooltiptext {
+label .tooltipText {
     font-weight: normal;
 }
 
@@ -133,7 +133,7 @@ textarea {
     overflow-x: visible;
 }
 
-.tooltip .tooltiptext {
+.tooltip .tooltipText {
     visibility: hidden;
     opacity: 0%;
     width: 200px;
@@ -159,7 +159,7 @@ textarea {
     cursor: pointer;
 }
 
-.tooltip img:hover + .tooltiptext {
+.tooltip img:hover + .tooltipText {
     visibility: visible;
     opacity: 100%;
     transition: ease-in-out 300ms;

@@ -478,7 +478,7 @@ oneDotOrMoreNav('.', false);
                             *
                         </div>
                         <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
-                                    class="tooltiptext">Vul hier de datum in waarop u wilt reserveren.</span>
+                                    class="tooltipText">Vul hier de datum in waarop u wilt reserveren.</span>
                         </div>
                     </div>
                     <div class="flexInputWithErrors">
@@ -493,7 +493,7 @@ oneDotOrMoreNav('.', false);
                             *
                         </div>
                         <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
-                                    class="tooltiptext">Vul hier in hoe laat u ongeveer in het restaurant zal zijn.</span>
+                                    class="tooltipText">Vul hier in hoe laat u ongeveer in het restaurant zal zijn.</span>
                         </div>
                     </div>
                     <div class="flexInputWithErrors">
@@ -520,7 +520,7 @@ oneDotOrMoreNav('.', false);
                             *
                         </div>
                         <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
-                                    class="tooltiptext">Vul hier in voor hoeveel personen u wilt reserveren.</span>
+                                    class="tooltipText">Vul hier in voor hoeveel personen u wilt reserveren.</span>
                         </div>
                     </div>
                     <div class="flexInputWithErrors">
@@ -535,7 +535,7 @@ oneDotOrMoreNav('.', false);
                             *
                         </div>
                         <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
-                                    class="tooltiptext">Vul hier in op welke naam wilt reserveren.</span>
+                                    class="tooltipText">Vul hier in op welke naam wilt reserveren.</span>
                         </div>
                     </div>
                     <div class="flexInputWithErrors">
@@ -550,7 +550,7 @@ oneDotOrMoreNav('.', false);
                             *
                         </div>
                         <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
-                                    class="tooltiptext">Vul hier uw e-mailadres in, zo kunnen wij een bevestiging sturen van uw reservering. </span>
+                                    class="tooltipText">Vul hier uw e-mailadres in, zo kunnen wij een bevestiging sturen van uw reservering. </span>
                         </div>
                     </div>
                     <div class="flexInputWithErrors">
@@ -566,7 +566,7 @@ oneDotOrMoreNav('.', false);
                             *
                         </div>
                         <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
-                                    class="tooltiptext">Vul hier uw telefoonnummer in, dan kunnen wij, mocht dit nodig zijn, gemakkelijk contact opnemen met u. </span>
+                                    class="tooltipText">Vul hier uw telefoonnummer in, dan kunnen wij, mocht dit nodig zijn, gemakkelijk contact opnemen met u. </span>
                         </div>
                     </div>
                     <div class="flexInputWithErrors">
@@ -578,7 +578,7 @@ oneDotOrMoreNav('.', false);
                 <div class="flexLabel">
                     <label for="allergies"> Allergieën/Voedselwensen</label>
                     <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
-                                class="tooltiptext">Vul hier mogelijke allergieën in, dan kunnen wij hier direct rekening mee houden. Ook als u voedselwensen heeft, bijvoorbeeld omdat u vegetariër bent, kunt u dit hier doorgeven. </span>
+                                class="tooltipText">Vul hier mogelijke allergieën in, dan kunnen wij hier direct rekening mee houden. Ook als u voedselwensen heeft, bijvoorbeeld omdat u vegetariër bent, kunt u dit hier doorgeven. </span>
                     </div>
                 </div>
                 <div class="data-field-allergies">
@@ -671,7 +671,7 @@ oneDotOrMoreNav('.', false);
                     <div class="flexLabel">
                         <label for="comments">Opmerkingen </label>
                         <div class="tooltip"><img src="./data/icon-general/information.png" alt="i"> <span
-                                    class="tooltiptext">Mocht u opmerkingen hebben voor ons, dan kunt u dat hier invullen.</span>
+                                    class="tooltipText">Mocht u opmerkingen hebben voor ons, dan kunt u dat hier invullen.</span>
                         </div>
                     </div>
                     <textarea name="comments" cols="40" rows="5"><?php if (isset($comments) && $comments !== '') {

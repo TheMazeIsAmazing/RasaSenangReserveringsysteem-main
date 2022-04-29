@@ -97,7 +97,7 @@ oneDotOrMoreNav('..', false);
                         *
                     </div>
                     <div class="tooltip"><img src="../data/icon-general/information.png"> <span
-                                class="tooltiptext">Vul hier uw unieke wijzigingscode in die u heeft ontvangen in uw e-mailbevestiging. Mocht u deze kwijt zijn kunt u voor het wijzigen van uw reservering ook contact opnemen met het restaurant via: 078-6511160. </span>
+                                class="tooltipText">Vul hier uw unieke wijzigingscode in die u heeft ontvangen in uw e-mailbevestiging. Mocht u deze kwijt zijn kunt u voor het wijzigen van uw reservering ook contact opnemen met het restaurant via: 078-6511160. </span>
                     </div>
                 </div>
                 <div class="flexInputWithErrors">
