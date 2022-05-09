@@ -115,6 +115,7 @@ oneDotOrMoreNav('..', true);
                         <th>Aanvangstijd</th>
                         <th>Aantal Gasten</th>
                         <th>Naam</th>
+                        <th>Allergieën</th>
                         <th colspan="3"></th>
                     </tr>
                     </thead>
@@ -128,6 +129,7 @@ oneDotOrMoreNav('..', true);
                                 <td><?= htmlentities(date("H:i", strtotime($reservation['start_time']))) ?></td>
                                 <td><?= htmlentities($reservation['amount_people']) ?></td>
                                 <td><?= htmlentities($reservation['full_name']) ?></td>
+                                <td><?= htmlentities($reservation['str_all']) ?></td>
                                 <td>
                                     <a href="details.php?id=<?= htmlentities($reservation['reservering_id']) ?>"><img
                                                 class="details-button" src="../data/icon-general/information.png"

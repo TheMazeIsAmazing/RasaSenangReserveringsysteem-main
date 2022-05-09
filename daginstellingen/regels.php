@@ -87,6 +87,42 @@ foreach ($settings as $key => $setting) {
             }
         }
     }
+
+    $days = [];
+    if ($setting['monday'] == 'open') {
+        $days[] = 'Maandag';
+    }
+    if ($setting['tuesday'] == 'open') {
+        $days[] = 'Dinsdag';
+    }
+    if ($setting['wednesday'] == 'open') {
+        $days[] = 'Woensdag';
+    }
+    if ($setting['thursday'] == 'open') {
+        $days[] = 'Donderdag';
+    }
+    if ($setting['friday'] == 'open') {
+        $days[] = 'Vrijdag';
+    }
+    if ($setting['saturday'] == 'open') {
+        $days[] = 'Zaterdag';
+    }
+    if ($setting['sunday'] == 'open') {
+        $days[] = 'Zondag';
+    }
+
+    if (count($days) >= 1) {
+        $settings[$key]['day-str'] = '';
+        for ($i = 0; $i < count($days); $i++) {
+            if (($i + 1 == count($days)) && count($days) !== 1) {
+                $settings[$key]['day-str'] = "{$settings[$key]['day-str']} en $days[$i]";
+            } elseif (count($times) == 1 || $i == 0) {
+                $settings[$key]['day-str'] = "{$settings[$key]['day-str']} $days[$i]";
+            } else {
+                $settings[$key]['day-str'] = "{$settings[$key]['day-str']}, $days[$i]";
+            }
+        }
+    }
 }
 
 //include basic pages such as navbar and header.
@@ -135,7 +171,8 @@ oneDotOrMoreNav('..', true);
                     <th>Accepteer Reserveringen</th>
                     <th>Limiet Gasten</th>
                     <th>Limiet Reserveringen</th>
-                    <th>Aanvangstijden of Tijdslots</th>
+                    <th>Geopende Dagen:</th>
+<!--                    <th>Aanvangstijden of Tijdslots</th>-->
                     <th colspan="3"></th>
                 </tr>
                 </thead>
@@ -176,11 +213,16 @@ oneDotOrMoreNav('..', true);
                                     } else {
                                         echo '-';
                                     } ?></td>
-                                <td><?php if ($setting['times_or_timeslots'] == 'times') {
-                                    echo $setting['time-str'];
-                                    } else {
-                                    echo 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to'];
-                                    }?></td>
+<!--                                <td>--><?php //if ($setting['times_or_timeslots'] == 'times') {
+//                                    echo $setting['time-str'];
+//                                    } else {
+//                                    echo 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to'];
+//                                    }?><!--</td>-->
+                                    <td><?php if (isset($setting['day-str'])) {
+                                            echo $setting['day-str'];
+                                        } else {
+                                            echo '-';
+                                        }?></td>
                                 <?php } else { ?>
                                     <td>Gesloten</td>
                                     <td>-</td>
@@ -232,10 +274,15 @@ oneDotOrMoreNav('..', true);
                                         } else {
                                             echo '-';
                                         } ?></td>
-                                    <td><?php if ($setting['times_or_timeslots'] == 'times') {
-                                            echo $setting['time-str'];
+<!--                                    <td>--><?php //if ($setting['times_or_timeslots'] == 'times') {
+//                                            echo $setting['time-str'];
+//                                        } else {
+//                                            echo 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to'];
+//                                        }?><!--</td>-->
+                                    <td><?php if (isset($setting['day-str'])) {
+                                            echo $setting['day-str'];
                                         } else {
-                                            echo 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to'];
+                                            echo '-';
                                         }?></td>
                                 <?php } else { ?>
                                     <td>Gesloten</td>

@@ -369,7 +369,7 @@ oneDotOrMoreNav('..', false);
                     <span class="errors"><?= $errors['reservations_limit'] ?? '' ?></span>
                 </div>
             </div>
-            <div>
+            <div style="display: none">
                 <div class="data-field">
                     <div class="flexLabel">
                         <label for="times_or_timeslots">Aanvangstijden of Tijdsloten:</label>
@@ -384,7 +384,7 @@ oneDotOrMoreNav('..', false);
                     </select>
                 </div>
             </div>
-            <div class="times" id="hiddenIfTimeslotsIsSelected">
+            <div class="times" style="display: none" id="hiddenIfTimeslotsIsSelected">
                 <div class="data-field">
                     <div class="flexLabel">
                         <label for="accept_reservations">Aanvangstijden:</label>
@@ -448,7 +448,7 @@ oneDotOrMoreNav('..', false);
                     </div>
                 </div>
             </div>
-            <div class="timeslots" id="hiddenIfTimesIsSelected">
+            <div class="timeslots" style="display: none" id="hiddenIfTimesIsSelected">
                 <label for="accept_reservations">Tijdsloten:</label>
                 <div class="data-field">
                     <div class="flexLabel">

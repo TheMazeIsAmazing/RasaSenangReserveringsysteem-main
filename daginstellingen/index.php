@@ -192,17 +192,17 @@ oneDotOrMoreNav('..', false);
                                     <div>(Er zijn vandaag <?= $amountReservations; ?> reserveringen)</div>
                                 </div>
                             </div>
-                            <?php if ($setting['times_or_timeslots'] == 'times') { ?>
-                            <div class="flexDetails">
-                                <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                                <div><?= $setting['time-str']; ?></div>
-                            </div>
-                            <?php } else { ?>
-                            <div class="flexDetails">
-                                <div class="labelDetails timesLabel">Tijdsloten:</div>
-                                <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
-                            </div>
-<?php } ?>
+<!--                            --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
+<!--                            <div class="flexDetails">-->
+<!--                                <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
+<!--                                <div>--><?//= $setting['time-str']; ?><!--</div>-->
+<!--                            </div>-->
+<!--                            --><?php //} else { ?>
+<!--                            <div class="flexDetails">-->
+<!--                                <div class="labelDetails timesLabel">Tijdsloten:</div>-->
+<!--                                <div>--><?//= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+<!--                            </div>-->
+<?php //} ?>
                         </div>
                     <?php } else { ?>
                         <div class="daySummary">
@@ -249,17 +249,17 @@ oneDotOrMoreNav('..', false);
                                         vandaag <?= $amountReservations; ?> reserveringen)
                                     </div>
                                 </div>
-                                <?php if ($setting['times_or_timeslots'] == 'times') { ?>
-                                    <div class="flexDetails">
-                                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                                        <div><?= $setting['time-str']; ?></div>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="flexDetails">
-                                        <div class="labelDetails timesLabel">Tijdsloten:</div>
-                                        <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
-                                    </div>
-                                <?php } ?>
+<!--                                --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
+<!--                                    <div class="flexDetails">-->
+<!--                                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
+<!--                                        <div>--><?//= $setting['time-str']; ?><!--</div>-->
+<!--                                    </div>-->
+<!--                                --><?php //} else { ?>
+<!--                                    <div class="flexDetails">-->
+<!--                                        <div class="labelDetails timesLabel">Tijdsloten:</div>-->
+<!--                                        <div>--><?//= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+<!--                                    </div>-->
+<!--                                --><?php //} ?>
                             </div>
                         <?php } else { ?>
                             <div class="daySummary">
@@ -327,17 +327,17 @@ oneDotOrMoreNav('..', false);
                                 <div class="labelDetails">Reservering limiet:</div>
                                 <div><?= htmlentities($setting['reservations_limit']) ?></div>
                             </div>
-                            <?php if ($setting['times_or_timeslots'] == 'times') { ?>
-                                <div class="flexDetails">
-                                    <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                                    <div><?= $setting['time-str']; ?></div>
-                                </div>
-                            <?php } else { ?>
-                                <div class="flexDetails">
-                                    <div class="labelDetails timesLabel">Tijdsloten:</div>
-                                    <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
-                                </div>
-                            <?php } ?>
+<!--                            --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
+<!--                                <div class="flexDetails">-->
+<!--                                    <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
+<!--                                    <div>--><?//= $setting['time-str']; ?><!--</div>-->
+<!--                                </div>-->
+<!--                            --><?php //} else { ?>
+<!--                                <div class="flexDetails">-->
+<!--                                    <div class="labelDetails timesLabel">Tijdsloten:</div>-->
+<!--                                    <div>--><?//= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+<!--                                </div>-->
+<!--                            --><?php //} ?>
                             <div class="flexDetails">
                                 <div class="labelDetails timesLabel">Geopende dagen:</div>
                                 <div><?= $setting['date-str']; ?></div>
@@ -405,17 +405,17 @@ oneDotOrMoreNav('..', false);
                                     <div class="labelDetails">Reservering limiet:</div>
                                     <div><?= htmlentities($setting['reservations_limit']) ?></div>
                                 </div>
-                                <?php if ($setting['times_or_timeslots'] == 'times') { ?>
-                                    <div class="flexDetails">
-                                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>
-                                        <div><?= $setting['time-str']; ?></div>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="flexDetails">
-                                        <div class="labelDetails timesLabel">Tijdsloten:</div>
-                                        <div><?= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?></div>
-                                    </div>
-                                <?php } ?>
+<!--                                --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
+<!--                                    <div class="flexDetails">-->
+<!--                                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
+<!--                                        <div>--><?//= $setting['time-str']; ?><!--</div>-->
+<!--                                    </div>-->
+<!--                                --><?php //} else { ?>
+<!--                                    <div class="flexDetails">-->
+<!--                                        <div class="labelDetails timesLabel">Tijdsloten:</div>-->
+<!--                                        <div>--><?//= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+<!--                                    </div>-->
+<!--                                --><?php //} ?>
                                 <div class="flexDetails">
                                     <div class="labelDetails timesLabel">Geopende dagen:</div>
                                     <div><?= $setting['date-str']; ?></div>
