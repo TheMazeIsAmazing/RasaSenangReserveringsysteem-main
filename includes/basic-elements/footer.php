@@ -1,4 +1,4 @@
-<?php function oneDotOrMoreFooter($dotsString) {
+<?php function initializeFooter($dotsString) {
     $footer = '© '. date("Y") . ' - Rasa Senang Dordrecht.';?>
 <footer>
     <section>

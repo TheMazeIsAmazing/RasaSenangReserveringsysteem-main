@@ -421,17 +421,17 @@ if (isset($_POST['submit'])) {
 
 //include basic pages such as navbar and header.
 require_once "./includes/basic-elements/head.php";
-oneDotOrMoreHead('.', 'Reserveren bij Rasa Senang', false, false, false);
+initializeHead('.', 'Reserveren bij Rasa Senang', false, false, false);
 require_once "./includes/basic-elements/topBar.php";
 if (isset($_SESSION['canChangeReservation']) && isset($_SESSION['loggedInUser'])) {
-    oneDotOrMoreTopBar('.', './overzicht-reserveringen/details.php?id=' . $_SESSION['canChangeReservation']['reservering_id']);
+    initializeTopBar('.', './overzicht-reserveringen/details.php?id=' . $_SESSION['canChangeReservation']['reservering_id']);
 } elseif (isset($_SESSION['loggedInUser'])) {
-    oneDotOrMoreTopBar('.', './overzicht-reserveringen');
+    initializeTopBar('.', './overzicht-reserveringen');
 } else {
-    oneDotOrMoreTopBar('.', 'https://www.rasasenang.com/nl/');
+    initializeTopBar('.', 'https://www.rasasenang.com/nl/');
 }
 require_once "./includes/basic-elements/sideNav.php";
-oneDotOrMoreNav('.', false);
+initializeSideNav('.', false);
 ?>
     <main class="content-wrap">
         <header>
@@ -692,4 +692,4 @@ oneDotOrMoreNav('.', false);
         </section>
     </main>
 <?php require_once('./includes/basic-elements/footer.php');
-oneDotOrMoreFooter('.'); ?>
+initializeFooter('.'); ?>

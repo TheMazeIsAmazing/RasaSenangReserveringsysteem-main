@@ -297,14 +297,14 @@ if (!isset($_SESSION['daySettingChange'])) {
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
 if (isset($_SESSION['daySettingChange'])) {
-    oneDotOrMoreHead('..', 'Daginstelling wijzigen bij Rasa Senang', false, false, true);
+    initializeHead('..', 'Daginstelling wijzigen bij Rasa Senang', false, false, true);
 } else {
-    oneDotOrMoreHead('..', 'Nieuwe Daginstelling voor Rasa Senang', false, false, true);
+    initializeHead('..', 'Nieuwe Daginstelling voor Rasa Senang', false, false, true);
 }
 require_once "../includes/basic-elements/topBar.php";
-oneDotOrMoreTopBar('..', './regels.php');
+initializeTopBar('..', './regels.php');
 require_once "../includes/basic-elements/sideNav.php";
-oneDotOrMoreNav('..', false);
+initializeSideNav('..', false);
 ?>
 <main class="content-wrap">
     <header>
@@ -546,4 +546,4 @@ oneDotOrMoreNav('..', false);
     </form>
 </main>
 <?php require_once('../includes/basic-elements/footer.php');
-oneDotOrMoreFooter('..'); ?>
+initializeFooter('..'); ?>

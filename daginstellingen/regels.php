@@ -127,11 +127,11 @@ foreach ($settings as $key => $setting) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Daginstellingen van Rasa Senang', false, true, false);
+initializeHead('..', 'Daginstellingen van Rasa Senang', false, true, false);
 require_once "../includes/basic-elements/topBar.php";
-oneDotOrMoreTopBar('..', './');
+initializeTopBar('..', './');
 require_once "../includes/basic-elements/sideNav.php";
-oneDotOrMoreNav('..', true);
+initializeSideNav('..', true);
 ?>
     <main class="content-wrap">
         <header>
@@ -306,4 +306,4 @@ oneDotOrMoreNav('..', true);
         </section>
     </main>
     <?php require_once('../includes/basic-elements/footer.php');
-    oneDotOrMoreFooter('..'); ?>
+    initializeFooter('..'); ?>

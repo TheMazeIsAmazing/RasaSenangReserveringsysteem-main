@@ -14,36 +14,39 @@ if (isset($_SESSION['loggedInUser'])) {
     exit;
 }
 
-if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation'])) {
-    header("Location: ../");
-    exit;
-} else {
-    if (isset($_SESSION['deletedReservation'])) {
-        $deleted = true;
-        unset($_SESSION['canChangeReservation']);
-        unset($_SESSION['deletedReservation']);
-        unset($_SESSION['reservation']);
-    } else {
-        $whatsappDate = date('d F Y', strtotime($_SESSION['reservation']['date']));
-        $whatsappTime = date('H:i', strtotime($_SESSION['reservation']['time']));
-        $whatsappPeopleAmount = mysqli_escape_string($db, $_SESSION['reservation']['people']);
-        unset($_SESSION['reservation']);
-        if (isset($_SESSION['canChangeReservation'])) {
-            unset($_SESSION['canChangeReservation']);
-            $changed = true;
-        }
-    }
-    mysqli_close($db);
-}
+//if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation'])) {
+//    header("Location: ../");
+//    exit;
+//} else {
+//    if (isset($_SESSION['deletedReservation'])) {
+//        $deleted = true;
+//        unset($_SESSION['canChangeReservation']);
+//        unset($_SESSION['deletedReservation']);
+//        unset($_SESSION['reservation']);
+//    } else {
+//        $whatsappDate = date('d/m/Y', strtotime($_SESSION['reservation']['date']));
+//        $whatsappTime = date('H:i', strtotime($_SESSION['reservation']['time']));
+//        $whatsappPeopleAmount = mysqli_escape_string($db, $_SESSION['reservation']['people']);
+//        unset($_SESSION['reservation']);
+//        if (isset($_SESSION['canChangeReservation'])) {
+//            unset($_SESSION['canChangeReservation']);
+//            $changed = true;
+//        }
+//    }
+//    mysqli_close($db);
+//}
+
+$changed = false;
 
 //include basic pages such as navbar and header
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Bevestiging van reservering bij Rasa Senang', false, false, false);
+initializeHead('..', 'Bevestiging van reservering bij Rasa Senang', false, false, false);
 require_once "../includes/basic-elements/topBar.php";
-oneDotOrMoreTopBar('..', '../');
+initializeTopBar('..', '../');
 require_once "../includes/basic-elements/sideNav.php";
-oneDotOrMoreNav('..', false);
+initializeSideNav('..', false);
 ?>
+    <main class="content-wrap">
         <div class="confirmation-page">
             <?php if ($deleted == true) { ?>
                 <section>
@@ -59,13 +62,14 @@ oneDotOrMoreNav('..', false);
                     <h1>Uw reservering is succesvol gewijzigd!</h1>
                     <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
                     <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
-                    <a class="whatsappShareButton"
-                       href="whatsapp://send?text=Ik heb zojuist gereserveerd bij Rasa Senang! Ik heb gereserveerd op: <?= $whatsappDate ?>, vanaf: <?= $whatsappTime ?>, voor <?= $whatsappPeopleAmount ?> personen. Dit is het adres van het restaurant: De Jagerweg 227; 3328 AA, Dordrecht"
+                    <a class="inlineBlockWhatsapp"
+                       href="whatsapp://send?text=Hoi, ik heb zojuist gereserveerd bij Rasa Senang! Ik heb gereserveerd op: <?= $whatsappDate ?>, vanaf: <?= $whatsappTime ?>, voor <?= $whatsappPeopleAmount ?> personen. Dit is het adres van het restaurant: De Jagerweg 227; 3328 AA, Dordrecht. Ik heb er veel zin in!"
                        data-action="share/whatsapp/share"
                        target="_blank">
-                        <div class="flexWhatsapp"><img src="../data/icon-general/WhatsApp_icon.png">
+                        <button class="whatsappShareButton">
+                            <img src="../data/icon-general/WhatsApp_icon.png">
                             <div>Delen via WhatsApp</div>
-                        </div>
+                        </button>
                     </a>
                 </section>
             <?php } else { ?>
@@ -75,7 +79,7 @@ oneDotOrMoreNav('..', false);
                     <h3>U krijgt binnen 15 minuten een bevestigingsmail.</h3>
                     <h3>Mocht u nog vragen hebben voor ons, dan helpen wij u graag! Bel gerust naar: 078-6511160.</h3>
                     <a class="inlineBlockWhatsapp"
-                       href="whatsapp://send?text=Ik heb zojuist gereserveerd bij Rasa Senang! Ik heb gereserveerd op: <?= $whatsappDate ?>, vanaf: <?= $whatsappTime ?>, voor <?= $whatsappPeopleAmount ?> personen. Dit is het adres van het restaurant: De Jagerweg 227; 3328 AA, Dordrecht"
+                       href="whatsapp://send?text=Hoi, ik heb zojuist gereserveerd bij Rasa Senang! Ik heb gereserveerd op: <?= $whatsappDate ?>, vanaf: <?= $whatsappTime ?>, voor <?= $whatsappPeopleAmount ?> personen. Dit is het adres van het restaurant: De Jagerweg 227; 3328 AA, Dordrecht. Ik heb er veel zin in!"
                        data-action="share/whatsapp/share"
                        target="_blank">
                         <button class="whatsappShareButton">
@@ -88,4 +92,4 @@ oneDotOrMoreNav('..', false);
         </div>
     </main>
     <?php require_once('../includes/basic-elements/footer.php');
-    oneDotOrMoreFooter('..'); ?>
+    initializeFooter('..'); ?>

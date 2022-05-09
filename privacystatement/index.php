@@ -3,11 +3,11 @@ session_start();
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-oneDotOrMoreHead('..', 'Privacystatement van Rasa Senang', false, true, false);
+initializeHead('..', 'Privacystatement van Rasa Senang', false, true, false);
 require_once "../includes/basic-elements/topBar.php";
-oneDotOrMoreTopBar('..', '../');
+initializeTopBar('..', '../');
 require_once "../includes/basic-elements/sideNav.php";
-oneDotOrMoreNav('..', true);
+initializeSideNav('..', true);
 ?>
     <main class="content-wrap">
         <article>
@@ -89,7 +89,7 @@ oneDotOrMoreNav('..', true);
         </article>
     </main>
     <?php require_once('../includes/basic-elements/footer.php');
-    oneDotOrMoreFooter('..'); ?>
+    initializeFooter('..'); ?>
 
 
 

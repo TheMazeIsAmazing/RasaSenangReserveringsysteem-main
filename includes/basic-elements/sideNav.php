@@ -1,5 +1,5 @@
 <?php
-function oneDotOrMoreNav($dotsString, $topArrow)
+function initializeSideNav($dotsString, $topArrow)
 {
 $link = '/';
 if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php') {

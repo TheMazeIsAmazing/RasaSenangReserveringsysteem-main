@@ -1,4 +1,4 @@
-<?php function oneDotOrMoreTopBar($dotsString, $backRedirect)
+<?php function initializeTopBar($dotsString, $backRedirect)
 { ?>
     <?php if (isset($_SESSION['loggedInUser']))
 { ?>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="nl">
 <head id="head">
-<?php function oneDotOrMoreHead($dotsString, $title, $modalScript, $topArrow, $createDaySettingScript) { ?>
+<?php function initializeHead($dotsString, $title, $modalScript, $topArrow, $createDaySettingScript) { ?>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
