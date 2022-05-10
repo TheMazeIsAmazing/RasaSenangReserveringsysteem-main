@@ -19,10 +19,11 @@
     <meta name="msapplication-TileColor" content="#e6e6e6">
     <meta name="msapplication-config" content="<?= $dotsString ?>/data/site-icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="<?= $dotsString ?>/includes/style.css">
+    <link rel="stylesheet" href="<?= $dotsString ?>/includes/essential.css">
     <link id="style-rel-head" rel="stylesheet" href="<?= $dotsString ?>">
     <title><?= $title ?></title>
     <script defer src="<?= $dotsString ?>/includes/scripts/side-menu-scripts.js"></script>
+    <script async src="<?= $dotsString ?>/includes/scripts/dark-mode-scripts.js"></script>
 <?php if ($modalScript == true) { ?>
     <script defer src="<?= $dotsString ?>/includes/scripts/modal-scripts.js"></script>
 <?php } ?>

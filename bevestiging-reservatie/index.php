@@ -14,27 +14,27 @@ if (isset($_SESSION['loggedInUser'])) {
     exit;
 }
 
-//if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation'])) {
-//    header("Location: ../");
-//    exit;
-//} else {
-//    if (isset($_SESSION['deletedReservation'])) {
-//        $deleted = true;
-//        unset($_SESSION['canChangeReservation']);
-//        unset($_SESSION['deletedReservation']);
-//        unset($_SESSION['reservation']);
-//    } else {
-//        $whatsappDate = date('d/m/Y', strtotime($_SESSION['reservation']['date']));
-//        $whatsappTime = date('H:i', strtotime($_SESSION['reservation']['time']));
-//        $whatsappPeopleAmount = mysqli_escape_string($db, $_SESSION['reservation']['people']);
-//        unset($_SESSION['reservation']);
-//        if (isset($_SESSION['canChangeReservation'])) {
-//            unset($_SESSION['canChangeReservation']);
-//            $changed = true;
-//        }
-//    }
-//    mysqli_close($db);
-//}
+if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation'])) {
+    header("Location: ../");
+    exit;
+} else {
+    if (isset($_SESSION['deletedReservation'])) {
+        $deleted = true;
+        unset($_SESSION['canChangeReservation']);
+        unset($_SESSION['deletedReservation']);
+        unset($_SESSION['reservation']);
+    } else {
+        $whatsappDate = date('d/m/Y', strtotime($_SESSION['reservation']['date']));
+        $whatsappTime = date('H:i', strtotime($_SESSION['reservation']['time']));
+        $whatsappPeopleAmount = mysqli_escape_string($db, $_SESSION['reservation']['people']);
+        unset($_SESSION['reservation']);
+        if (isset($_SESSION['canChangeReservation'])) {
+            unset($_SESSION['canChangeReservation']);
+            $changed = true;
+        }
+    }
+    mysqli_close($db);
+}
 
 $changed = false;
 
