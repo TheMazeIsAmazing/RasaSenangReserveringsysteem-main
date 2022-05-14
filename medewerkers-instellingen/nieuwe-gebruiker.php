@@ -12,6 +12,9 @@ if ((isset($_GET['edit']) && $_GET['edit'] !== '1') || (isset($_GET['edit']) && 
     exit;
 }
 
+$commonPasswordList = ["123456", "123456789", "password", "password123", "passw0rd", "12345678", "111111", "123123", "12345", "1234567890", "1234567", "qwerty", "abc123", "000000", "1234", "iloveyou", "password1", "123", "123321", "654321", "qwertyuiop", "123456a", "a123456", "666666", "asdfghjkl", "987654321", "zxcvbnm", "112233", "20100728", "123123123", "princess", "123abc", "123qwe", "sunshine", "121212", "dragon", "1q2w3e4r", "159753", "0123456789", "pokemon", "qwerty123", "monkey", "1qaz2wsx", "abcd1234", "aaaaaa", "soccer", "123654", "12345678910", "shadow", "102030", "11111111", "asdfgh", "147258369", "qazwsx", "qwe123", "football", "baseball", "person", "government", "company", "number", "problem", "0123456"];
+
+
 $can_visit_reservations = "false";
 $can_visit_employees = "false";
 $can_visit_daysettings = "false";
@@ -143,6 +146,24 @@ if (isset($_POST['submit'])) {
             $errors['password'] = 'De wachtwoorden komen niet overeen';
         }
 
+        if (empty($errors['password'])) {
+            foreach ($commonPasswordList as $commonPassword) {
+                if ($passwordEmployee == $commonPassword) {
+                    $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de wachtwoordvereisten: .";
+                }
+            }
+        }
+
+        if (empty($errors['password'])) {
+                if (strlen($passwordEmployee) < 8) {
+                    $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de wachtwoordvereisten.";
+                } else {
+                    if (preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $passwordEmployee)) {
+                        $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de eisen.";;
+                    }
+                }
+        }
+
         if (empty($errors)) {
             //check if there is another user with the same username, if the case give error message
             $queryPullEmployees = "SELECT * FROM users";
@@ -178,9 +199,9 @@ if (isset($_POST['submit'])) {
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
 if (isset($_SESSION['canChangeEmployee'])) {
-    initializeHead('..', 'Medewerker wijzigen bij Rasa Senang', false, false, false);
+    initializeHead('..', 'Medewerker wijzigen bij Rasa Senang', false, false, false, true);
 } else {
-    initializeHead('..', 'Medewerker registreren bij Rasa Senan', false, false, false);
+    initializeHead('..', 'Medewerker registreren bij Rasa Senan', false, false, false, true);
 }
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', './');
@@ -220,10 +241,27 @@ initializeSideNav('..', false);
                     <label for="password">Wachtwoord</label>
                 </div>
                 <div class="flexInputWithErrors">
-                    <input type="password" name="password" value="<?= $passwordEmployee ?? '' ?>"/>
+                    <input type="password" id="passwordField" name="password" oninput="checkPassword()" value="<?= $passwordEmployee ?? '' ?>" />
                     <span class="errors"><?= $errors['password'] ?? '' ?></span>
                 </div>
             </div>
+        <div class="data-field">
+            <div class="flexLabel">
+            </div>
+            <div>
+                <div id="passwordStrengthContainer">
+                    <div id="passwordStrengthBar"></div><div id="passwordStrengthText"></div>
+                </div>
+                <div id="passwordInfoPanel">
+                    Wachtwoordvereisten:
+                    <ul>
+                        <li id="passwordRequirementMinLength">Bevat minimaal 8 karakters</li>
+                        <li id="passwordRequirementChars">Bevat zowel letters als nummers</li>
+                        <li id="passwordRequirementCommonPasswords">Is niet gemakkelijk te raden</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
             <div class="data-field">
                 <div class="flexLabel">
                     <label for="passwordConfirm">Wachtwoord Bevestigen</label>

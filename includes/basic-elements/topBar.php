@@ -8,7 +8,7 @@
     </button>
         <div class="logo-with-clock-middle-top-bar">
             <a href="<?= $dotsString ?>/medewerkers" class="topBarLogoRedirect">
-                <img id="logo" class="logo" alt="Logo Rasa Senang">
+                <img id="logo" class="logo" alt="Logo Rasa Senang" src="<?= $dotsString ?>/data/logo-light-mode.png">
             </a>
             <div id="timeDate">
                 <a id="d"><?= date('d') ?></a>
@@ -30,7 +30,7 @@
             <img src="<?= $dotsString ?>/data/icon-general/menu.png" alt="Open Zijmenu">
         </button>
             <a href="<?= $dotsString ?>/" class="topBarLogoRedirect">
-                <img id="logo"class="logo" alt="Logo Rasa Senang">
+                <img id="logo"class="logo" alt="Logo Rasa Senang" src="<?= $dotsString ?>/data/logo-light-mode.png">
             </a>
         <a href="<?= $backRedirect ?>">
             <button class="back">

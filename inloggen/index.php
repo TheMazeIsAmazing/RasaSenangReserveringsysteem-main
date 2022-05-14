@@ -72,6 +72,7 @@ initializeSideNav('..', false);
     <main class="content-wrap">
         <?php if ($login) {
             header('Location: ../medewerkers');
+            exit;
         } else { ?>
             <header>
                 <h1>Inloggen Medewerkers</h1>
