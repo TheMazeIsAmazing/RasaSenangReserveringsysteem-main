@@ -5,7 +5,6 @@ session_start();
 //Require database in this file
 require_once '../includes/database.php';
 /**@var mysqli $db */
-/**@var mysqli $db */
 
 //May I even visit this page?
 require_once "../includes/loginCheck.php";
@@ -120,7 +119,7 @@ $daysMatchQuery = 0;
 
 $date = date('Y-m-d');
 
-$queryReservations = "SELECT * FROM reserveringen WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
+$queryReservations = "SELECT * FROM reserveringen WHERE date = '$date'";
 $resultReservations = mysqli_query($db, $queryReservations); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryReservations);
 $reservations = [];
 

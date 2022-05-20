@@ -18,6 +18,7 @@ if (!isset($_GET['id']) || $_GET['id'] == '') {
 
 //Require database in this file
 require_once '../includes/database.php';
+require_once '../mailer.php';
 /** @var mysqli $db */
 
 //May I even visit this page?
@@ -41,7 +42,7 @@ $reservation = mysqli_fetch_assoc($result);
 
 
 $emailGuestInfo = mysqli_escape_string($db, $reservation['emailadres']);
-$queryGuestInfo = "SELECT COUNT(emailadres) FROM reserveringen WHERE emailadres = '$emailGuestInfo' AND `deleted_by_user` IS NULL";
+$queryGuestInfo = "SELECT COUNT(emailadres) FROM reserveringen WHERE emailadres = '$emailGuestInfo'";
 $resultGuestInfo = mysqli_query($db, $queryGuestInfo); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
 //Loop through the result to create a custom array
 $reservationsGuestInfo = mysqli_fetch_assoc($resultGuestInfo);
@@ -110,24 +111,31 @@ if (isset($_POST['change'])) {
 
 
 if (isset($_POST['submitDelete'])) {
-    if (isset($_POST['reason']) && $_POST['reason'] !== '') {
-        $reservationIdQuery = mysqli_escape_string($db, $reservation['reservering_id']);
-        $reason = mysqli_escape_string($db, $_POST['reason']);
-        $currentTime = date("Y-m-d H:i:s");
-        $userDelete = "employee";
-        $deleteMail = "false";
-        $deleteQuery = "UPDATE reserveringen SET  date_updated_reservation = '$currentTime', deleted_by_user = '$userDelete', reason_of_deletion = '$reason', delete_mail_sent = '$deleteMail' WHERE reservering_id = '$reservationIdQuery'";
-        $resultDelete = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
-        mysqli_close($db);
-        if ($resultDelete) {
-            header('Location: ./');
-            exit;
+    $reservationIdQuery = mysqli_escape_string($db, $reservation['reservering_id']);
+    $deleteQuery = "DELETE FROM reserveringen WHERE reservering_id = '$reservationIdQuery'";
+    $resultDelete = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
+
+    if ($resultDelete) {
+        $reservationIdMail = $reservation['reservering_id'];
+        $randomNumberMail = $reservation['unique_code'];
+        $nameMail = $reservation['full_name'];
+        $dateMail = date('d/m/Y', strtotime($reservation['date']));
+        $timeMail = date('H:i', strtotime($reservation['start_time']));
+        $amountMail = $reservation['amount_people'];
+        $phoneMail = $reservation['phonenumber'];
+        $addressMail = $reservation['emailadres'];
+        $allergiesMail = $reservation['str_all'];
+        if ($reservation['comments'] == '') {
+            $commentsMail = 'Niet van toepassing.';
         } else {
-            header('Location: ./details.php?id=' . $reservation['reservering_id'] . '&error=dbError#open');
-            exit;
+            $commentsMail = $_SESSION['reservation']['comments'];
         }
-    } else {
-        header('Location: ./details.php?id=' . $reservation['reservering_id'] . '&error=noReason#open');
+        sendMail('deleted', $reservationIdMail, $randomNumberMail, $nameMail, $dateMail, $timeMail, $amountMail, $phoneMail, $allergiesMail, $commentsMail, $addressMail, false);
+        header('Location: ./index.php');
+        exit;
+        } else {
+        mysqli_close($db);
+        header('Location: ./details.php?id=' . $reservation['reservering_id'] . '&error=dbError#open');
         exit;
     }
 }
@@ -204,7 +212,8 @@ initializeSideNav('..', false);
                 <button class="date-submit" type="button" data-modal-target="#modal">Verwijderen</button>
             </div>
         </div>
-        <div class="modal" id="modal" <?php if (isset($_GET['error']) && $_GET['error'] !== '') {?>style="transition: none" <?php }?>>
+        <div class="modal" id="modal"
+             <?php if (isset($_GET['error']) && $_GET['error'] !== '') { ?>style="transition: none" <?php } ?>>
             <div class="modal-header">
                 <div class="title"> Weet u zeker dat u deze reservering wilt verwijderen?</div>
                 <button data-close-button class="close-button">&times;</button>
@@ -217,8 +226,6 @@ initializeSideNav('..', false);
                     <p class="errors"> <?php if (isset($_GET['error']) && $_GET['error'] !== '') {
                             if ($_GET['error'] == 'dbError') {
                                 echo "Er is helaas iets fout gegaan, probeer het later opnieuw.";
-                            } elseif ($_GET['error'] == 'noReason') {
-                                echo "Het veld: Reden is verplicht.";
                             } else {
                                 echo "Let op: deze actie is permanent!";
                             }
@@ -229,17 +236,6 @@ initializeSideNav('..', false);
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $reservationID; ?>"
                       method="post">
                     <div class="modalAlignCenter">
-                        <div class="modalAlignCenterDeletionReason">
-                            <div class="flexLabel">
-                                <label for="reason">Reden:</label>
-                                <div class="errors">
-                                    *
-                                </div>
-                            </div>
-                            <input class="delete-reason" type="text" name="reason" value=""/>
-                        </div>
-                    </div>
-                    <div class="modalAlignCenter">
                         <div class="date-submit-div">
                             <input class="date-submit" type="submit" name="submitDelete" value="Verwijderen"/>
                         </div>
@@ -248,5 +244,5 @@ initializeSideNav('..', false);
             </div>
         </div>
     </main>
-    <?php require_once('../includes/basic-elements/footer.php');
-    initializeFooter('..'); ?>
+<?php require_once('../includes/basic-elements/footer.php');
+initializeFooter('..'); ?>

@@ -26,12 +26,12 @@ if (isset($_POST['submit'])) {
     if ($_POST['date'] !== '') {
         $date = date("Y-m-d", strtotime($_POST['date']));
         if (date("Y-m-d", strtotime($date)) < date("Y-m-d", strtotime("2021-12-16"))) {
-            $query = "SELECT * FROM reserveringen WHERE `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL ORDER BY `date`";
+            $query = "SELECT * FROM reserveringen ORDER BY `date`";
         } else {
-            $query = "SELECT * FROM reserveringen WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
+            $query = "SELECT * FROM reserveringen WHERE date = '$date'";
         }
     } else {
-        $query = "SELECT * FROM reserveringen WHERE `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL ORDER BY `date`";
+        $query = "SELECT * FROM reserveringen ORDER BY `date`";
     }
     //Get the result set from the database with a SQL query
     $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
     //Close connection
     mysqli_close($db);
 } else {
-    $query = "SELECT * FROM `reserveringen` WHERE `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL  ORDER BY `date`";
+    $query = "SELECT * FROM `reserveringen` ORDER BY `date`";
     //Get the result set from the database with a SQL query
     $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
     //Loop through the result to create a custom array

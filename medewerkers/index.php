@@ -63,6 +63,8 @@ if (isset($deleteReservations)) {
     }
 }
 
+print_r($_SESSION['errors']);
+
 //function to find hour and display correct message based on it.
 
 //morning 6:00 - 12:00

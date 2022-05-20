@@ -189,7 +189,7 @@ if (isset($_POST['submit'])) {
                         $errors['date'] = 'Op de gekozen datum is het restaurant helaas volgeboekt, kies een andere.';
                     }
                     if (!isset($errors['date'])) {
-                        $queryReservationsDaySettings = "SELECT * FROM reserveringen WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
+                        $queryReservationsDaySettings = "SELECT * FROM reserveringen WHERE date = '$date'";
                         //Get the result set from the database with a SQL query
                         $resultReservationsDaySettings = mysqli_query($db, $queryReservationsDaySettings); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryReservationsDaySettings);
 
@@ -233,7 +233,7 @@ if (isset($_POST['submit'])) {
                             $errors['date'] = 'Op de gekozen datum is het restaurant helaas volgeboekt, kies een andere.';
                         }
                         if (!isset($errors['date'])) {
-                            $queryReservationsDaySettings = "SELECT * FROM reserveringen WHERE date = '$date' AND `deleted_by_user` IS NULL AND `reason_of_deletion` IS NULL AND `delete_mail_sent` IS NULL";
+                            $queryReservationsDaySettings = "SELECT * FROM reserveringen WHERE date = '$date'";
                             //Get the result set from the database with a SQL query
                             $resultReservationsDaySettings = mysqli_query($db, $queryReservationsDaySettings); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryReservationsDaySettings);
 

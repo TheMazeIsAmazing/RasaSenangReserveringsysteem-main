@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
 
     if (empty($errors)) {
 //Get record from DB based on first name
-        $query = "SELECT * FROM reserveringen WHERE reservering_id='$reservering_id' AND deleted_by_user IS NULL";
+        $query = "SELECT * FROM reserveringen WHERE reservering_id='$reservering_id'";
         $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
         if (mysqli_num_rows($result) == 1) {
             $reservation = mysqli_fetch_assoc($result);
