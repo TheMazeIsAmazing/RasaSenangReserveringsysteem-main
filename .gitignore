@@ -1,5 +1,6 @@
 /.idea
 /includes/database.php
 /email.php
-/test.php
+/mailer.php
 /includes/scripts/zxcvbn.js
+/phpmailer

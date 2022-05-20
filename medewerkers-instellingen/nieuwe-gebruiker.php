@@ -158,8 +158,8 @@ if (isset($_POST['submit'])) {
                 if (strlen($passwordEmployee) < 8) {
                     $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de wachtwoordvereisten.";
                 } else {
-                    if (preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $passwordEmployee)) {
-                        $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de eisen.";;
+                    if (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $passwordEmployee)) {
+                        $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de wachtwoordvereisten.";
                     }
                 }
         }

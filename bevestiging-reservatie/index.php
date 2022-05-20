@@ -6,6 +6,7 @@ $deleted = false;
 
 //Require database in this file
 require_once '../includes/database.php';
+require_once '../mailer.php';
 /** @var mysqli $db */
 
 //May I even visit this page?
@@ -20,27 +21,82 @@ if (!isset($_SESSION['reservation']) && !isset($_SESSION['canChangeReservation']
 } else {
     if (isset($_SESSION['deletedReservation'])) {
         $deleted = true;
+
+        $reservationIdMail = $_SESSION['canChangeReservation']['reservering_id'];
+        $randomNumberMail = $_SESSION['reservation']['random-number'];
+        $nameMail = $_SESSION['reservation']['name'];
+        $dateMail = date('d/m/Y', strtotime($_SESSION['reservation']['date']));
+        $timeMail = date('H:i', strtotime($_SESSION['reservation']['time']));
+        $amountMail = $_SESSION['reservation']['people'];
+        $phoneMail = $_SESSION['reservation']['phonenumber'];
+        $addressMail = $_SESSION['reservation']['emailadres'];
+        $allergiesMail = $_SESSION['reservation']['str_all'];
+        if ($_SESSION['reservation']['comments'] == '') {
+            $commentsMail = 'Niet van toepassing.';
+        } else {
+            $commentsMail = $_SESSION['reservation']['comments'];
+        }
+        sendMail('deleted', $reservationIdMail, $randomNumberMail, $nameMail, $dateMail, $timeMail, $amountMail, $phoneMail, $allergiesMail, $commentsMail, $addressMail);
+
         unset($_SESSION['canChangeReservation']);
         unset($_SESSION['deletedReservation']);
         unset($_SESSION['reservation']);
+    } else if (isset($_SESSION['canChangeReservation'])) {
+        $whatsappDate = date('d/m/Y', strtotime($_SESSION['reservation']['date']));
+        $whatsappTime = date('H:i', strtotime($_SESSION['reservation']['time']));
+        $whatsappPeopleAmount = mysqli_escape_string($db, $_SESSION['reservation']['people']);
+
+        $reservationIdMail = $_SESSION['canChangeReservation']['reservering_id'];
+        $randomNumberMail = $_SESSION['reservation']['random-number'];
+        $nameMail = $_SESSION['reservation']['name'];
+        $dateMail = date('d/m/Y', strtotime($_SESSION['reservation']['date']));
+        $timeMail = date('H:i', strtotime($_SESSION['reservation']['time']));
+        $amountMail = $_SESSION['reservation']['people'];
+        $phoneMail = $_SESSION['reservation']['phonenumber'];
+        $addressMail = $_SESSION['reservation']['emailadres'];
+        $allergiesMail = $_SESSION['reservation']['str_all'];
+        if ($_SESSION['reservation']['comments'] == '') {
+            $commentsMail = 'Niet van toepassing.';
+        } else {
+            $commentsMail = $_SESSION['reservation']['comments'];
+        }
+        sendMail('changed', $reservationIdMail, $randomNumberMail, $nameMail, $dateMail, $timeMail, $amountMail, $phoneMail, $allergiesMail, $commentsMail, $addressMail);
+
+        unset($_SESSION['reservation']);
+        unset($_SESSION['canChangeReservation']);
+        $changed = true;
     } else {
         $whatsappDate = date('d/m/Y', strtotime($_SESSION['reservation']['date']));
         $whatsappTime = date('H:i', strtotime($_SESSION['reservation']['time']));
         $whatsappPeopleAmount = mysqli_escape_string($db, $_SESSION['reservation']['people']);
-        unset($_SESSION['reservation']);
-        if (isset($_SESSION['canChangeReservation'])) {
-            unset($_SESSION['canChangeReservation']);
-            $changed = true;
+
+        $randomNumberMail = $_SESSION['reservation']['random-number'];
+        $nameMail = $_SESSION['reservation']['name'];
+        $dateMail = date('d/m/Y', strtotime($_SESSION['reservation']['date']));
+        $timeMail = date('H:i', strtotime($_SESSION['reservation']['time']));
+        $amountMail = $_SESSION['reservation']['people'];
+        $phoneMail = $_SESSION['reservation']['phonenumber'];
+        $addressMail = $_SESSION['reservation']['emailadres'];
+        $allergiesMail = $_SESSION['reservation']['str_all'];
+        if ($_SESSION['reservation']['comments'] == '') {
+            $commentsMail = 'Niet van toepassing.';
+        } else {
+            $commentsMail = $_SESSION['reservation']['comments'];
         }
+        sendMail('new', '1', $randomNumberMail, $nameMail, $dateMail, $timeMail, $amountMail, $phoneMail, $allergiesMail, $commentsMail, $addressMail);
+
+        unset($_SESSION['reservation']);
     }
     mysqli_close($db);
 }
 
-$changed = false;
+print_r($_SESSION['reservation']);
+
+//$changed = false;
 
 //include basic pages such as navbar and header
 require_once "../includes/basic-elements/head.php";
-initializeHead('..', 'Bevestiging van reservering bij Rasa Senang', false, false, false);
+initializeHead('..', 'Bevestiging van reservering bij Rasa Senang', false, false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', '../');
 require_once "../includes/basic-elements/sideNav.php";
@@ -91,5 +147,5 @@ initializeSideNav('..', false);
             <?php } ?>
         </div>
     </main>
-    <?php require_once('../includes/basic-elements/footer.php');
-    initializeFooter('..'); ?>
+<?php require_once('../includes/basic-elements/footer.php');
+initializeFooter('..'); ?>

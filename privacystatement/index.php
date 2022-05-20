@@ -3,7 +3,7 @@ session_start();
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-initializeHead('..', 'Privacystatement van Rasa Senang', false, true, false);
+initializeHead('..', 'Privacystatement van Rasa Senang', false, true, false, false);
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', '../');
 require_once "../includes/basic-elements/sideNav.php";
@@ -18,8 +18,7 @@ initializeSideNav('..', true);
                 Rasa Senang is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze
                 privacystatement.<br/>
                 <br/>
-                Voor al uw vragen met betrekking tot privacy kunt u contact opnemen met ons via:
-                <!--                <a href="https://twitter.com/Antwanvdm" class="text-gray-200 hover:text-gray-100" target="_blank">https://twitter.com/Antwanvdm</a>-->
+                Voor al uw vragen met betrekking tot privacy kunt u contact opnemen met ons via: <a href="mailto:info@rasasenang.com">info@rasasenang.com</a>
                 <h3>Persoonsgegevens die wij verwerken</h3>
                 Rasa Senang verwerkt uw persoonsgegevens doordat u gebruik maakt van onze diensten en/of omdat u deze
                 gegevens zelf aan ons verstrekt.<br/>
@@ -65,7 +64,7 @@ initializeSideNav('..', true);
                 <br/>
                 Wilt u gebruik maken van uw recht op bezwaar en/of recht op gegevensoverdraagbaarheid of heeft u andere
                 vragen/opmerkingen over de gegevensverwerking, stuur dan een gespecificeerd verzoek naar:
-                <!--                <a href="https://twitter.com/Antwanvdm" class="text-gray-200 hover:text-gray-100" target="_blank">https://twitter.com/Antwanvdm</a>. -->
+                <a href="mailto:info@rasasenang.com">info@rasasenang.com</a>
                 <br/>
                 <br/>
                 Om er zeker van te zijn dat het verzoek tot inzage door u is gedaan, vragen wij jou een kopie van uw
@@ -83,8 +82,7 @@ initializeSideNav('..', true);
                 verlies, onbevoegde toegang, ongewenste openbaarmaking en ongeoorloofde wijziging tegen te gaan. Als u
                 het idee hebt dat uw gegevens toch niet goed beveiligd zijn of er aanwijzingen zijn van misbruik, neem
                 dan contact op via:
-                <!--                <a href="https://twitter.com/Antwanvdm" class="text-gray-200 hover:text-gray-100"-->
-                <!--                                      target="_blank">https://twitter.com/Antwanvdm</a>-->
+                <a href="mailto:info@rasasenang.com">info@rasasenang.com</a>
             </div>
         </article>
     </main>

@@ -51,7 +51,7 @@ if (isset($_POST['submit'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-initializeHead('..', 'Wijzigen Reservering bij Rasa Senang', false, false, false);
+initializeHead('..', 'Wijzigen Reservering bij Rasa Senang', false, false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', '../');
 require_once "../includes/basic-elements/sideNav.php";

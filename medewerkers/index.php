@@ -14,6 +14,7 @@ $date = date("Y-m-d");
 //Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
+/** @var mysqli $db */
 
 //May I even visit this page?
 require_once "../includes/loginCheck.php";
@@ -38,13 +39,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 $deleteReservations = [];
 
-//if the reservation is set to be deleted (the confirmation mail has been sent) put it in the deletion array
-//else if the delete mail is null then add it to the day-summary
+//if the reservation is older than 2 years old, delete it, then check if the reservation's date matches today, and if so add to day summary
 foreach ($reservations as $reservation) {
-    if ($reservation['delete_mail_sent'] == 'true') {
-        $deleteReservations[] = $reservation['reservering_id'];
-    } elseif ($reservation['delete_mail_sent'] == '') {
-        if (strtotime($reservation['date']) <= strtotime('-2 years')) {
+    if (strtotime($reservation['date']) <= strtotime('-2 years')) {
             $deleteReservations[] = $reservation['reservering_id'];
         } else {
             if (date("Y-m-d", strtotime($reservation['date'])) == date("Y-m-d", strtotime($date))) {
@@ -58,8 +55,6 @@ foreach ($reservations as $reservation) {
                 $reservationsPlacedToday++;
             }
         }
-    }
-
 }
 if (isset($deleteReservations)) {
     foreach ($deleteReservations as $deleteReservation) {
@@ -122,7 +117,7 @@ if ($daysMatchQuery == 0) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-initializeHead('..', 'Welkom ' . htmlentities($name) . ' bij Rasa Senang', false, false, false);
+initializeHead('..', 'Welkom ' . htmlentities($name) . ' bij Rasa Senang', false, false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', '../inloggen/logout.php');
 require_once "../includes/basic-elements/sideNav.php";

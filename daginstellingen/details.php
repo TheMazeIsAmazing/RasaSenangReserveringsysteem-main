@@ -168,9 +168,9 @@ if (isset($_POST['submitDelete'])) {
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
 if ($setting['type'] == 'general') {
-    initializeHead('..', 'Algemene Daginstellingen bij Rasa Senang', true, false, false);
+    initializeHead('..', 'Algemene Daginstellingen bij Rasa Senang', true, false, false, false);
 } else {
-    initializeHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang', true, false, false);
+    initializeHead('..', 'Daginstelling ' . htmlentities($setting['id']) . ' bij Rasa Senang', true, false, false, false);
 }
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', './regels.php');

@@ -5,6 +5,7 @@ session_start();
 //Require database in this file
 require_once '../includes/database.php';
 /**@var mysqli $db */
+/**@var mysqli $db */
 
 //May I even visit this page?
 require_once "../includes/loginCheck.php";
@@ -140,7 +141,7 @@ mysqli_close($db);
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-initializeHead('..', 'Daginstellingen van Rasa Senang', false, false, false);
+initializeHead('..', 'Daginstellingen van Rasa Senang', false, false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', '../medewerkers');
 require_once "../includes/basic-elements/sideNav.php";

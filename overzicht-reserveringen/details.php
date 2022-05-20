@@ -134,7 +134,7 @@ if (isset($_POST['submitDelete'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-initializeHead('..', 'Reservering ' . htmlentities($reservation['reservering_id']) . ' bij Rasa Senang', true, false, false);
+initializeHead('..', 'Reservering ' . htmlentities($reservation['reservering_id']) . ' bij Rasa Senang', true, false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', './');
 require_once "../includes/basic-elements/sideNav.php";

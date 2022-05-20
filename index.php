@@ -6,6 +6,7 @@ $canChangeReservation = false;
 //Require database in this file
 require_once './includes/database.php';
 /** @var mysqli $db */
+/** @var mysqli $db */
 
 if ((isset($_GET['edit']) && $_GET['edit'] !== '1') || (isset($_GET['edit']) && !isset($_SESSION['canChangeReservation'])) || (!isset($_GET['edit']) && isset($_SESSION['canChangeReservation']))) {
     if (isset($_SESSION['canChangeReservation'])) {
@@ -421,7 +422,7 @@ if (isset($_POST['submit'])) {
 
 //include basic pages such as navbar and header.
 require_once "./includes/basic-elements/head.php";
-initializeHead('.', 'Reserveren bij Rasa Senang', false, false, false);
+initializeHead('.', 'Reserveren bij Rasa Senang', false, false, false, false);
 require_once "./includes/basic-elements/topBar.php";
 if (isset($_SESSION['canChangeReservation']) && isset($_SESSION['loggedInUser'])) {
     initializeTopBar('.', './overzicht-reserveringen/details.php?id=' . $_SESSION['canChangeReservation']['reservering_id']);

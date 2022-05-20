@@ -17,17 +17,31 @@ require_once '../includes/database.php';
 /** @var mysqli $db */
 
 if (isset($_POST['submitDelete'])) {
-    $reservationIdQuery = mysqli_escape_string($db, $_SESSION['canChangeReservation']['reservering_id']);
+    $reservationIdQueryDelete = mysqli_escape_string($db, $_SESSION['canChangeReservation']['reservering_id']);
     $_SESSION['canChangeReservation']['deletion'] = "true";
     $currentTime = date("Y-m-d H:i:s");
-    $userDelete = "guest";
-    $deleteMail = "false";
-    $deleteQuery = "UPDATE reserveringen SET  date_updated_reservation = '$currentTime', deleted_by_user = '$userDelete', delete_mail_sent = '$deleteMail' WHERE reservering_id = '$reservationIdQuery'";
+
+    $queryBeforeDeletion = "SELECT * FROM reserveringen WHERE reservering_id = '$reservationIdQueryDelete'";
+    $resultBeforeDeletion = mysqli_query($db, $queryBeforeDeletion); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+
+    $reservation = mysqli_fetch_assoc($resultBeforeDeletion);
+
+    $_SESSION['reservation']['date'] = $reservation['date'];
+    $_SESSION['reservation']['time'] = $reservation['start_time'];
+    $_SESSION['reservation']['people'] = $reservation['amount_people'];
+    $_SESSION['reservation']['name'] = $reservation['full_name'];
+    $_SESSION['reservation']['emailadres'] = $reservation['emailadres'];
+    $_SESSION['reservation']['phonenumber'] = $reservation['phonenumber'];
+    $_SESSION['reservation']['comments'] = $reservation['comments'];
+    $_SESSION['reservation']['str_all'] = $reservation['str_all'];
+
+
+    $deleteQuery = "DELETE FROM reserveringen WHERE reservering_id = '$reservationIdQueryDelete'";
     $resultDelete = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
     mysqli_close($db);
     if ($resultDelete) {
         $_SESSION['deletedReservation'] = "true";
-        $_SESSION['reservation'] = "true";
+//        $_SESSION['reservation'] = "true";
         header('Location: ../bevestiging-reservatie');
         exit;
     } else {
@@ -320,6 +334,8 @@ if (isset($_POST['submit'])) {
 
     if (!isset($_SESSION['canChangeReservation'])) {
         $randomNumber = rand(1000, 9999);
+        $_SESSION['reservation']['random-number'] = $randomNumber;
+        $_SESSION['reservation']['str_all'] = $allergie_string;
         $query = "INSERT INTO `reserveringen`(date, start_time, amount_people, full_name, emailadres, phonenumber, date_placed_reservation, comments, unique_code, date_updated_reservation, all_egg, all_gluten, all_lupine, all_milk, all_mustard, all_nuts, all_peanut, all_shell, all_celery, all_sesame, all_soja, all_fish, all_mollusks, all_sulfur, str_all, mail_str_date, mail_str_time) VALUES ('$date', '$time', '$people', '$name', '$emailadres', '$phonenumber', '$currentTime', '$comments', '$randomNumber', '$currentTime', '$allergie_egg', '$allergie_gluten', '$allergie_lupine', '$allergie_milk', '$allergie_mustard', '$allergie_nuts', '$allergie_peanut', '$allergie_shell', '$allergie_celery', '$allergie_sesame', '$allergie_soja', '$allergie_fish', '$allergie_mollusks', '$allergie_sulfur', '$allergie_string', '$date', '$time')";
         $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
         if ($result) {
@@ -335,6 +351,15 @@ if (isset($_POST['submit'])) {
         }
     } else {
         $reservering_id = $_SESSION['canChangeReservation']['reservering_id'];
+
+        $queryBeforeChange = "SELECT * FROM reserveringen WHERE reservering_id = '$reservering_id'";
+        $resultBeforeChange = mysqli_query($db, $queryBeforeChange); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
+
+        $reservationBeforeChange = mysqli_fetch_assoc($resultBeforeChange);
+
+        $_SESSION['reservation']['random-number'] = $reservationBeforeChange['unique_code'];
+
+
         $queryUpdate = "UPDATE `reserveringen` SET date = '$date', mail_str_date = '$date', start_time = '$time', mail_str_time = '$time', amount_people = '$people', full_name = '$name', emailadres = '$emailadres', phonenumber = '$phonenumber', comments = '$comments', date_updated_reservation = '$currentTime', all_egg = '$allergie_egg', all_gluten = '$allergie_gluten', all_lupine = '$allergie_lupine', all_milk = '$allergie_milk', all_mustard = '$allergie_mustard', all_nuts = '$allergie_nuts', all_peanut = '$allergie_peanut', all_shell = '$allergie_shell', all_celery = '$allergie_celery', all_sesame = '$allergie_celery', all_soja = '$allergie_soja', all_fish = '$allergie_fish', all_mollusks = '$allergie_mollusks', all_sulfur = '$allergie_sulfur', str_all = '$allergie_string' WHERE reservering_id = '$reservering_id'";
         $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
         if ($resultUpdate) {
@@ -357,7 +382,7 @@ if (isset($_POST['back'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-initializeHead('..', 'Controleren reservering bij Rasa Senang', true, false, false);
+initializeHead('..', 'Controleren reservering bij Rasa Senang', true, false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 
 if (isset($_GET) && isset($_SESSION['canChangeReservation'])) {

@@ -2,9 +2,8 @@
 session_start();
 
 if (isset($_SESSION['loggedInUser'])) {
-    $login = true;
-} else {
-    $login = false;
+    header('Location: ../medewerkers');
+    exit;
 }
 
 //Require database in this file
@@ -36,7 +35,6 @@ if (isset($_POST['submit'])) {
         if (mysqli_num_rows($result) == 1) {
             $user = mysqli_fetch_assoc($result);
             if (password_verify($password, $user['password'])) {
-                $login = true;
 
                 $_SESSION['loggedInUser'] = [
                     'id' => mysqli_escape_string($db, $user['id']),
@@ -48,6 +46,8 @@ if (isset($_POST['submit'])) {
                     'can_visit_employees' => mysqli_escape_string($db, $user['can_visit_employees']),
                     'is-admin' => mysqli_escape_string($db, $user['is-admin'])
                 ];
+                header('Location: ../medewerkers');
+                exit;
             } else {
                 //error onjuiste inloggegevens
                 $errors['loginFailed'] = 'De combinatie van Gebruikersnaam en Wachtwoord is bij ons niet bekend';
@@ -63,65 +63,60 @@ if (isset($_POST['submit'])) {
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
-initializeHead('..', 'Inloggen bij Rasa Senang', false, false, false);
+initializeHead('..', 'Inloggen bij Rasa Senang', false, false, false, false);
 require_once "../includes/basic-elements/topBar.php";
 initializeTopBar('..', '../');
 require_once "../includes/basic-elements/sideNav.php";
 initializeSideNav('..', false);
 ?>
-    <main class="content-wrap">
-        <?php if ($login) {
-            header('Location: ../medewerkers');
-            exit;
-        } else { ?>
-            <header>
-                <h1>Inloggen Medewerkers</h1>
-            </header>
-            <?php if (isset($errors['loginFailed'])) { ?>
-                <div class="errorLoginNegative">
-                    <div class="message">
-                        <?= $errors['loginFailed'] ?>
-                    </div>
+<main class="content-wrap">
+    <header>
+        <h1>Inloggen Medewerkers</h1>
+    </header>
+    <?php if (isset($errors['loginFailed'])) { ?>
+        <div class="errorLoginNegative">
+            <div class="message">
+                <?= $errors['loginFailed'] ?>
+            </div>
+        </div>
+    <?php } elseif (isset($errorType)) {
+        if ($errorType == 'logoutSuccessful') { ?>
+            <div class="errorLoginPositive">
+                <div class="message">
+                    U bent succesvol Uitgelogd!
                 </div>
-            <?php } elseif (isset($errorType)) {
-                if ($errorType == 'logoutSuccessful') { ?>
-                    <div class="errorLoginPositive">
-                        <div class="message">
-                            U bent succesvol Uitgelogd!
-                        </div>
-                    </div>
-                <?php } else { ?>
-                    <div class="errorLoginNegative">
-                        <div class="message">
-                            U moet eerst inloggen voordat u deze pagina kunt bezoeken!
-                        </div>
-                    </div>
-                <?php }
-            } ?>
-            <form action="" method="post">
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="username" class="loginLabel">Gebruikersnaam</label>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="text" name="username" value="<?= $usernameInput ?? '' ?>"/>
-                        <span class="errors"><?= $errors['username'] ?? '' ?></span>
-                    </div>
+            </div>
+        <?php } else { ?>
+            <div class="errorLoginNegative">
+                <div class="message">
+                    U moet eerst inloggen voordat u deze pagina kunt bezoeken!
                 </div>
-                <div class="data-field">
-                    <div class="flexLabel">
-                        <label for="password" class="loginLabel">Wachtwoord</label>
-                    </div>
-                    <div class="flexInputWithErrors">
-                        <input type="password" name="password"/>
-                        <span class="errors"><?= $errors['password'] ?? '' ?></span>
-                    </div>
-                </div>
-                <div class="data-submit">
-                    <input type="submit" name="submit" value="Login"/>
-                </div>
-            </form>
-        <?php } ?>
-    </main>
-    <?php require_once('../includes/basic-elements/footer.php');
-    initializeFooter('..'); ?>
+            </div>
+        <?php }
+    } ?>
+    <form action="" method="post">
+        <div class="data-field">
+            <div class="flexLabel">
+                <label for="username" class="loginLabel">Gebruikersnaam</label>
+            </div>
+            <div class="flexInputWithErrors">
+                <input type="text" name="username" value="<?= $usernameInput ?? '' ?>"/>
+                <span class="errors"><?= $errors['username'] ?? '' ?></span>
+            </div>
+        </div>
+        <div class="data-field">
+            <div class="flexLabel">
+                <label for="password" class="loginLabel">Wachtwoord</label>
+            </div>
+            <div class="flexInputWithErrors">
+                <input type="password" name="password"/>
+                <span class="errors"><?= $errors['password'] ?? '' ?></span>
+            </div>
+        </div>
+        <div class="data-submit">
+            <input type="submit" name="submit" value="Login"/>
+        </div>
+    </form>
+</main>
+<?php require_once('../includes/basic-elements/footer.php');
+initializeFooter('..'); ?>
