@@ -9,6 +9,12 @@ if (isset($_SESSION['canChangeReservation'])) {
     unset($_SESSION['canChangeReservation']);
 }
 
+if (isset($_GET)) {
+    if (isset($_GET['error'])) {
+        $errorType = $_GET['error'];
+    }
+}
+
 date_default_timezone_set("Europe/Amsterdam");
 
 $date = date("Y-m-d");
@@ -72,76 +78,108 @@ initializeTopBar('..', '../medewerkers');
 require_once "../includes/basic-elements/sideNav.php";
 initializeSideNav('..', true);
 ?>
-    <main class="content-wrap">
-        <header>
-            <h1>Overzicht Reserveringen</h1>
-        </header>
-        <section class="search-bar-container">
-            <div class="search-bar">
-                <div class="search-bar-item">
-                    <a href="../">
-                        <button class="date-submit">
-                            Nieuwe Reservering
-                        </button>
-                    </a>
-                </div>
-                <div class="search-bar-item">
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="date-field">
-                            <input class="date-field" id="date" type="date" name="date" value="<?= $date ?? '' ?>"/>
-                        </div>
-                    </form>
-                </div>
-                <div class="search-bar-item">
-                    <div class="date-submit-div">
-                        <input class="date-submit" type="submit" name="submit" value="Zoeken"/>
-                    </div>
+<main class="content-wrap">
+    <header>
+        <h1>Overzicht Reserveringen</h1>
+    </header>
+<!--    if ($newChangeOrDelete == 'deleted') {-->
+<!--    header("Location: ../overzicht-reserveringen/index.php?error=reservationDeleted");-->
+<!--    exit;-->
+<!--    } else if ($newChangeOrDelete == 'changed') {-->
+<!--    header("Location: ../overzicht-reserveringen/index.php?error=reservationChangedSuccessful");-->
+<!--    exit;-->
+<!--    } else {-->
+<!--    header("Location: ../overzicht-reserveringen/index.php?error=reservationSuccessful");-->
+<!--    exit;-->
+<!--    }-->
+    <?php if (isset($errorType)) {
+        if ($errorType == 'reservationSuccessful') { ?>
+            <div class="errorLoginPositive">
+                <div class="message">
+                    Het plaatsen van de reservering was succesvol!
                 </div>
             </div>
-        </section>
+        <?php } else if ($errorType == 'reservationChangedSuccessful') { ?>
+            <div class="errorLoginPositive">
+                <div class="message">
+                    Het wijzigen van de reservering was succesvol!
+                </div>
+            </div>
+        <?php } else if ($errorType == 'reservationDeleted') { ?>
+            <div class="errorLoginNegative">
+                <div class="message">
+                    Het verwijderen van de reservering was succesvol!
+                </div>
+            </div>
+        <?php }
+    } ?>
+    <section class="search-bar-container">
+        <div class="search-bar">
+            <div class="search-bar-item">
+                <a href="../">
+                    <button class="date-submit">
+                        Nieuwe Reservering
+                    </button>
+                </a>
+            </div>
+            <div class="search-bar-item">
+                <div class="date-field">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <input class="date-field" id="date" type="date" name="date" value="<?= $date ?? '' ?>"/>
+                </div>
+            </div>
+            <div class="search-bar-item">
+                <div class="date-submit-div">
+                    <input class="date-submit" type="submit" name="submit" value="Zoeken"/>
+                </div>
+            </div>
+            </form>
+        </div>
+    </section>
 
-        <section class="align-middle">
-            <?php if (count($reservations) == 0) { ?>
-                <p class="middle-table">Er zijn geen reserveringen gevonden op de opgegeven datum.</p>
-            <?php } elseif ($reservationCount == 0) { ?>
-                <p class="middle-table">Er zijn geen reserveringen gevonden die plaatsvinden op, of
-                    na, <?php echo date('d-m-Y') ?>.</p>
-            <?php } else { ?>
-                <table class="middle-table">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Datum</th>
-                        <th>Aanvangstijd</th>
-                        <th>Aantal Gasten</th>
-                        <th>Naam</th>
-                        <th>Allergieën</th>
-                        <th colspan="3"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($reservations as $reservation) {
-                        if (date("Y m d", strtotime($reservation['date'])) > date("Y m d") || date("Y m d", strtotime($reservation['date'])) == date("Y m d", strtotime($date))) {
-                            ?>
-                            <tr>
-                                <td><?= htmlentities($reservation['reservering_id']) ?></td>
-                                <td><?= htmlentities(date("d/m/Y", strtotime($reservation['date']))) ?></td>
-                                <td><?= htmlentities(date("H:i", strtotime($reservation['start_time']))) ?></td>
-                                <td><?= htmlentities($reservation['amount_people']) ?></td>
-                                <td><?= htmlentities($reservation['full_name']) ?></td>
-                                <td><?= htmlentities($reservation['str_all']) ?></td>
-                                <td>
-                                    <a href="details.php?id=<?= htmlentities($reservation['reservering_id']) ?>"><img
-                                                class="details-button" src="../data/icon-general/information.png"
-                                                alt="Details"></a>
-                                </td>
-                            </tr>
-                        <?php }
-                    } ?>
-                    </tbody>
-                </table>
-            <?php } ?>
-        </section>
-    </main>
-    <?php require_once('../includes/basic-elements/footer.php');
-    initializeFooter('..'); ?>
+    <section class="align-middle">
+        <?php if (count($reservations) == 0) { ?>
+            <p class="middle-table">Er zijn geen reserveringen gevonden op de opgegeven datum.</p>
+        <?php } elseif ($reservationCount == 0) { ?>
+            <p class="middle-table">Er zijn geen reserveringen gevonden die plaatsvinden op, of
+                na, <?php echo date('d-m-Y') ?>.</p>
+        <?php } else { ?>
+            <table class="middle-table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Datum</th>
+                    <th>Aanvangstijd</th>
+                    <th>Aantal Gasten</th>
+                    <th>Naam</th>
+                    <th>Allergieën</th>
+                    <th colspan="3"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($reservations as $reservation) {
+                    if (date("Y m d", strtotime($reservation['date'])) > date("Y m d") || date("Y m d", strtotime($reservation['date'])) == date("Y m d", strtotime($date))) {
+                        ?>
+                        <tr>
+
+                            <td><?= htmlentities($reservation['reservering_id']) ?></td>
+                            <td><?= htmlentities(date("d/m/Y", strtotime($reservation['date']))) ?></td>
+                            <td><?= htmlentities(date("H:i", strtotime($reservation['start_time']))) ?></td>
+                            <td><?= htmlentities($reservation['amount_people']) ?></td>
+                            <td><?= htmlentities($reservation['full_name']) ?></td>
+                            <td><?= htmlentities($reservation['str_all']) ?></td>
+                            <td>
+                                <a href="details.php?id=<?= htmlentities($reservation['reservering_id']) ?>"><img
+                                            class="details-button" src="../data/icon-general/information.png"
+                                            alt="Details"></a>
+                            </td>
+                        </tr>
+                    <?php }
+                } ?>
+                </tbody>
+            </table>
+        <?php } ?>
+    </section>
+</main>
+<?php require_once('../includes/basic-elements/footer.php');
+initializeFooter('..'); ?>

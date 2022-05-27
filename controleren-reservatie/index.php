@@ -336,7 +336,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['reservation']['random-number'] = $randomNumber;
         $_SESSION['reservation']['str_all'] = $allergie_string;
         $queryNewReservation = "INSERT INTO `reserveringen`(date, start_time, amount_people, full_name, emailadres, phonenumber, date_placed_reservation, comments, unique_code, date_updated_reservation, all_egg, all_gluten, all_lupine, all_milk, all_mustard, all_nuts, all_peanut, all_shell, all_celery, all_sesame, all_soja, all_fish, all_mollusks, all_sulfur, str_all) VALUES ('$date', '$time', '$people', '$name', '$emailadres', '$phonenumber', '$currentTime', '$comments', '$randomNumber', '$currentTime', '$allergie_egg', '$allergie_gluten', '$allergie_lupine', '$allergie_milk', '$allergie_mustard', '$allergie_nuts', '$allergie_peanut', '$allergie_shell', '$allergie_celery', '$allergie_sesame', '$allergie_soja', '$allergie_fish', '$allergie_mollusks', '$allergie_sulfur', '$allergie_string')";
-        $resultNewReservation = mysqli_query($db, $queryNewReservation) or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewReservation);
+        $resultNewReservation = mysqli_query($db, $queryNewReservation); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewReservation);
         if ($resultNewReservation) {
             $time = date('H:i:s', strtotime($time));
             $date = date('Y-m-d', strtotime($date));

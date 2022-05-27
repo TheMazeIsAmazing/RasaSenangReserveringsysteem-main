@@ -290,8 +290,6 @@ if (isset($_POST['submit'])) {
             while ($row = mysqli_fetch_assoc($resultCreatePull)) {
                 $settingsCheck[] = $row;
             }
-            //Close connection
-            mysqli_close($db);
 
             foreach ($settingsCheck as $settingCheck) {
                 if (((strtotime($until_date) >= strtotime($settingCheck['from_date'])) && (strtotime($until_date) <= strtotime($settingCheck['until_date']))) || ((strtotime($from_date) >= strtotime($settingCheck['from_date'])) && (strtotime($from_date) <= strtotime($settingCheck['until_date'])))) {
@@ -302,6 +300,7 @@ if (isset($_POST['submit'])) {
                 $queryCreate = "INSERT INTO `day-settings` (`type`, `accept_reservations`, `open_closed`, `from_date`, `until_date`, `guest_limit`, `reservations_limit`, `times_or_timeslots`, `16:00`, `16:30`, `17:00`, `17:30`, `18:00`, `18:30`, `19:00`, `19:30`, `20:00`, `20:30`, `21:00`, `timeslot_1_from`, `timeslot_1_to`, `timeslot_2_from`, `timeslot_2_to`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`) VALUES ('$type', '$accept_reservations', '$open_closed', '$from_date', '$until_date', '$guest_limit', '$reservations_limit', '$times_or_timeslots', '$t_1600', '$t_1630', '$t_1700', '$t_1730', '$t_1800', '$t_1830', '$t_1900', '$t_1930', '$t_2000', '$t_2030', '$t_2100', '$timeslot_1_from', '$timeslot_1_to', '$timeslot_2_from', '$timeslot_2_to', '$monday', '$tuesday', '$wednesday', '$thursday', '$friday', '$saturday', '$sunday');";
                 $resultCreate = mysqli_query($db, $queryCreate); //or die('Db Error: '.mysqli_error($db).' with query: '.$queryCreate);
                 //mysqli_close($db);
+
                 if ($resultCreate) {
                     header('Location: ./regels.php');
                     exit;

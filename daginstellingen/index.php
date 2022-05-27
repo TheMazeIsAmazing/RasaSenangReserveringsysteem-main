@@ -195,12 +195,12 @@ initializeSideNav('..', false);
 <!--                            --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
 <!--                            <div class="flexDetails">-->
 <!--                                <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
-<!--                                <div>--><?//= $setting['time-str']; ?><!--</div>-->
+<!--                                <div>--><?php //= $setting['time-str']; ?><!--</div>-->
 <!--                            </div>-->
 <!--                            --><?php //} else { ?>
 <!--                            <div class="flexDetails">-->
 <!--                                <div class="labelDetails timesLabel">Tijdsloten:</div>-->
-<!--                                <div>--><?//= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+<!--                                <div>--><?php //= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
 <!--                            </div>-->
 <?php //} ?>
                         </div>
@@ -252,12 +252,12 @@ initializeSideNav('..', false);
 <!--                                --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
 <!--                                    <div class="flexDetails">-->
 <!--                                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
-<!--                                        <div>--><?//= $setting['time-str']; ?><!--</div>-->
+<!--                                        <div>--><?php //= $setting['time-str']; ?><!--</div>-->
 <!--                                    </div>-->
 <!--                                --><?php //} else { ?>
 <!--                                    <div class="flexDetails">-->
 <!--                                        <div class="labelDetails timesLabel">Tijdsloten:</div>-->
-<!--                                        <div>--><?//= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+<!--                                        <div>--><?php //= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
 <!--                                    </div>-->
 <!--                                --><?php //} ?>
                             </div>
@@ -330,12 +330,12 @@ initializeSideNav('..', false);
 <!--                            --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
 <!--                                <div class="flexDetails">-->
 <!--                                    <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
-<!--                                    <div>--><?//= $setting['time-str']; ?><!--</div>-->
+<!--                                    <div>--><?php //= $setting['time-str']; ?><!--</div>-->
 <!--                                </div>-->
 <!--                            --><?php //} else { ?>
 <!--                                <div class="flexDetails">-->
 <!--                                    <div class="labelDetails timesLabel">Tijdsloten:</div>-->
-<!--                                    <div>--><?//= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+<!--                                    <div>--><?php //= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
 <!--                                </div>-->
 <!--                            --><?php //} ?>
                             <div class="flexDetails">
@@ -408,12 +408,12 @@ initializeSideNav('..', false);
 <!--                                --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
 <!--                                    <div class="flexDetails">-->
 <!--                                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
-<!--                                        <div>--><?//= $setting['time-str']; ?><!--</div>-->
+<!--                                        <div>--><?php //= $setting['time-str']; ?><!--</div>-->
 <!--                                    </div>-->
 <!--                                --><?php //} else { ?>
 <!--                                    <div class="flexDetails">-->
 <!--                                        <div class="labelDetails timesLabel">Tijdsloten:</div>-->
-<!--                                        <div>--><?//= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+<!--                                        <div>--><?php //= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
 <!--                                    </div>-->
 <!--                                --><?php //} ?>
                                 <div class="flexDetails">

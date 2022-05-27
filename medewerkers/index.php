@@ -14,7 +14,6 @@ $date = date("Y-m-d");
 //Require database in this file
 require_once '../includes/database.php';
 /** @var mysqli $db */
-/** @var mysqli $db */
 
 //May I even visit this page?
 require_once "../includes/loginCheck.php";
@@ -63,7 +62,7 @@ if (isset($deleteReservations)) {
     }
 }
 
-print_r($_SESSION['errors']);
+//print_r($_SESSION['errors']);
 
 //function to find hour and display correct message based on it.
 

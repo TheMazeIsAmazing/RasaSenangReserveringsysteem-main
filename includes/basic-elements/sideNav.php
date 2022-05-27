@@ -31,6 +31,7 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
                     <li><a class="menuLink" href="https://www.rasasenang.com/">Terug naar Rasa Senang Website</a></li>
                     <li><a <?php if (($link == '/index.php' && !isset($_GET['edit'])) || (($link == '/controleren-reservatie/index.php' || $link == '/bevestiging-reservatie/index.php') && !isset($_SESSION['canChangeReservation']))) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/">Nieuwe Reservering</a></li>
                     <li><a <?php if ($link == '/wijzigen-reservering/index.php' || ($link  == '/controleren-reservatie/index.php' && isset($_SESSION['canChangeReservation'])) || ($link  == '/index.php' && isset($_GET['edit'])) || (($link == '/controleren-reservatie/index.php' || $link == '/bevestiging-reservatie/index.php') && isset($_SESSION['canChangeReservation']))) { ?> id="menuLinkActive" <?php }?>class="menuLink" href="<?= $dotsString ?>/wijzigen-reservering">Reservering Wijzigen</a></li>
+                    <li><a <?php if ($link  == '/problemen-reserveringen/index.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/problemen-reserveringen">Problemen met reserveren</a></li>
                 </ul>
             </div>
             <ul>

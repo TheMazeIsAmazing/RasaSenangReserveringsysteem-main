@@ -6,7 +6,6 @@ $canChangeReservation = false;
 //Require database in this file
 require_once './includes/database.php';
 /** @var mysqli $db */
-/** @var mysqli $db */
 
 if ((isset($_GET['edit']) && $_GET['edit'] !== '1') || (isset($_GET['edit']) && !isset($_SESSION['canChangeReservation'])) || (!isset($_GET['edit']) && isset($_SESSION['canChangeReservation']))) {
     if (isset($_SESSION['canChangeReservation'])) {
@@ -429,7 +428,7 @@ if (isset($_SESSION['canChangeReservation']) && isset($_SESSION['loggedInUser'])
 } elseif (isset($_SESSION['loggedInUser'])) {
     initializeTopBar('.', './overzicht-reserveringen');
 } else {
-    initializeTopBar('.', 'https://www.rasasenang.com/nl/');
+    initializeTopBar('.', 'https://www.rasasenang.com/');
 }
 require_once "./includes/basic-elements/sideNav.php";
 initializeSideNav('.', false);
