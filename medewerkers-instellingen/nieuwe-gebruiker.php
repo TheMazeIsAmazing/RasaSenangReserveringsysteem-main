@@ -92,9 +92,18 @@ if (isset($_POST['submit'])) {
             $queryUpdate = "UPDATE `users` SET username = '$user', name = '$name', can_visit_reservations = '$can_visit_reservations', can_visit_daysettings = '$can_visit_daysettings', can_visit_table = '$can_visit_table', can_visit_employees = '$can_visit_employees' WHERE id = '$employeeID'";
 
             $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Db Error: '.mysqli_error($db).' with query: '.$query);
-            mysqli_close($db);
             if ($resultUpdate) {
-                header('Location: ../medewerkers-instellingen/details.php?id=' . $employeeID);
+                $os = getOS();
+                $client = getBrowser();
+
+                $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+                $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'employee', 'change', '$employeeID', '$client', '$os')";
+
+                $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
+                mysqli_close($db);
+
+                header('Location: ./index.php?error=employeeChangedSuccessful');
                 exit;
             }
         }
@@ -155,13 +164,13 @@ if (isset($_POST['submit'])) {
         }
 
         if (empty($errors['password'])) {
-                if (strlen($passwordEmployee) < 8) {
+            if (strlen($passwordEmployee) < 8) {
+                $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de wachtwoordvereisten.";
+            } else {
+                if (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $passwordEmployee)) {
                     $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de wachtwoordvereisten.";
-                } else {
-                    if (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $passwordEmployee)) {
-                        $errors['password'] = "Het gekozen wachtwoord voldoet niet aan de wachtwoordvereisten.";
-                    }
                 }
+            }
         }
 
         if (empty($errors)) {
@@ -182,19 +191,36 @@ if (isset($_POST['submit'])) {
             }
 
             if (empty($errors)) {
-                $passwordEmployee = password_hash($passwordEmployee, PASSWORD_DEFAULT);
+                $passwordEmployeeHashed = password_hash($passwordEmployee, PASSWORD_DEFAULT);
 
-                $queryRegister = "INSERT INTO `users` (`username`, `password`, `name`, `can_visit_reservations`, `can_visit_daysettings`, `can_visit_table`, `can_visit_employees`) VALUES ('$user', '$passwordEmployee', '$name', '$can_visit_reservations', '$can_visit_daysettings', '$can_visit_table', '$can_visit_employees');";
+                $queryRegister = "INSERT INTO `users` (`username`, `password`, `name`, `can_visit_reservations`, `can_visit_daysettings`, `can_visit_table`, `can_visit_employees`) VALUES ('$user', '$passwordEmployeeHashed', '$name', '$can_visit_reservations', '$can_visit_daysettings', '$can_visit_table', '$can_visit_employees');";
                 $resultRegister = mysqli_query($db, $queryRegister); //or die('Db Error: '.mysqli_error($db).' with query: '.$query);
-                mysqli_close($db);
                 if ($resultRegister) {
-                    header('Location: ../medewerkers-instellingen/index.php');
-                    exit;
+                    $queryPullId = "SELECT * FROM `users` WHERE `username` = '$user' AND `password` = '$passwordEmployeeHashed' AND `name` = '$name'";
+                    $resultPullId = mysqli_query($db, $queryPullId); // or die('Error: ' . mysqli_error($db) . ' with query ' . $queryPullId);
+
+                    if ($resultPullId) {
+                        $userPullId = mysqli_fetch_assoc($resultPullId);
+                        $userID = $userPullId['reservering_id'];
+
+                        $os = getOS();
+                        $client = getBrowser();
+
+                        $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+                        $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'employee', 'create', '$userID', '$client', '$os')";
+                        $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
+                        mysqli_close($db);
+
+                        header('Location: ./index.php?error=employeeSuccessful');
+                        exit;
+                    }
                 }
             }
         }
     }
 }
+
 
 //include basic pages such as navbar and header.
 require_once "../includes/basic-elements/head.php";
@@ -241,27 +267,29 @@ initializeSideNav('..', false);
                     <label for="password">Wachtwoord</label>
                 </div>
                 <div class="flexInputWithErrors">
-                    <input type="password" id="passwordField" name="password" oninput="checkPassword()" value="<?= $passwordEmployee ?? '' ?>" />
+                    <input type="password" id="passwordField" name="password" oninput="checkPassword()"
+                           value="<?= $passwordEmployee ?? '' ?>"/>
                     <span class="errors"><?= $errors['password'] ?? '' ?></span>
                 </div>
             </div>
-        <div class="data-field">
-            <div class="flexLabel">
-            </div>
-            <div>
-                <div id="passwordStrengthContainer">
-                    <div id="passwordStrengthBar"></div><div id="passwordStrengthText"></div>
+            <div class="data-field">
+                <div class="flexLabel">
                 </div>
-                <div id="passwordInfoPanel">
-                    Wachtwoordvereisten:
-                    <ul>
-                        <li id="passwordRequirementMinLength">Bevat minimaal 8 karakters</li>
-                        <li id="passwordRequirementChars">Bevat zowel letters als nummers</li>
-                        <li id="passwordRequirementCommonPasswords">Is niet gemakkelijk te raden</li>
-                    </ul>
+                <div>
+                    <div id="passwordStrengthContainer">
+                        <div id="passwordStrengthBar"></div>
+                        <div id="passwordStrengthText"></div>
+                    </div>
+                    <div id="passwordInfoPanel">
+                        Wachtwoordvereisten:
+                        <ul>
+                            <li id="passwordRequirementMinLength">Bevat minimaal 8 karakters</li>
+                            <li id="passwordRequirementChars">Bevat zowel letters als nummers</li>
+                            <li id="passwordRequirementCommonPasswords">Is niet gemakkelijk te raden</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
             <div class="data-field">
                 <div class="flexLabel">
                     <label for="passwordConfirm">Wachtwoord Bevestigen</label>

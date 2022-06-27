@@ -82,16 +82,6 @@ initializeSideNav('..', true);
     <header>
         <h1>Overzicht Reserveringen</h1>
     </header>
-<!--    if ($newChangeOrDelete == 'deleted') {-->
-<!--    header("Location: ../overzicht-reserveringen/index.php?error=reservationDeleted");-->
-<!--    exit;-->
-<!--    } else if ($newChangeOrDelete == 'changed') {-->
-<!--    header("Location: ../overzicht-reserveringen/index.php?error=reservationChangedSuccessful");-->
-<!--    exit;-->
-<!--    } else {-->
-<!--    header("Location: ../overzicht-reserveringen/index.php?error=reservationSuccessful");-->
-<!--    exit;-->
-<!--    }-->
     <?php if (isset($errorType)) {
         if ($errorType == 'reservationSuccessful') { ?>
             <div class="errorLoginPositive">

@@ -10,6 +10,12 @@ require_once "../includes/loginCheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_employees');
 
+if (isset($_GET)) {
+    if (isset($_GET['error'])) {
+        $errorType = $_GET['error'];
+    }
+}
+
 $query = "SELECT * FROM users";
 //Get the result set from the database with a SQL query
 $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
@@ -33,6 +39,27 @@ initializeSideNav('..', true);
         <header>
             <h1>Overzicht Medewerkers</h1>
         </header>
+        <?php if (isset($errorType)) {
+            if ($errorType == 'employeeSuccessful') { ?>
+                <div class="errorLoginPositive">
+                    <div class="message">
+                        Het aanmaken van de gebruiker was succesvol!
+                    </div>
+                </div>
+            <?php } else if ($errorType == 'employeeChangedSuccessful') { ?>
+                <div class="errorLoginPositive">
+                    <div class="message">
+                        Het wijzigen van de gebruiker was succesvol!
+                    </div>
+                </div>
+            <?php } else if ($errorType == 'employeeDeleted') { ?>
+                <div class="errorLoginNegative">
+                    <div class="message">
+                        Het verwijderen van de gebruiker was succesvol!
+                    </div>
+                </div>
+            <?php }
+        } ?>
         <section class="search-bar-container">
         <div class="search-bar">
             <a href="nieuwe-gebruiker.php">

@@ -26,6 +26,12 @@ require_once "../includes/loginCheck.php";
 loginCheck();
 loginCheckPageSpecific('can_visit_daysettings');
 
+if (isset($_GET)) {
+    if (isset($_GET['error'])) {
+        $errorType = $_GET['error'];
+    }
+}
+
 $query = "SELECT * FROM `day-settings` ORDER BY `type`, `from_date`";
 //Get the result set from the database with a SQL query
 $result = mysqli_query($db, $query); //or die('Error: ' . mysqli_error($db) . ' with query ' . $query);
@@ -137,6 +143,27 @@ initializeSideNav('..', true);
         <header>
             <h1>Regels Overzicht</h1>
         </header>
+        <?php if (isset($errorType)) {
+            if ($errorType == 'settingSuccessful') { ?>
+                <div class="errorLoginPositive">
+                    <div class="message">
+                        Het aanmaken van de regel was succesvol!
+                    </div>
+                </div>
+            <?php } else if ($errorType == 'settingChangedSuccessful') { ?>
+                <div class="errorLoginPositive">
+                    <div class="message">
+                        Het wijzigen van de regel was succesvol!
+                    </div>
+                </div>
+            <?php } else if ($errorType == 'settingDeleted') { ?>
+                <div class="errorLoginNegative">
+                    <div class="message">
+                        Het verwijderen van de regel was succesvol!
+                    </div>
+                </div>
+            <?php }
+        } ?>
         <section class="search-bar-container">
             <div class="search-bar">
                 <div class="search-bar-item">

@@ -43,13 +43,16 @@ if ($_SERVER['PHP_SELF'] !== 'index.php' && $_SERVER['PHP_SELF'] !== '/index.php
             <div class="page-container">
                 <ul>
                     <li><a <?php if ($link == '/medewerkers/index.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/medewerkers">Beginpagina</a></li>
-                    <li><a <?php if ($link == '/overzicht-reserveringen/index.php' || $link == '/overzicht-reserveringen/details.php' || ($link == '/index.php' && isset($_GET['edit'])) || ($link  == '/controleren-reservatie/index.php' && isset($_SESSION['canChangeReservation']))) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/overzicht-reserveringen">Overzicht Reserveringen</a></li>
                     <li><a <?php if ($link == '/index.php'  && !isset($_GET['edit']) || ($link == '/controleren-reservatie/index.php' && !isset($_SESSION['canChangeReservation']))) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/">Nieuwe Reservering</a></li>
+                    <li><a <?php if ($link == '/overzicht-reserveringen/index.php' || $link == '/overzicht-reserveringen/details.php' || ($link == '/index.php' && isset($_GET['edit'])) || ($link  == '/controleren-reservatie/index.php' && isset($_SESSION['canChangeReservation']))) { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/overzicht-reserveringen">Overzicht Reserveringen</a></li>
                     <li><a <?php if ($link == '/daginstellingen/index.php' || $link == '/daginstellingen/regels.php' || $link == '/daginstellingen/details.php' || $link == '/daginstellingen/new-rule.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/daginstellingen">Daginstellingen</a></li>
                     <?php /*
                     <li><a class="menuLink" href="./">Tafelindeling</a></li> */ ?>
 
-                    <li><a <?php if ($link == '/medewerkers-instellingen/index.php' || $link == '/medewerkers-instellingen/details.php' || $link == '/inloggen/nieuwe-gebruiker.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/medewerkers-instellingen">Medewerkers</a></li>
+                    <li><a <?php if ($link == '/medewerkers-instellingen/index.php' || $link == '/medewerkers-instellingen/details.php' || $link == 'medewerkers-instellingen/nieuwe-gebruiker.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/medewerkers-instellingen">Medewerkers</a></li>
+                    <?php if ($_SESSION['loggedInUser']['is-admin'] == 'true') { ?>
+                        <li><a <?php if ($link == '/logboek/index.php') { ?> id="menuLinkActive" <?php }?> class="menuLink" href="<?= $dotsString ?>/logboek">Logboek</a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <ul>

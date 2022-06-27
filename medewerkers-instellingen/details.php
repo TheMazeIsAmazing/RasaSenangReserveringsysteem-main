@@ -42,6 +42,12 @@ if (htmlentities($employee['username']) !== htmlentities($_SESSION['loggedInUser
     loginCheckPageSpecific('can_visit_employees');
 }
 
+if (isset($_GET)) {
+    if (isset($_GET['error'])) {
+        $errorType = $_GET['error'];
+    }
+}
+
 if (isset($_POST['change'])) {
     $_SESSION['canChangeEmployee'] = [
         'employee_id' => mysqli_escape_string($db, $employeeID),
@@ -60,9 +66,17 @@ if (isset($_POST['submitDelete'])) {
     $employeeIdQuery = mysqli_escape_string($db, $employee['id']);
     $deleteQuery = "DELETE FROM users WHERE id = '$employeeIdQuery'";
     $resultDeletion = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
-    mysqli_close($db);
     if ($resultDeletion) {
-        header('Location: ./');
+        $os = getOS();
+        $client = getBrowser();
+
+        $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+        $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'employee', 'delete', '$employeeIdQuery', '$client', '$os')";
+        $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
+        mysqli_close($db);
+
+        header('Location: ./index.php?error=employeeDeleted');
         exit;
     } else {
         header('Location: ./details.php?id=' . $employee['id'] . '&error=dbError#open');
@@ -83,6 +97,15 @@ initializeSideNav('..', false);
             <h1>Details</h1>
             <h3><?= 'Medewerker ' . htmlentities($employee['username']) ?></h3>
         </header>
+        <?php if (isset($errorType)) {
+            if ($errorType == 'employeeChangedSuccessful') { ?>
+                <div class="errorLoginPositive">
+                    <div class="message">
+                        Het wijzigen van het wachtwoord was succesvol!
+                    </div>
+                </div>
+            <?php }
+        } ?>
 
         <div class="details">
             <div class="flexDetails">

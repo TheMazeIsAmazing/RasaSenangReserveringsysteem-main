@@ -275,10 +275,20 @@ if (isset($_POST['submit'])) {
             }
 
             $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Db Error: ' . mysqli_error($db) . ' with query: ' . $queryUpdate);
-            mysqli_close($db);
             if ($resultUpdate) {
-                header('Location: ./details.php?id=' . $settingID);
+                $os = getOS();
+                $client = getBrowser();
+
+                $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+                $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'daysetting', 'change', '$settingID', '$client', '$os')";
+
+                $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
+                mysqli_close($db);
+                header('Location: ./regels.php?error=settingChangedSuccessful');
                 exit;
+
+
             }
         } else {
             //check if there's another rule present within the range given.
@@ -291,6 +301,7 @@ if (isset($_POST['submit'])) {
                 $settingsCheck[] = $row;
             }
 
+            //check if within chosen range another rule is present and warn user
             foreach ($settingsCheck as $settingCheck) {
                 if (((strtotime($until_date) >= strtotime($settingCheck['from_date'])) && (strtotime($until_date) <= strtotime($settingCheck['until_date']))) || ((strtotime($from_date) >= strtotime($settingCheck['from_date'])) && (strtotime($from_date) <= strtotime($settingCheck['until_date'])))) {
                     $errors['from_date'] = 'Tussen de gekozen datums is er al een andere regel gemaakt, pas deze aan om een nieuwe regel aan te maken.';
@@ -302,8 +313,25 @@ if (isset($_POST['submit'])) {
                 //mysqli_close($db);
 
                 if ($resultCreate) {
-                    header('Location: ./regels.php');
-                    exit;
+                    $queryPullId = "SELECT * FROM `day-settings` WHERE `open_closed` = '$open_closed' AND `from_date` = '$from_date' AND `until_date` = '$until_date'";
+                    $resultPullId = mysqli_query($db, $queryPullId); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryPullId);
+
+                    if ($resultPullId) {
+                        $settingPullId = mysqli_fetch_assoc($resultPullId);
+                        $settingID = $settingPullId['reservering_id'];
+
+                        $os = getOS();
+                        $client = getBrowser();
+
+                        $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+                        $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'daysetting', 'create', '$settingID', '$client', '$os')";
+                        $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
+                        mysqli_close($db);
+
+                        header('Location: ./regels.php?error=settingSuccessful');
+                        exit;
+                    }
                 }
             }
         }

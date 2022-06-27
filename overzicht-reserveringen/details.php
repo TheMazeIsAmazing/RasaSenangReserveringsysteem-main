@@ -130,10 +130,18 @@ if (isset($_POST['submitDelete'])) {
         } else {
             $commentsMail = $_SESSION['reservation']['comments'];
         }
+
+        $os = getOS();
+        $client = getBrowser();
+        // add logs
+        $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+        $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'reservation', 'delete', '$reservationIdMail', '$client', '$os')";
+
+        $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
         sendMail('deleted', $reservationIdMail, $randomNumberMail, $nameMail, $dateMail, $timeMail, $amountMail, $phoneMail, $allergiesMail, $commentsMail, $addressMail, false);
-        header('Location: ./index.php');
-        exit;
-        } else {
+
+    } else {
         mysqli_close($db);
         header('Location: ./details.php?id=' . $reservation['reservering_id'] . '&error=dbError#open');
         exit;

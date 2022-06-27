@@ -27,9 +27,18 @@ if (isset($_POST['submit'])) {
         $queryUpdate = "UPDATE `users` SET password = '$passwordEmployee' WHERE id = '$employeeID'";
 
         $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Db Error: ' . mysqli_error($db) . ' with query: ' . $queryUpdate);
-        mysqli_close($db);
         if ($resultUpdate) {
-            header('Location: ../medewerkers-instellingen/details.php?id=' . $employeeID);
+            $os = getOS();
+            $client = getBrowser();
+
+            $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+            $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'employee', 'change', '$employeeID', '$client', '$os')";
+
+            $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
+            mysqli_close($db);
+
+            header('Location: ./details.php?error=employeeChangedSuccessful');
             exit;
         }
     }

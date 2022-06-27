@@ -154,9 +154,18 @@ if (isset($_POST['submitDelete'])) {
     $settingIdQuery = mysqli_escape_string($db, $setting['id']);
     $deleteQuery = "DELETE FROM `day-settings` WHERE id = '$settingIdQuery'";
     $resultDeletion = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
-    mysqli_close($db);
+
     if ($resultDeletion) {
-        header('Location: ./regels.php');
+        $os = getOS();
+        $client = getBrowser();
+
+        $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+        $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'daysetting', 'delete', '$settingIdQuery', '$client', '$os')";
+        $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
+        mysqli_close($db);
+
+        header('Location: ./regels.php?error=settingDeleted');
         exit;
     } else {
         header('Location: ./details.php?id=' . $setting['id'] . '&error=dbError#open');
@@ -219,27 +228,27 @@ initializeSideNav('..', false);
                     <div class="labelDetails">Maximaal aantal reserveringen:</div>
                     <div> <?= htmlentities($setting['reservations_limit']) ?></div>
                 </div>
-<!--                --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
-<!--                    <div class="flexDetails">-->
-<!--                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
-<!--                        <div>--><?php //= htmlentities($time_string) ?><!--</div>-->
-<!--                    </div>-->
-<!--                --><?php //} else { ?>
-<!--                    <div class="flexDetails">-->
-<!--                        <div class="labelDetails timesLabel">Tijdsloten:</div>-->
-<!--                        <div>--><?php //= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
-<!--                    </div>-->
-<!--                --><?php //} ?>
+                <!--                --><?php //if ($setting['times_or_timeslots'] == 'times') { ?>
+                <!--                    <div class="flexDetails">-->
+                <!--                        <div class="labelDetails timesLabel">Beschikbare tijden:</div>-->
+                <!--                        <div>--><?php //= htmlentities($time_string) ?><!--</div>-->
+                <!--                    </div>-->
+                <!--                --><?php //} else { ?>
+                <!--                    <div class="flexDetails">-->
+                <!--                        <div class="labelDetails timesLabel">Tijdsloten:</div>-->
+                <!--                        <div>--><?php //= 'Slot 1 vanaf: ' . $setting['timeslot_1_from'] . ' tot ' . $setting['timeslot_1_to'] . '; Slot 2 vanaf: ' . $setting['timeslot_2_from'] . ' tot ' . $setting['timeslot_2_to']; ?><!--</div>-->
+                <!--                    </div>-->
+                <!--                --><?php //} ?>
                 <div class="flexDetails">
                     <div class="labelDetails">Dagen Geopend:</div>
                     <div> <?= htmlentities($date_string) ?></div>
                 </div>
             <?php } else { ?>
-            <div class="flexDetails">
-                <div class="labelDetails">Restaurant geopend:</div>
-                <div> Gesloten </div>
-            </div>
-        <?php } ?>
+                <div class="flexDetails">
+                    <div class="labelDetails">Restaurant geopend:</div>
+                    <div> Gesloten</div>
+                </div>
+            <?php } ?>
         </div>
         <div class="detailsPageButtons">
             <div class="flexButtons">

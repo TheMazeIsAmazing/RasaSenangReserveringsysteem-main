@@ -41,6 +41,14 @@
 <?php if (isset($_SESSION['loggedInUser'])) { ?>
       <script defer src="<?= $dotsString ?>/includes/scripts/top-bar-clock-scripts.js"></script>
 <?php } ?>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-40Y9E1K9EZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-40Y9E1K9EZ');
+    </script>
 </head>
 <body>
 <?php if ($modalScript == true) { ?>

@@ -38,11 +38,28 @@ if (isset($_POST['submitDelete'])) {
 
     $deleteQuery = "DELETE FROM reserveringen WHERE reservering_id = '$reservationIdQueryDelete'";
     $resultDelete = mysqli_query($db, $deleteQuery); //or die('Error: ' . mysqli_error($db) . ' with query ' . $deleteQuery);
-    mysqli_close($db);
     if ($resultDelete) {
+        $os = getOS();
+        $client = getBrowser();
+        $name = $_SESSION['reservation']['name'];
+
+        //  Check if someone has signed in, if so use correct log command
+        if (isset($_SESSION['loggedInUser'])) {
+            $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+            $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'reservation', 'delete', '$reservationIdQueryDelete', '$client', '$os')";
+        } else {
+            $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('guest', '$name', 'reservation', 'delete', '$reservationIdQueryDelete', '$client', '$os')";
+        }
+        $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+        mysqli_close($db);
         $_SESSION['deletedReservation'] = "true";
-        header('Location: ../bevestiging-reservatie');
-        exit;
+        if ($resultNewLog) {
+            header('Location: ../bevestiging-reservatie');
+            exit;
+        } else {
+            header('Location: ../bevestiging-reservatie');
+            exit;
+        }
     } else {
         header('Location: ./index.php?edit=1&error=dbError#open');
         exit;
@@ -341,13 +358,28 @@ if (isset($_POST['submit'])) {
             $time = date('H:i:s', strtotime($time));
             $date = date('Y-m-d', strtotime($date));
             $queryNewReservationPullId = "SELECT * FROM `reserveringen` WHERE `unique_code` = '$randomNumber' AND `start_time` = '$time' AND `date` = '$date' AND `emailadres` = '$emailadres' AND `phonenumber` = '$phonenumber'";
-
             $resultReservationPullId = mysqli_query($db, $queryNewReservationPullId); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewReservationPullId);
             if ($resultReservationPullId) {
                 $reservationPullId = mysqli_fetch_assoc($resultReservationPullId);
-                $_SESSION['reservation']['reservering_id'] = $reservationPullId['reservering_id'];
+                $reservationID = $reservationPullId['reservering_id'];
+
+                $os = getOS();
+                $client = getBrowser();
+
+                //  Check if someone has signed in, if so use correct log command
+                if (isset($_SESSION['loggedInUser'])) {
+                    $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+                    $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'reservation', 'create', '$reservationID', '$client', '$os')";
+                } else {
+                    $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('guest', '$name', 'reservation', 'create', '$reservationID', '$client', '$os')";
+                }
+                $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+
+                $_SESSION['reservation']['reservering_id'] = $reservationID;
+
                 header('Location: ../bevestiging-reservatie');
                 exit;
+
             }
         } else {
             $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
@@ -366,8 +398,26 @@ if (isset($_POST['submit'])) {
         $queryUpdate = "UPDATE `reserveringen` SET date = '$date', start_time = '$time', amount_people = '$people', full_name = '$name', emailadres = '$emailadres', phonenumber = '$phonenumber', comments = '$comments', date_updated_reservation = '$currentTime', all_egg = '$allergie_egg', all_gluten = '$allergie_gluten', all_lupine = '$allergie_lupine', all_milk = '$allergie_milk', all_mustard = '$allergie_mustard', all_nuts = '$allergie_nuts', all_peanut = '$allergie_peanut', all_shell = '$allergie_shell', all_celery = '$allergie_celery', all_sesame = '$allergie_celery', all_soja = '$allergie_soja', all_fish = '$allergie_fish', all_mollusks = '$allergie_mollusks', all_sulfur = '$allergie_sulfur', str_all = '$allergie_string' WHERE reservering_id = '$reservering_id'";
         $resultUpdate = mysqli_query($db, $queryUpdate); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryUpdate);
         if ($resultUpdate) {
-            header('Location: ../bevestiging-reservatie');
-            exit;
+            $os = getOS();
+            $client = getBrowser();
+            $name = $_SESSION['reservation']['name'];
+
+            //  Check if someone has signed in, if so use correct log command
+            if (isset($_SESSION['loggedInUser'])) {
+                $nameEmp = mysqli_escape_string($db, $_SESSION['loggedInUser']['name']);
+                $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('employee', '$nameEmp', 'reservation', 'change', '$reservering_id', '$client', '$os')";
+            } else {
+                $queryNewLog = "INSERT INTO `logs` (`user_status`, `user_name`, `class`, `action`, `id_of_class`, `browser`, `os`) VALUES ('guest', '$name', 'reservation', 'change', '$reservering_id', '$client', '$os')";
+            }
+            $resultNewLog = mysqli_query($db, $queryNewLog); //or die('Error: ' . mysqli_error($db) . ' with query ' . $queryNewLog);
+            if ($resultNewLog) {
+                header('Location: ../bevestiging-reservatie');
+                exit;
+            } else {
+                header('Location: ../bevestiging-reservatie');
+                exit;
+            }
+
         } else {
             $errors['general'] = 'Er is helaas iets fout gegaan, probeer het later opnieuw.';
         }

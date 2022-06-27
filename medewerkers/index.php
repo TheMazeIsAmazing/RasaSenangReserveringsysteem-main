@@ -41,19 +41,19 @@ $deleteReservations = [];
 //if the reservation is older than 2 years old, delete it, then check if the reservation's date matches today, and if so add to day summary
 foreach ($reservations as $reservation) {
     if (strtotime($reservation['date']) <= strtotime('-2 years')) {
-            $deleteReservations[] = $reservation['reservering_id'];
-        } else {
-            if (date("Y-m-d", strtotime($reservation['date'])) == date("Y-m-d", strtotime($date))) {
-                $amountReservations++;
-                $guestCount += $reservation['amount_people'];
-                if ($reservation['str_all'] !== 'Niet van toepassing.') {
-                    $reservationsWithAllergies[] = $reservation['reservering_id'];
-                }
-            }
-            if (date("Y-m-d", strtotime($reservation['date_placed_reservation'])) == date("Y-m-d")) {
-                $reservationsPlacedToday++;
+        $deleteReservations[] = $reservation['reservering_id'];
+    } else {
+        if (date("Y-m-d", strtotime($reservation['date'])) == date("Y-m-d", strtotime($date))) {
+            $amountReservations++;
+            $guestCount += $reservation['amount_people'];
+            if ($reservation['str_all'] !== 'Niet van toepassing.') {
+                $reservationsWithAllergies[] = $reservation['reservering_id'];
             }
         }
+        if (date("Y-m-d", strtotime($reservation['date_placed_reservation'])) == date("Y-m-d")) {
+            $reservationsPlacedToday++;
+        }
+    }
 }
 if (isset($deleteReservations)) {
     foreach ($deleteReservations as $deleteReservation) {
@@ -130,76 +130,80 @@ initializeSideNav('..', false);
         </header>
         <nav class="navEmployees">
             <a class="navEmployeesButton" href="../">Nieuwe Reservering</a>
-<?php if ($_SESSION['loggedInUser']['can_visit_reservations'] == 'true') { ?>
-            <a class="navEmployeesButton" href="../overzicht-reserveringen">Overzicht Reserveringen</a>
-<?php } ?>
-<?php if ($_SESSION['loggedInUser']['can_visit_daysettings'] == 'true') { ?>
-    <a class="navEmployeesButton" href="../daginstellingen">Daginstellingen</a>
-<?php } ?>
-                <?php
-                /*                 <a class="navEmployeesButton" href="./">Tafelindeling</a>
-                <a class="navEmployeesButton" href="./">Statistieken</a>
-                <a class="navEmployeesButton" href="./">Logboeken</a> */ ?>
-                <?php if ($_SESSION['loggedInUser']['can_visit_employees'] == 'true') { ?>
-                    <a class="navEmployeesButton" href="../medewerkers-instellingen">Medewerkers</a>
-                <?php } else { ?>
-                    <a class="navEmployeesButton"
-                       href="../medewerkers-instellingen/details.php?id=<?= htmlentities($_SESSION['loggedInUser']['id']) ?>">Mijn
-                        Account</a>
-                <?php } ?>
+            <?php if ($_SESSION['loggedInUser']['can_visit_reservations'] == 'true') { ?>
+                <a class="navEmployeesButton" href="../overzicht-reserveringen">Overzicht Reserveringen</a>
+            <?php } ?>
+            <?php if ($_SESSION['loggedInUser']['can_visit_daysettings'] == 'true') { ?>
+                <a class="navEmployeesButton" href="../daginstellingen">Daginstellingen</a>
+            <?php } ?>
+            <?php
+            /*                 <a class="navEmployeesButton" href="./">Tafelindeling</a>
+            <a class="navEmployeesButton" href="./">Statistieken</a>
+            <a class="navEmployeesButton" href="./">Logboeken</a> */ ?>
+            <?php if ($_SESSION['loggedInUser']['can_visit_employees'] == 'true') { ?>
+                <a class="navEmployeesButton" href="../medewerkers-instellingen">Medewerkers</a>
+            <?php } else { ?>
+                <a class="navEmployeesButton"
+                   href="../medewerkers-instellingen/details.php?id=<?= htmlentities($_SESSION['loggedInUser']['id']) ?>">Mijn
+                    Account</a>
+            <?php } ?>
+            <?php if ($_SESSION['loggedInUser']['is-admin'] == 'true') { ?>
+                <a class="navEmployeesButton" href="../logboek">Logboek</a>
+            <?php } ?>
         </nav>
         <div class="daySummary">
             <h2>Dagsamenvatting</h2>
-            <?php if ($restaurantClosed === 'false') {?>
-            <div class="flexDetails">
-                <div class="labelDetails">Aantal Gasten:</div>
-                <div><?= $guestCount?></div>
-                <div>(Er is vandaag een limiet van <?= $guestLimit; ?> gasten)</div>
-            </div>
-            <div class="flexDetails">
-                <div class="labelDetails">Aantal Reserveringen:</div>
-                <div><?= $amountReservations; ?></div>
-                <div>(Er is vandaag een limiet van <?= $reservationLimit; ?> reserveringen)</div>
-            </div>
-            <?php //in the future display how many tables are occupied
-            //<div class="daySummaryItem">
-            //Tafels Bezet:
-            //</div>?>
-            <div class="flexDetails">
-                <div class="labelDetails">Gasten met
-                    Allergieën:
+            <?php if ($restaurantClosed === 'false') { ?>
+                <div class="flexDetails">
+                    <div class="labelDetails">Aantal Gasten:</div>
+                    <div><?= $guestCount ?></div>
+                    <div>(Er is vandaag een limiet van <?= $guestLimit; ?> gasten)</div>
                 </div>
-                <div><?php if (count($reservationsWithAllergies) > 1) { ?>
-                        Ja bij reserveringen: <?php
-                        for ($i = 0; $i < count($reservationsWithAllergies); $i++) {
-                            if (($i + 1 == count($reservationsWithAllergies)) && count($reservationsWithAllergies) !== 1) {?>
-                                en
-                                <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
-                                <?php
-                            } elseif ($i + 2 !== count($reservationsWithAllergies)) {
-                                ?>
-                                <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>,
-                                <?php
-                            } else {?>
-                    <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
-                    <?php
-                        }
-                    } } else if (count($reservationsWithAllergies) == 1) {
-                        for ($i = 0; $i < count($reservationsWithAllergies); $i++) { ?>
-                            Ja bij reservering: <a
-                                    href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
+                <div class="flexDetails">
+                    <div class="labelDetails">Aantal Reserveringen:</div>
+                    <div><?= $amountReservations; ?></div>
+                    <div>(Er is vandaag een limiet van <?= $reservationLimit; ?> reserveringen)</div>
+                </div>
+                <?php //in the future display how many tables are occupied
+                //<div class="daySummaryItem">
+                //Tafels Bezet:
+                //</div>?>
+                <div class="flexDetails">
+                    <div class="labelDetails">Gasten met
+                        Allergieën:
+                    </div>
+                    <div><?php if (count($reservationsWithAllergies) > 1) { ?>
+                            Ja bij reserveringen: <?php
+                            for ($i = 0; $i < count($reservationsWithAllergies); $i++) {
+                                if (($i + 1 == count($reservationsWithAllergies)) && count($reservationsWithAllergies) !== 1) { ?>
+                                    en
+                                    <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
+                                    <?php
+                                } elseif ($i + 2 !== count($reservationsWithAllergies)) {
+                                    ?>
+                                    <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>,
+                                    <?php
+                                } else { ?>
+                                    <a href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
+                                    <?php
+                                }
+                            }
+                        } else if (count($reservationsWithAllergies) == 1) {
+                            for ($i = 0; $i < count($reservationsWithAllergies); $i++) { ?>
+                                Ja bij reservering: <a
+                                        href="../overzicht-reserveringen/details.php?id=<?= $reservationsWithAllergies[$i] ?>"><?= $reservationsWithAllergies[$i] ?></a>
+                            <?php } ?>
+                        <?php } else { ?>
+                            Niet van toepassing.
                         <?php } ?>
-                    <?php } else { ?>
-                        Niet van toepassing.
-                    <?php } ?>
+                    </div>
                 </div>
-            </div>
-            <?php if ($_SESSION['loggedInUser']['is-admin'] == 'true') { ?>
-            <div class="flexDetails" id="reservationsPlacedToday">
-                <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>
-                <div><?= $reservationsPlacedToday; ?></div>
-            </div>
-            <?php } ?>
+                <?php if ($_SESSION['loggedInUser']['is-admin'] == 'true') { ?>
+                    <div class="flexDetails" id="reservationsPlacedToday">
+                        <div class="labelDetails">Aantal Reserveringen vandaag geplaatst:</div>
+                        <div><?= $reservationsPlacedToday; ?></div>
+                    </div>
+                <?php } ?>
             <?php } else { ?>
                 <div class="flexDetails">
                     <div>Restaurant Gesloten.</div>
@@ -207,5 +211,5 @@ initializeSideNav('..', false);
             <?php } ?>
         </div>
     </main>
-    <?php require_once('../includes/basic-elements/footer.php');
-    initializeFooter('..'); ?>
+<?php require_once('../includes/basic-elements/footer.php');
+initializeFooter('..'); ?>
